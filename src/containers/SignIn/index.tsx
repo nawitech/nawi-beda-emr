@@ -4,8 +4,9 @@ import { Button, Segmented, Tooltip } from 'antd';
 // import { AppFooter } from '@beda.software/emr/dist/components/BaseLayout/Footer';
 
 import logo from 'src/images/logo.svg';
+import { SignInService } from 'src/services/auth';
 
-import { SignInProps, SignInService, useSignIn } from './hooks';
+import { SignInProps, useSignIn } from './hooks';
 import s from './SignIn.module.scss';
 import { S } from './SignIn.styles';
 
