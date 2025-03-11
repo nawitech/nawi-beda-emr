@@ -78,6 +78,7 @@ export function setClientId(value: string) {
 export async function exchangeAuthorizationCodeForToken(code: string) {
     const scopes = ['openid', 'fhirUser']
     try {
+        // TODO: move token path to config? Or auth params save as JSON in localStorage?
         const tokenEndpoint = `${config.baseURL}/smart/oauth/token`;
         const data = {
             grant_type: 'authorization_code',
