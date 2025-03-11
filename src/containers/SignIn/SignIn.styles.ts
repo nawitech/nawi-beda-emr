@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Text } from 'src/components/Typography';
+import { Text } from '@beda.software/emr/dist/components/Typography';
 
 export const S = {
     Container: styled.div`
