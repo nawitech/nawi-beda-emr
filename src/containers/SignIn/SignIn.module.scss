@@ -1,0 +1,18 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.signInServiceSelectLabel {
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 600;
+}
+
+.appleSignInBtn {
+    height: 40px;
+    width: 100%;
+}

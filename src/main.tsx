@@ -12,12 +12,10 @@ import '@beda.software/emr/dist/style.css';
 
 // You can specify your own theme to ajdust color,
 // Use you https://github.com/beda-software/fhir-emr/blob/master/src/theme/ThemeProvider.tsx as example
-import { PatientDashboardProvider } from '@beda.software/emr/dist/components/Dashboard/contexts';
-import { dashboard } from '@beda.software/emr/dist/dashboard.config';
-import { dynamicActivate, getCurrentLocale } from '@beda.software/emr/services';
 import { ThemeProvider } from '@beda.software/emr/theme';
 
-import { App } from 'src/containers';
+import { App } from './containers/App';
+import { dynamicActivate, getCurrentLocale } from './services/i18n';
 
 export const AppWithContext = () => {
     useEffect(() => {
@@ -26,11 +24,9 @@ export const AppWithContext = () => {
 
     return (
         <I18nProvider i18n={i18n}>
-            <PatientDashboardProvider dashboard={dashboard}>
-                <ThemeProvider>
-                    <App />
-                </ThemeProvider>
-            </PatientDashboardProvider>
+            <ThemeProvider>
+                <App />
+            </ThemeProvider>
         </I18nProvider>
     );
 };
