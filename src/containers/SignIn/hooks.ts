@@ -3,9 +3,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getAuthorizeUrl, OAuthState } from '@beda.software/emr/services';
 import config from '@beda.software/emr-config';
 
-import { commonConfigMap, configMap, setBaseUrl, setClientId, SignInService, Tier } from 'src/services/auth';
+import { commonConfigMap, configMap, setBaseUrl, setClientId, setFhirBaseUrl, SignInService, Tier } from 'src/services/auth';
 export interface SignInProps {
     originPathName?: string;
+    onSwitchService?: () => void;
 }
 
 export function useSignIn(props: SignInProps) {
@@ -17,7 +18,11 @@ export function useSignIn(props: SignInProps) {
     useEffect(() => {
         setClientId(commonAuthConfig.clientId);
         setBaseUrl(authConfig[tier].baseUrl);
-    }, [commonAuthConfig.clientId, authConfig, tier]);
+        setFhirBaseUrl(authConfig[tier].fhirBaseUrl);
+        if (props.onSwitchService) {
+            props.onSwitchService()
+        }
+    }, [commonAuthConfig.clientId, authConfig, tier, props]);
 
     const authorize = useCallback(() => {
         const authState: OAuthState | undefined = props.originPathName ? { nextUrl: props.originPathName } : undefined;
@@ -30,5 +35,6 @@ export function useSignIn(props: SignInProps) {
         });
     }, [props.originPathName, commonAuthConfig, authConfig, tier]);
 
-    return { signInService, setSignInService, authorize };
+
+    return { signInService, authorize, setSignInService };
 }

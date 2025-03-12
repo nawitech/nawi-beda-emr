@@ -1,5 +1,7 @@
 import config from '@beda.software/emr-config';
 
+export type ClientID = 'web' | 'beda-emr';
+
 export enum SignInService {
     EMR = 'EMR',
     Smile = 'Smile',
@@ -12,7 +14,7 @@ interface AuthClientConfigParams {
 }
 
 interface AuthClientCommonConfigParams {
-    clientId: string;
+    clientId: ClientID;
     authPath: string;
     tokenPath: string;
     authSearchParams: URLSearchParams;
@@ -34,11 +36,11 @@ export const configMap: { [key in SignInService]: AuthClientConfig } = {
     Smile: {
         develop: {
             baseUrl: 'https://fhir.hl7.org.au/aucore',
-            fhirBaseUrl: 'https://fhir.hl7.org.au/aucore',
+            fhirBaseUrl: 'https://fhir.hl7.org.au/aucore/fhir/DEFAULT',
         },
         production: {
             baseUrl: 'https://fhir.hl7.org.au/aucore',
-            fhirBaseUrl: 'https://fhir.hl7.org.au/aucore',
+            fhirBaseUrl: 'https://fhir.hl7.org.au/aucore/fhir/DEFAULT',
         },
     },
 };
@@ -64,19 +66,37 @@ export const commonConfigMap: { [key in SignInService]: AuthClientCommonConfigPa
 };
 
 export function setBaseUrl(value: string) {
-    window.localStorage.setItem('baseURL', value)
+    window.localStorage.setItem('baseURL', value);
 }
 
 export function setFhirBaseUrl(value: string) {
-    window.localStorage.setItem('fhirBaseURL', value)
+    window.localStorage.setItem('fhirBaseURL', value);
 }
 
 export function setClientId(value: string) {
-    window.localStorage.setItem('ClientId', value)
+    window.localStorage.setItem('ClientId', value);
+}
+
+export function getClientId() {
+    const clientID = window.localStorage.getItem('ClientId');
+
+    if (clientID) {
+        return clientID as ClientID;
+    }
+
+    return null;
+}
+
+interface AuthTokenSuccessResponse {
+    access_token: string;
+    token_type: string;
+    refresh_token?: string;
+    id_token?: string;
 }
 
 export async function exchangeAuthorizationCodeForToken(code: string) {
-    const scopes = ['openid', 'fhirUser']
+    // TODO: get scopes from the config
+    const scopes = ['openid', 'fhirUser'];
     try {
         // TODO: move token path to config? Or auth params save as JSON in localStorage?
         const tokenEndpoint = `${config.baseURL}/smart/oauth/token`;
@@ -96,7 +116,7 @@ export async function exchangeAuthorizationCodeForToken(code: string) {
             body: new URLSearchParams(data),
         });
 
-        const tokenData = await response.json();
+        const tokenData: AuthTokenSuccessResponse = await response.json();
 
         return tokenData;
     } catch (error) {
@@ -106,4 +126,12 @@ export async function exchangeAuthorizationCodeForToken(code: string) {
 
 export function setRefreshToken(token: string) {
     window.localStorage.setItem('refresh_token', token);
+}
+
+export function setIdToken(value: string) {
+    window.localStorage.setItem('id_token', value);
+}
+
+export function getIdToken() {
+    return window.localStorage.getItem('id_token');
 }

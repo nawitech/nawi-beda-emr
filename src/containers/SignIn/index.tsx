@@ -11,7 +11,7 @@ import s from './SignIn.module.scss';
 import { S } from './SignIn.styles';
 
 export function SignIn(props: SignInProps) {
-    const { signInService, setSignInService, authorize } = useSignIn(props);
+    const { signInService, authorize, setSignInService } = useSignIn(props);
 
     return (
         <S.Container>
@@ -24,7 +24,9 @@ export function SignIn(props: SignInProps) {
                     value={signInService}
                     options={[SignInService.EMR, SignInService.Smile]}
                     block
-                    onChange={(value) => setSignInService(value as SignInService)}
+                    onChange={(value) => {
+                        setSignInService(value as SignInService);
+                    }}
                     className={s.signInServiceSelectLabel}
                 />
                 {signInService === SignInService.EMR ? (
