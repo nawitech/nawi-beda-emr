@@ -3,9 +3,11 @@ import { commonConfig } from './config.common.js';
 const config = {
     ...commonConfig,
 
+    clientId: window.localStorage.getItem('ClientId') || 'web',
+
     tier: 'develop',
-    baseURL: 'http://localhost:8080',
-    fhirBaseURL: 'http://localhost:8080/fhir',
+    baseURL: window.localStorage.getItem('baseURL') || 'http://localhost:8080',
+    fhirBaseURL: window.localStorage.getItem('fhirBaseURL') || 'http://localhost:8080/fhir',
     sdcIdeUrl: 'http://localhost:3001',
     aiQuestionnaireBuilderUrl: 'http://localhost:3002',
     sdcBackendUrl: null,
@@ -13,10 +15,11 @@ const config = {
     webSentryDSN: null,
     mobileSentryDSN: null,
 
-    jitsiMeetServer: 'localhost:8443',
+    jitsiMeetServer: null,
 
-    wearablesDataStreamService: 'http://localhost:8082/api/v1',
+    wearablesDataStreamService: null,
 
+    metriportIdentifierSystem: null,
     aiAssistantServiceUrl: null,
 };
 
