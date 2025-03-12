@@ -3,9 +3,10 @@ import config from '@beda.software/emr-config';
 export type ClientID = 'web' | 'beda-emr';
 
 export enum SignInService {
-    EMR = 'EMR',
-    Smile = 'Smile',
+    Aidbox = 'Aidbox',
+    Smile = 'Smile CDR',
 }
+
 export type Tier = 'develop' | 'production';
 
 interface AuthClientConfigParams {
@@ -23,7 +24,7 @@ interface AuthClientCommonConfigParams {
 type AuthClientConfig = { [key in Tier]: AuthClientConfigParams };
 
 export const configMap: { [key in SignInService]: AuthClientConfig } = {
-    EMR: {
+    [SignInService.Aidbox]: {
         develop: {
             baseUrl: 'http://localhost:8080',
             fhirBaseUrl: 'http://localhost:8080/fhir',
@@ -33,7 +34,7 @@ export const configMap: { [key in SignInService]: AuthClientConfig } = {
             fhirBaseUrl: 'https://au-core.beda.software/fhir',
         },
     },
-    Smile: {
+    [SignInService.Smile]: {
         develop: {
             baseUrl: 'https://fhir.hl7.org.au/aucore',
             fhirBaseUrl: 'https://fhir.hl7.org.au/aucore/fhir/DEFAULT',
@@ -46,13 +47,13 @@ export const configMap: { [key in SignInService]: AuthClientConfig } = {
 };
 
 export const commonConfigMap: { [key in SignInService]: AuthClientCommonConfigParams } = {
-    EMR: {
+    [SignInService.Aidbox]: {
         clientId: 'web',
         authPath: 'auth/authorize',
         tokenPath: 'auth/token',
         authSearchParams: new URLSearchParams({ client_id: 'web', response_type: 'token' }),
     },
-    Smile: {
+    [SignInService.Smile]: {
         clientId: 'beda-emr',
         authPath: 'smart/oauth/authorize',
         tokenPath: 'smart/oauth/token',
@@ -64,28 +65,6 @@ export const commonConfigMap: { [key in SignInService]: AuthClientCommonConfigPa
         }),
     },
 };
-
-export function setBaseUrl(value: string) {
-    window.localStorage.setItem('baseURL', value);
-}
-
-export function setFhirBaseUrl(value: string) {
-    window.localStorage.setItem('fhirBaseURL', value);
-}
-
-export function setClientId(value: string) {
-    window.localStorage.setItem('ClientId', value);
-}
-
-export function getClientId() {
-    const clientID = window.localStorage.getItem('ClientId');
-
-    if (clientID) {
-        return clientID as ClientID;
-    }
-
-    return null;
-}
 
 interface AuthTokenSuccessResponse {
     access_token: string;
@@ -122,16 +101,4 @@ export async function exchangeAuthorizationCodeForToken(code: string) {
     } catch (error) {
         console.error('Error:', error);
     }
-}
-
-export function setRefreshToken(token: string) {
-    window.localStorage.setItem('refresh_token', token);
-}
-
-export function setIdToken(value: string) {
-    window.localStorage.setItem('id_token', value);
-}
-
-export function getIdToken() {
-    return window.localStorage.getItem('id_token');
 }

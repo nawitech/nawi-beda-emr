@@ -4,26 +4,22 @@ import { useLocation } from 'react-router-dom';
 
 import { setToken, parseOAuthState } from '@beda.software/emr/services';
 
-import { exchangeAuthorizationCodeForToken, setIdToken, setRefreshToken } from 'src/services/auth';
+import { exchangeAuthorizationCodeForToken } from 'src/services/auth';
+import { setIdToken, setRefreshToken } from 'src/services/storage';
 
 interface CodeGrantQueryParams {
     code?: string;
     state?: string;
 }
-export function Auth() {
+
+export function SmileAuth() {
     const location = useLocation();
 
     useEffect(() => {
         (async () => {
-            const queryParamsImplicitGrant = queryString.parse(location.hash);
             const queryParamsCodeGrant = queryString.parse(location.search) as CodeGrantQueryParams;
 
-            if (queryParamsImplicitGrant.access_token) {
-                setToken(queryParamsImplicitGrant.access_token as string);
-                const state = parseOAuthState(queryParamsImplicitGrant.state as string | undefined);
-
-                window.location.href = state.nextUrl ?? '/';
-            } else if (queryParamsCodeGrant.code) {
+            if (queryParamsCodeGrant.code) {
                 exchangeAuthorizationCodeForToken(queryParamsCodeGrant.code)
                     .then((response) => {
                         if (response) {
@@ -33,7 +29,6 @@ export function Auth() {
                             if (response.id_token) {
                                 setIdToken(response.id_token);
                             }
-
                             if (response.access_token) {
                                 setToken(response.access_token as string);
                                 const state = parseOAuthState(queryParamsCodeGrant.state as string | undefined);

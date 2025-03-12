@@ -6,7 +6,9 @@ import { fetchUserRoleDetails } from '@beda.software/emr/dist/containers/App/uti
 import { sharedAuthorizedUser } from '@beda.software/emr/sharedState';
 import { failure, RemoteDataResult, success } from '@beda.software/remote-data';
 
-import { ClientID, getClientId, getIdToken } from 'src/services/auth';
+import { ClientID } from 'src/services/auth';
+import { getIdToken } from 'src/services/storage';
+import { getClientId } from 'src/services/storage';
 
 export interface SmileIdTokenData extends JWTPayload {
     fhirUser: string; //e.g "null/Practitioner/<practitioner-id>"

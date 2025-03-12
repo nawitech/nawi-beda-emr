@@ -3,14 +3,15 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getAuthorizeUrl, OAuthState } from '@beda.software/emr/services';
 import config from '@beda.software/emr-config';
 
-import { commonConfigMap, configMap, setBaseUrl, setClientId, setFhirBaseUrl, SignInService, Tier } from 'src/services/auth';
+import { commonConfigMap, configMap, SignInService, Tier } from 'src/services/auth';
+import { setBaseUrl, setClientId, setFhirBaseUrl } from 'src/services/storage';
 export interface SignInProps {
     originPathName?: string;
     onSwitchService?: () => void;
 }
 
 export function useSignIn(props: SignInProps) {
-    const [signInService, setSignInService] = useState<SignInService>(SignInService.EMR);
+    const [signInService, setSignInService] = useState<SignInService>(SignInService.Aidbox);
     const authConfig = useMemo(() => configMap[signInService], [signInService]);
     const commonAuthConfig = useMemo(() => commonConfigMap[signInService], [signInService]);
     const tier = config.tier as Tier;

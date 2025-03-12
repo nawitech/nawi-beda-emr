@@ -22,14 +22,14 @@ export function SignIn(props: SignInProps) {
                 </div>
                 <Segmented
                     value={signInService}
-                    options={[SignInService.EMR, SignInService.Smile]}
+                    options={[SignInService.Aidbox, SignInService.Smile]}
                     block
                     onChange={(value) => {
                         setSignInService(value as SignInService);
                     }}
                     className={s.signInServiceSelectLabel}
                 />
-                {signInService === SignInService.EMR ? (
+                {signInService === SignInService.Aidbox ? (
                     <>
                         <S.Message>
                             <b>{t`On the next page, please, use one of the following credentials`}</b>
@@ -44,20 +44,8 @@ export function SignIn(props: SignInProps) {
                                         </div>
                                         <span>/</span>
                                         <div>
-                                            <Tooltip title="As a receptionist, you have access to appointments and invoices management">
-                                                <S.CredentialName>receptionist</S.CredentialName>
-                                            </Tooltip>
-                                        </div>
-                                        <span>/</span>
-                                        <div>
-                                            <Tooltip title="Practitioner #1 does not have access to Practitioner #2's patients">
-                                                <S.CredentialName>practitioner1</S.CredentialName>
-                                            </Tooltip>
-                                        </div>
-                                        <span>/</span>
-                                        <div>
-                                            <Tooltip title="Practitioner #2 does not have access to Practitioner #1's patients">
-                                                <S.CredentialName>practitioner2</S.CredentialName>
+                                            <Tooltip title="Practitioner has access to related patients">
+                                                <S.CredentialName>practitioner-tc</S.CredentialName>
                                             </Tooltip>
                                         </div>
                                     </S.CredentialsList>
