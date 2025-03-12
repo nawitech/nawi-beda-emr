@@ -1,6 +1,9 @@
 import config from '@beda.software/emr-config';
 
-export type ClientID = 'web' | 'beda-emr';
+export enum ClientID {
+    Aidbox = 'web',
+    Smile = 'beda-emr'
+}
 
 export enum SignInService {
     Aidbox = 'Aidbox',
@@ -48,13 +51,13 @@ export const configMap: { [key in SignInService]: AuthClientConfig } = {
 
 export const commonConfigMap: { [key in SignInService]: AuthClientCommonConfigParams } = {
     [SignInService.Aidbox]: {
-        clientId: 'web',
+        clientId: ClientID.Aidbox,
         authPath: 'auth/authorize',
         tokenPath: 'auth/token',
         authSearchParams: new URLSearchParams({ client_id: 'web', response_type: 'token' }),
     },
     [SignInService.Smile]: {
-        clientId: 'beda-emr',
+        clientId: ClientID.Smile,
         authPath: 'smart/oauth/authorize',
         tokenPath: 'smart/oauth/token',
         authSearchParams: new URLSearchParams({
