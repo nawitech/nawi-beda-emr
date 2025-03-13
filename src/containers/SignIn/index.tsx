@@ -1,18 +1,65 @@
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import { Button, Segmented, Tooltip } from 'antd';
-
-// import { AppFooter } from '@beda.software/emr/dist/components/BaseLayout/Footer';
+import React from 'react';
 
 import logo from 'src/images/logo.svg';
-import { SignInService } from 'src/services/auth';
+import { authClientConfigMap, ClientID, type SharedCredentials } from 'src/services/auth';
 
 import { SignInProps, useSignIn } from './hooks';
 import s from './SignIn.module.scss';
 import { S } from './SignIn.styles';
 
-export function SignIn(props: SignInProps) {
-    const { signInService, authorize, setSignInService } = useSignIn(props);
+// import {AppFooter} from '@beda.software/emr/dist/components/BaseLayout/Footer';
 
+interface SharedCredentialsProps {
+    sharedCredentials: SharedCredentials;
+}
+
+function SharedCredentials(props: SharedCredentialsProps) {
+    const { sharedCredentials } = props;
+
+    return (
+        <S.CredentialsWrapper>
+            <S.CredentialsBlock>
+                <S.CredentialLabel>{t`Username`}</S.CredentialLabel>
+                <S.CredentialsList>
+                    {sharedCredentials.accountDetails.map((accountDetails, index) => {
+                        return (
+                            <React.Fragment key={accountDetails.login}>
+                                <div>
+                                    <Tooltip title={t`${accountDetails.accountDescription}`}>
+                                        <S.CredentialName>{accountDetails.login}</S.CredentialName>
+                                    </Tooltip>
+                                </div>
+                                {index !== sharedCredentials.accountDetails.length - 1 ? <span>/</span> : null}
+                                {accountDetails.password ? (
+                                    <S.CredentialsBlock>
+                                        <S.CredentialLabel>{t`Password`}</S.CredentialLabel>
+                                        <S.CredentialsList>
+                                            <span>{accountDetails.password}</span>
+                                        </S.CredentialsList>
+                                    </S.CredentialsBlock>
+                                ) : null}
+                            </React.Fragment>
+                        );
+                    })}
+                </S.CredentialsList>
+            </S.CredentialsBlock>
+            {sharedCredentials.commonPassword ? (
+                <S.CredentialsBlock>
+                    <S.CredentialLabel>{t`Password`}</S.CredentialLabel>
+                    <S.CredentialsList>
+                        <span>password</span>
+                    </S.CredentialsList>
+                </S.CredentialsBlock>
+            ) : null}
+        </S.CredentialsWrapper>
+    );
+}
+
+export function SignIn(props: SignInProps) {
+    const { activeClientID, authorize, setClientID, authClientConfig } = useSignIn(props);
+    console.log('authClientConfig', authClientConfig);
     return (
         <S.Container>
             <S.Form>
@@ -21,51 +68,25 @@ export function SignIn(props: SignInProps) {
                     <img src={logo} alt="" />
                 </div>
                 <Segmented
-                    value={signInService}
-                    options={[SignInService.Aidbox, SignInService.Smile]}
+                    value={activeClientID}
+                    options={Object.values(authClientConfigMap).map((configItem) => ({
+                        value: configItem.clientId,
+                        label: configItem.tabTitle,
+                    }))}
                     block
                     onChange={(value) => {
-                        setSignInService(value as SignInService);
+                        setClientID(value as ClientID);
                     }}
                     className={s.signInServiceSelectLabel}
                 />
-                {signInService === SignInService.Aidbox ? (
-                    <>
-                        <S.Message>
-                            <b>{t`On the next page, please, use one of the following credentials`}</b>
-                            <S.CredentialsWrapper>
-                                <S.CredentialsBlock>
-                                    <S.CredentialLabel>{t`Username`}</S.CredentialLabel>
-                                    <S.CredentialsList>
-                                        <div>
-                                            <Tooltip title="As an admin, you have full access to settings and data">
-                                                <S.CredentialName>admin</S.CredentialName>
-                                            </Tooltip>
-                                        </div>
-                                        <span>/</span>
-                                        <div>
-                                            <Tooltip title="Practitioner has access to related patients">
-                                                <S.CredentialName>practitioner-tc</S.CredentialName>
-                                            </Tooltip>
-                                        </div>
-                                    </S.CredentialsList>
-                                </S.CredentialsBlock>
-                                <S.CredentialsBlock>
-                                    <S.CredentialLabel>{t`Password`}</S.CredentialLabel>
-                                    <S.CredentialsList>
-                                        <span>password</span>
-                                    </S.CredentialsList>
-                                </S.CredentialsBlock>
-                            </S.CredentialsWrapper>
-                        </S.Message>
-                    </>
-                ) : (
-                    <>
-                        <S.Message>
-                            <b>{t`On the next page, please, use your Smile CDR credentials`}</b>
-                        </S.Message>
-                    </>
-                )}
+                <S.Message>
+                    <b>
+                        <Trans>{authClientConfig.message}</Trans>
+                    </b>
+                    {authClientConfig.sharedCredentials ? (
+                        <SharedCredentials sharedCredentials={authClientConfig.sharedCredentials} />
+                    ) : null}
+                </S.Message>
                 <Button type="primary" onClick={authorize} size="large">
                     {t`Log in`}
                 </Button>

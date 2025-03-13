@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getAuthorizeUrl, OAuthState } from '@beda.software/emr/services';
 import config from '@beda.software/emr-config';
 
-import { commonConfigMap, configMap, SignInService, Tier } from 'src/services/auth';
+import { authClientConfigMap, tierConfigMap, ClientID, Tier } from 'src/services/auth';
 import { setBaseUrl, setClientId, setFhirBaseUrl } from 'src/services/storage';
 export interface SignInProps {
     originPathName?: string;
@@ -11,31 +11,37 @@ export interface SignInProps {
 }
 
 export function useSignIn(props: SignInProps) {
-    const [signInService, setSignInService] = useState<SignInService>(SignInService.Aidbox);
-    const authConfig = useMemo(() => configMap[signInService], [signInService]);
-    const commonAuthConfig = useMemo(() => commonConfigMap[signInService], [signInService]);
+    const [activeClientID, setClientID] = useState<ClientID>(ClientID.Aidbox);
+    const tierConfig = useMemo(() => tierConfigMap[activeClientID], [activeClientID]);
+    const authClientConfig = useMemo(() => authClientConfigMap[activeClientID], [activeClientID]);
     const tier = config.tier as Tier;
+    console.log('tierConfig', tierConfig);
+    console.log('authClientConfig', authClientConfig);
 
     useEffect(() => {
-        setClientId(commonAuthConfig.clientId);
-        setBaseUrl(authConfig[tier].baseUrl);
-        setFhirBaseUrl(authConfig[tier].fhirBaseUrl);
+        setClientId(authClientConfig.clientId);
+        setBaseUrl(tierConfig[tier].baseUrl);
+        setFhirBaseUrl(tierConfig[tier].fhirBaseUrl);
         if (props.onSwitchService) {
-            props.onSwitchService()
+            props.onSwitchService();
         }
-    }, [commonAuthConfig.clientId, authConfig, tier, props]);
+    }, [authClientConfig.clientId, tierConfig, tier, props]);
 
     const authorize = useCallback(() => {
         const authState: OAuthState | undefined = props.originPathName ? { nextUrl: props.originPathName } : undefined;
 
         window.location.href = getAuthorizeUrl({
-            baseUrl: authConfig[tier].baseUrl,
-            authPath: commonAuthConfig.authPath,
-            params: new URLSearchParams(commonAuthConfig.authSearchParams),
+            baseUrl: tierConfig[tier].baseUrl,
+            authPath: authClientConfig.authPath,
+            params: new URLSearchParams({
+                client_id: authClientConfig.clientId,
+                response_type: authClientConfig.responseType,
+                redirect_uri: authClientConfig.redirectURL,
+                ...(authClientConfig.scope ? { scope: authClientConfig.scope.join(' ') } : {}),
+            }),
             state: authState,
         });
-    }, [props.originPathName, commonAuthConfig, authConfig, tier]);
+    }, [props.originPathName, authClientConfig, tierConfig, tier]);
 
-
-    return { signInService, authorize, setSignInService };
+    return { activeClientID, authorize, setClientID, authClientConfig };
 }

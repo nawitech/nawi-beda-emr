@@ -2,32 +2,43 @@ import config from '@beda.software/emr-config';
 
 export enum ClientID {
     Aidbox = 'web',
-    Smile = 'beda-emr'
-}
-
-export enum SignInService {
-    Aidbox = 'Aidbox',
-    Smile = 'Smile CDR',
+    Smile = 'beda-emr',
 }
 
 export type Tier = 'develop' | 'production';
 
-interface AuthClientConfigParams {
+interface TierBaseConfig {
     baseUrl: string;
     fhirBaseUrl: string;
 }
 
-interface AuthClientCommonConfigParams {
+export interface SharedCredentials {
+    accountDetails: SharedAccountDetails[];
+    commonPassword?: string;
+}
+export interface SharedAccountDetails {
+    login: string;
+    accountDescription: string;
+    password?: string;
+}
+
+export interface AuthClientConfigParams {
     clientId: ClientID;
     authPath: string;
     tokenPath: string;
-    authSearchParams: URLSearchParams;
+    responseType: 'code' | 'token';
+    redirectURL: string;
+    grantType: 'implicit' | 'authorization_code';
+    scope?: string[];
+    tabTitle: string;
+    message: string;
+    sharedCredentials?: SharedCredentials;
 }
 
-type AuthClientConfig = { [key in Tier]: AuthClientConfigParams };
+type TierConfig = { [key in Tier]: TierBaseConfig };
 
-export const configMap: { [key in SignInService]: AuthClientConfig } = {
-    [SignInService.Aidbox]: {
+export const tierConfigMap: { [key in ClientID]: TierConfig } = {
+    [ClientID.Aidbox]: {
         develop: {
             baseUrl: 'http://localhost:8080',
             fhirBaseUrl: 'http://localhost:8080/fhir',
@@ -37,7 +48,7 @@ export const configMap: { [key in SignInService]: AuthClientConfig } = {
             fhirBaseUrl: 'https://au-core.beda.software/fhir',
         },
     },
-    [SignInService.Smile]: {
+    [ClientID.Smile]: {
         develop: {
             baseUrl: 'https://fhir.hl7.org.au/aucore',
             fhirBaseUrl: 'https://fhir.hl7.org.au/aucore/fhir/DEFAULT',
@@ -49,27 +60,38 @@ export const configMap: { [key in SignInService]: AuthClientConfig } = {
     },
 };
 
-export const commonConfigMap: { [key in SignInService]: AuthClientCommonConfigParams } = {
-    [SignInService.Aidbox]: {
+export const authClientConfigMap: { [key in ClientID]: AuthClientConfigParams } = {
+    [ClientID.Aidbox]: {
         clientId: ClientID.Aidbox,
         authPath: 'auth/authorize',
         tokenPath: 'auth/token',
-        authSearchParams: new URLSearchParams({ client_id: 'web', response_type: 'token' }),
+        responseType: 'token',
+        redirectURL: `${window.location.origin}/auth-aidbox`,
+        grantType: 'implicit',
+        tabTitle: 'au-core.beda.software',
+        message: 'On the next page, please, use one of the following credentials',
+        sharedCredentials: {
+            accountDetails: [{
+                login: 'practitioner-tc',
+                accountDescription: 'Practitioner has access to related patients'
+            }],
+            commonPassword: 'password',
+        },
     },
-    [SignInService.Smile]: {
+    [ClientID.Smile]: {
         clientId: ClientID.Smile,
         authPath: 'smart/oauth/authorize',
         tokenPath: 'smart/oauth/token',
-        authSearchParams: new URLSearchParams({
-            client_id: 'beda-emr',
-            response_type: 'code',
-            redirect_uri: `${window.location.origin}/auth`,
-            scopes: 'openid fhirUser',
-        }),
+        responseType: 'code',
+        redirectURL: `${window.location.origin}/auth`,
+        grantType: 'authorization_code',
+        scope: ['openid', 'fhirUser'],
+        tabTitle: 'fhir.hl7.org.au/aucore',
+        message: 'Please contact Heath Frankel for credentials',
     },
 };
 
-interface AuthTokenSuccessResponse {
+export interface AuthTokenSuccessResponse {
     access_token: string;
     token_type: string;
     refresh_token?: string;
