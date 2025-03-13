@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { ClientID } from 'src/services/auth';
 import { getClientId } from 'src/services/storage';
-import { clientSharedUserInitService } from 'src/sharedState';
+import { clientSharedUserInitService } from 'src/populateUserInfoSharedState';
 
 export function useApp() {
     const [clientId, setClientId] = useState<ClientID | null>(getClientId());

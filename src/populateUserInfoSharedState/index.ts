@@ -1,7 +1,7 @@
 import { decodeJwt, JWTPayload } from 'jose';
 
 import { InternalReference, Patient, Practitioner, User } from '@beda.software/aidbox-types';
-import { fetchUserRoleDetails } from '@beda.software/emr/dist/containers/App/utils';
+import { fetchUserRoleDetails ,aidboxPopulateUserInfoSharedState} from '@beda.software/emr/dist/containers/App/utils';
 import {getIdToken} from '@beda.software/emr/services'
 import { sharedAuthorizedUser } from '@beda.software/emr/sharedState';
 import { failure, RemoteDataResult, success } from '@beda.software/remote-data';
@@ -50,6 +50,6 @@ export async function smileUserInfoSharedState(): Promise<RemoteDataResult<User>
 
 export type SharedUserInitCallback = () => Promise<RemoteDataResult<User>>;
 export const clientSharedUserInitService: { [key in ClientID]: SharedUserInitCallback | undefined } = {
-    web: undefined,
+    web: aidboxPopulateUserInfoSharedState,
     'beda-emr': smileUserInfoSharedState,
 };
