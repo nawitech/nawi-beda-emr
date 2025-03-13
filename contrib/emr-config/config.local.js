@@ -4,6 +4,8 @@ const config = {
     ...commonConfig,
 
     clientId: window.localStorage.getItem('ClientId') || 'web',
+    authTokenPath: window.localStorage.getItem('auth_token_path') || 'auth/token',
+    authClientRedirectURL: window.localStorage.getItem('auth_client_redirect_url') || 'http://localhost:8080/auth-aidbox',
 
     tier: 'develop',
     baseURL: window.localStorage.getItem('baseURL') || 'http://localhost:8080',

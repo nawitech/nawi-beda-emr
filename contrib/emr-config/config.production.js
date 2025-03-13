@@ -4,6 +4,8 @@ const config = {
     ...commonConfig,
 
     clientId: window.localStorage.getItem('ClientId') || 'web',
+    authTokenPath: window.localStorage.getItem('auth_token_path') || 'auth/token',
+    authClientRedirectURL: window.localStorage.getItem('auth_client_redirect_url') || 'https://aidbox.emr.beda.software/auth-aidbox',
 
     tier: 'production',
     baseURL: window.localStorage.getItem('baseURL') || 'https://aidbox.emr.beda.software',
