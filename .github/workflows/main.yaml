@@ -1,0 +1,29 @@
+name: Build and upload static files to the remote server
+on: push
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+      - name: Prepare config
+        run: cp contrib/emr-config/config.production.js contrib/emr-config/config.js
+      - name: Prepare index.html
+        run: cp public/index.production.html index.html
+      - name: Install deps
+        run: yarn install --frozen-lockfile
+      - run: yarn extract
+      - run: yarn compile
+      - run: yarn build
+      - name: copy file via ssh
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY}}
+          source: build
+          target: emr-au-core-static
