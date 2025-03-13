@@ -59,7 +59,7 @@ function SharedCredentials(props: SharedCredentialsProps) {
 
 export function SignIn(props: SignInProps) {
     const { activeClientID, authorize, setClientID, authClientConfig } = useSignIn(props);
-    console.log('authClientConfig', authClientConfig);
+
     return (
         <S.Container>
             <S.Form>
