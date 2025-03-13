@@ -1,5 +1,3 @@
-import config from '@beda.software/emr-config';
-
 export enum ClientID {
     Aidbox = 'web',
     Smile = 'beda-emr',
@@ -92,36 +90,3 @@ export const authClientConfigMap: { [key in ClientID]: AuthClientConfigParams } 
         message: 'Please contact Heath Frankel for credentials',
     },
 };
-
-export interface AuthTokenSuccessResponse {
-    access_token: string;
-    token_type: string;
-    refresh_token?: string;
-    id_token?: string;
-}
-
-export async function exchangeAuthorizationCodeForToken(code: string, tokenPath: string, redirectURL: string) {
-    try {
-        const tokenEndpoint = `${config.baseURL}/${tokenPath}`;
-        const data = {
-            grant_type: 'authorization_code',
-            code,
-            redirect_uri: redirectURL,
-            client_id: `${config.clientId}`,
-        };
-
-        const response = await fetch(tokenEndpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams(data),
-        });
-
-        const tokenData: AuthTokenSuccessResponse = await response.json();
-
-        return tokenData;
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}

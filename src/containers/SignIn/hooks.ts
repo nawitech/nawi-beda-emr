@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { getAuthorizeUrl, OAuthState } from '@beda.software/emr/services';
+import { getAuthorizeUrl, OAuthState, setAuthClientRedirectURL, setAuthTokenURLpath } from '@beda.software/emr/services';
 import config from '@beda.software/emr-config';
 
 import { authClientConfigMap, tierConfigMap, ClientID, Tier } from 'src/services/auth';
@@ -15,17 +15,17 @@ export function useSignIn(props: SignInProps) {
     const tierConfig = useMemo(() => tierConfigMap[activeClientID], [activeClientID]);
     const authClientConfig = useMemo(() => authClientConfigMap[activeClientID], [activeClientID]);
     const tier = config.tier as Tier;
-    console.log('tierConfig', tierConfig);
-    console.log('authClientConfig', authClientConfig);
 
     useEffect(() => {
-        setClientId(authClientConfig.clientId);
         setBaseUrl(tierConfig[tier].baseUrl);
         setFhirBaseUrl(tierConfig[tier].fhirBaseUrl);
+        setClientId(authClientConfig.clientId);
+        setAuthClientRedirectURL(authClientConfig.redirectURL);
+        setAuthTokenURLpath(authClientConfig.tokenPath);
         if (props.onSwitchService) {
             props.onSwitchService();
         }
-    }, [authClientConfig.clientId, tierConfig, tier, props]);
+    }, [props, authClientConfig, tierConfig, tier]);
 
     const authorize = useCallback(() => {
         const authState: OAuthState | undefined = props.originPathName ? { nextUrl: props.originPathName } : undefined;

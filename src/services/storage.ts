@@ -21,14 +21,3 @@ export function getClientId() {
 
     return null;
 }
-export function setRefreshToken(token: string) {
-    window.localStorage.setItem('refresh_token', token);
-}
-
-export function setIdToken(value: string) {
-    window.localStorage.setItem('id_token', value);
-}
-
-export function getIdToken() {
-    return window.localStorage.getItem('id_token');
-}
