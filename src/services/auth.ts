@@ -71,10 +71,12 @@ export const authClientConfigMap: { [key in ClientID]: AuthClientConfigParams } 
         tabTitle: 'au-core.beda.software',
         message: 'On the next page, please, use one of the following credentials',
         sharedCredentials: {
-            accountDetails: [{
-                login: 'practitioner-tc',
-                accountDescription: 'Practitioner has access to related patients'
-            }],
+            accountDetails: [
+                {
+                    login: 'practitioner-tc',
+                    accountDescription: 'Practitioner has access to related patients',
+                },
+            ],
             commonPassword: 'password',
         },
     },
@@ -98,18 +100,14 @@ export interface AuthTokenSuccessResponse {
     id_token?: string;
 }
 
-export async function exchangeAuthorizationCodeForToken(code: string) {
-    // TODO: get scopes from the config
-    const scopes = ['openid', 'fhirUser'];
+export async function exchangeAuthorizationCodeForToken(code: string, tokenPath: string, redirectURL: string) {
     try {
-        // TODO: move token path to config? Or auth params save as JSON in localStorage?
-        const tokenEndpoint = `${config.baseURL}/smart/oauth/token`;
+        const tokenEndpoint = `${config.baseURL}/${tokenPath}`;
         const data = {
             grant_type: 'authorization_code',
             code,
-            redirect_uri: `${window.location.origin}/auth`,
+            redirect_uri: redirectURL,
             client_id: `${config.clientId}`,
-            scope: scopes.join(' '),
         };
 
         const response = await fetch(tokenEndpoint, {

@@ -3,8 +3,9 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { setToken, parseOAuthState } from '@beda.software/emr/services';
+import config from '@beda.software/emr-config';
 
-import { exchangeAuthorizationCodeForToken } from 'src/services/auth';
+import { authClientConfigMap, ClientID, exchangeAuthorizationCodeForToken } from 'src/services/auth';
 import { setIdToken, setRefreshToken } from 'src/services/storage';
 
 interface CodeGrantQueryParams {
@@ -14,13 +15,18 @@ interface CodeGrantQueryParams {
 
 export function SmileAuth() {
     const location = useLocation();
+    const authConfig = authClientConfigMap[config.clientId as ClientID];
 
     useEffect(() => {
         (async () => {
             const queryParamsCodeGrant = queryString.parse(location.search) as CodeGrantQueryParams;
 
             if (queryParamsCodeGrant.code) {
-                exchangeAuthorizationCodeForToken(queryParamsCodeGrant.code)
+                exchangeAuthorizationCodeForToken(
+                    queryParamsCodeGrant.code,
+                    authConfig.tokenPath,
+                    authConfig.redirectURL,
+                )
                     .then((response) => {
                         if (response) {
                             if (response.refresh_token) {
