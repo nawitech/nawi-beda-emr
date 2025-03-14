@@ -1,5 +1,3 @@
-import { ClientID } from './auth';
-
 export function setBaseUrl(value: string) {
     window.localStorage.setItem('baseURL', value);
 }
@@ -16,7 +14,7 @@ export function getClientId() {
     const clientID = window.localStorage.getItem('ClientId');
 
     if (clientID) {
-        return clientID as ClientID;
+        return clientID;
     }
 
     return null;

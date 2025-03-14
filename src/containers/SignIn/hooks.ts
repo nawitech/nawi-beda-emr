@@ -7,7 +7,7 @@ import { authClientConfigMap, tierConfigMap, AuthProvider, Tier } from 'src/serv
 import { setBaseUrl, setClientId, setFhirBaseUrl } from 'src/services/storage';
 export interface SignInProps {
     originPathName?: string;
-    onSwitchService?: () => void;
+    onSwitchService?: (authProvider: AuthProvider) => void;
 }
 
 export function useSignIn(props: SignInProps) {
@@ -23,9 +23,9 @@ export function useSignIn(props: SignInProps) {
         setAuthClientRedirectURL(authClientConfig.redirectURL);
         setAuthTokenURLpath(authClientConfig.tokenPath);
         if (props.onSwitchService) {
-            props.onSwitchService();
+            props.onSwitchService(activeAuthProvider);
         }
-    }, [props, authClientConfig, tierConfig, tier]);
+    }, [props, authClientConfig, tierConfig, tier, activeAuthProvider]);
 
     const authorize = useCallback(() => {
         const authState: OAuthState | undefined = props.originPathName ? { nextUrl: props.originPathName } : undefined;

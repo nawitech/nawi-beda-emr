@@ -9,7 +9,7 @@ import { PatientResourceList } from '../PatientResourceList';
 import { SignIn } from '../SignIn';
 
 export function App() {
-    const { sharedUserInitService, onSwitchLoginService } = useApp();
+    const { sharedUserInitService, setAuthProvider } = useApp();
 
     return (
         <MenuLayout.Provider value={menuLayout}>
@@ -17,7 +17,7 @@ export function App() {
                 populateUserInfoSharedState={sharedUserInitService}
                 anonymousRoutes={
                     <>
-                        <Route path="/signin" element={<SignIn onSwitchService={onSwitchLoginService} />} />
+                        <Route path="/signin" element={<SignIn onSwitchService={setAuthProvider} />} />
                         <Route path="/auth" element={<CodeGrantAuth />} />
                         <Route path="/auth-aidbox" element={<ImplicitGrantAuth />} />
                     </>
