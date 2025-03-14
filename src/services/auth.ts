@@ -93,7 +93,7 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         sharedCredentials: {
             accountDetails: [
                 {
-                    login: 'practitioner-tc',
+                    login: 'alderson-helene',
                     accountDescription: 'Practitioner has access to related patients',
                 },
             ],
@@ -109,15 +109,15 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         grantType: 'implicit',
         tabTitle: 'erequesting.aidbox.beda.software',
         message: 'On the next page, please, use one of the following credentials',
-        // sharedCredentials: {
-        //     accountDetails: [
-        //         {
-        //             login: 'practitioner-tc',
-        //             accountDescription: 'Practitioner has access to related patients',
-        //         },
-        //     ],
-        //     commonPassword: 'password',
-        // },
+        sharedCredentials: {
+            accountDetails: [
+                {
+                    login: 'alderson-helene',
+                    accountDescription: 'Practitioner has access to related patients',
+                },
+            ],
+            commonPassword: 'password',
+        },
     },
     [AuthProvider.SmartOnFhirAidbox]: {
         clientId: 'web',
@@ -128,15 +128,15 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         grantType: 'implicit',
         tabTitle: 'smartonfhir.aidbox.beda.software',
         message: 'On the next page, please, use one of the following credentials',
-        // sharedCredentials: {
-        //     accountDetails: [
-        //         {
-        //             login: 'practitioner-tc',
-        //             accountDescription: 'Practitioner has access to related patients',
-        //         },
-        //     ],
-        //     commonPassword: 'password',
-        // },
+        sharedCredentials: {
+            accountDetails: [
+                {
+                    login: 'alderson-helene',
+                    accountDescription: 'Practitioner has access to related patients',
+                },
+            ],
+            commonPassword: 'password',
+        },
     },
     [AuthProvider.SparkedHAPI]: {
         clientId: 'beda-emr',
