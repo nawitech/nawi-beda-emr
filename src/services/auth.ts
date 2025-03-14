@@ -1,6 +1,8 @@
-export enum ClientID {
-    Aidbox = 'web',
-    Smile = 'beda-emr',
+export enum AuthProvider {
+    AuCoreAidbox = 'au-core-aidbox',
+    ErequestingAidbox = 'e-requesting-aidbox',
+    SmartOnFhirAidbox = 'smart-on-fhir-aidbox',
+    SparkedHAPI = 'sparked-hapi',
 }
 
 export type Tier = 'develop' | 'production';
@@ -21,7 +23,7 @@ export interface SharedAccountDetails {
 }
 
 export interface AuthClientConfigParams {
-    clientId: ClientID;
+    clientId: string;
     authPath: string;
     tokenPath: string;
     responseType: 'code' | 'token';
@@ -35,18 +37,38 @@ export interface AuthClientConfigParams {
 
 type TierConfig = { [key in Tier]: TierBaseConfig };
 
-export const tierConfigMap: { [key in ClientID]: TierConfig } = {
-    [ClientID.Aidbox]: {
+export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
+    [AuthProvider.AuCoreAidbox]: {
         develop: {
             baseUrl: 'http://localhost:8080',
             fhirBaseUrl: 'http://localhost:8080/fhir',
         },
         production: {
-            baseUrl: 'https://au-core.beda.software',
-            fhirBaseUrl: 'https://au-core.beda.software/fhir',
+            baseUrl: 'https://aucore.aidbox.beda.software',
+            fhirBaseUrl: 'https://aucore.aidbox.beda.software/fhir',
         },
     },
-    [ClientID.Smile]: {
+    [AuthProvider.ErequestingAidbox]: {
+        develop: {
+            baseUrl: 'http://localhost:8080',
+            fhirBaseUrl: 'http://localhost:8080/fhir',
+        },
+        production: {
+            baseUrl: 'https://erequesting.aidbox.beda.software',
+            fhirBaseUrl: 'https://erequesting.aidbox.beda.software/fhir',
+        },
+    },
+    [AuthProvider.SmartOnFhirAidbox]: {
+        develop: {
+            baseUrl: 'http://localhost:8080',
+            fhirBaseUrl: 'http://localhost:8080/fhir',
+        },
+        production: {
+            baseUrl: 'https://smartonfhir.aidbox.beda.software',
+            fhirBaseUrl: 'https://smartonfhir.aidbox.beda.software/fhir',
+        },
+    },
+    [AuthProvider.SparkedHAPI]: {
         develop: {
             baseUrl: 'https://fhir.hl7.org.au/aucore',
             fhirBaseUrl: 'https://fhir.hl7.org.au/aucore/fhir/DEFAULT',
@@ -58,15 +80,15 @@ export const tierConfigMap: { [key in ClientID]: TierConfig } = {
     },
 };
 
-export const authClientConfigMap: { [key in ClientID]: AuthClientConfigParams } = {
-    [ClientID.Aidbox]: {
-        clientId: ClientID.Aidbox,
+export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParams } = {
+    [AuthProvider.AuCoreAidbox]: {
+        clientId: 'web',
         authPath: 'auth/authorize',
         tokenPath: 'auth/token',
         responseType: 'token',
         redirectURL: `${window.location.origin}/auth-aidbox`,
         grantType: 'implicit',
-        tabTitle: 'au-core.beda.software',
+        tabTitle: 'aucore.aidbox.beda.software',
         message: 'On the next page, please, use one of the following credentials',
         sharedCredentials: {
             accountDetails: [
@@ -78,8 +100,46 @@ export const authClientConfigMap: { [key in ClientID]: AuthClientConfigParams } 
             commonPassword: 'password',
         },
     },
-    [ClientID.Smile]: {
-        clientId: ClientID.Smile,
+    [AuthProvider.ErequestingAidbox]: {
+        clientId: 'web',
+        authPath: 'auth/authorize',
+        tokenPath: 'auth/token',
+        responseType: 'token',
+        redirectURL: `${window.location.origin}/auth-aidbox`,
+        grantType: 'implicit',
+        tabTitle: 'erequesting.aidbox.beda.software',
+        message: 'On the next page, please, use one of the following credentials',
+        // sharedCredentials: {
+        //     accountDetails: [
+        //         {
+        //             login: 'practitioner-tc',
+        //             accountDescription: 'Practitioner has access to related patients',
+        //         },
+        //     ],
+        //     commonPassword: 'password',
+        // },
+    },
+    [AuthProvider.SmartOnFhirAidbox]: {
+        clientId: 'web',
+        authPath: 'auth/authorize',
+        tokenPath: 'auth/token',
+        responseType: 'token',
+        redirectURL: `${window.location.origin}/auth-aidbox`,
+        grantType: 'implicit',
+        tabTitle: 'smartonfhir.aidbox.beda.software',
+        message: 'On the next page, please, use one of the following credentials',
+        // sharedCredentials: {
+        //     accountDetails: [
+        //         {
+        //             login: 'practitioner-tc',
+        //             accountDescription: 'Practitioner has access to related patients',
+        //         },
+        //     ],
+        //     commonPassword: 'password',
+        // },
+    },
+    [AuthProvider.SparkedHAPI]: {
+        clientId: 'beda-emr',
         authPath: 'smart/oauth/authorize',
         tokenPath: 'smart/oauth/token',
         responseType: 'code',

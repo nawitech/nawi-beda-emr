@@ -1,12 +1,12 @@
 import { decodeJwt, JWTPayload } from 'jose';
 
 import { InternalReference, Patient, Practitioner, User } from '@beda.software/aidbox-types';
-import { fetchUserRoleDetails ,aidboxPopulateUserInfoSharedState} from '@beda.software/emr/dist/containers/App/utils';
-import {getIdToken} from '@beda.software/emr/services'
+import { fetchUserRoleDetails, aidboxPopulateUserInfoSharedState } from '@beda.software/emr/dist/containers/App/utils';
+import { getIdToken } from '@beda.software/emr/services';
 import { sharedAuthorizedUser } from '@beda.software/emr/sharedState';
 import { failure, RemoteDataResult, success } from '@beda.software/remote-data';
 
-import { ClientID } from 'src/services/auth';
+import { AuthProvider } from 'src/services/auth';
 
 export interface SmileIdTokenData extends JWTPayload {
     fhirUser: string; //e.g "null/Practitioner/<practitioner-id>"
@@ -49,7 +49,9 @@ export async function smileUserInfoSharedState(): Promise<RemoteDataResult<User>
 }
 
 export type SharedUserInitCallback = () => Promise<RemoteDataResult<User>>;
-export const clientSharedUserInitService: { [key in ClientID]: SharedUserInitCallback | undefined } = {
-    web: aidboxPopulateUserInfoSharedState,
-    'beda-emr': smileUserInfoSharedState,
+export const clientSharedUserInitService: { [key in AuthProvider]: SharedUserInitCallback | undefined } = {
+    [AuthProvider.AuCoreAidbox]: aidboxPopulateUserInfoSharedState,
+    [AuthProvider.ErequestingAidbox]: aidboxPopulateUserInfoSharedState,
+    [AuthProvider.SmartOnFhirAidbox]: aidboxPopulateUserInfoSharedState,
+    [AuthProvider.SparkedHAPI]: smileUserInfoSharedState,
 };

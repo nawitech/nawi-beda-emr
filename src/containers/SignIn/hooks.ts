@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getAuthorizeUrl, OAuthState, setAuthClientRedirectURL, setAuthTokenURLpath } from '@beda.software/emr/services';
 import config from '@beda.software/emr-config';
 
-import { authClientConfigMap, tierConfigMap, ClientID, Tier } from 'src/services/auth';
+import { authClientConfigMap, tierConfigMap, AuthProvider, Tier } from 'src/services/auth';
 import { setBaseUrl, setClientId, setFhirBaseUrl } from 'src/services/storage';
 export interface SignInProps {
     originPathName?: string;
@@ -11,9 +11,9 @@ export interface SignInProps {
 }
 
 export function useSignIn(props: SignInProps) {
-    const [activeClientID, setClientID] = useState<ClientID>(ClientID.Aidbox);
-    const tierConfig = useMemo(() => tierConfigMap[activeClientID], [activeClientID]);
-    const authClientConfig = useMemo(() => authClientConfigMap[activeClientID], [activeClientID]);
+    const [activeAuthProvider, setAuthProvider] = useState<AuthProvider>(AuthProvider.AuCoreAidbox);
+    const tierConfig = useMemo(() => tierConfigMap[activeAuthProvider], [activeAuthProvider]);
+    const authClientConfig = useMemo(() => authClientConfigMap[activeAuthProvider], [activeAuthProvider]);
     const tier = config.tier as Tier;
 
     useEffect(() => {
@@ -43,5 +43,5 @@ export function useSignIn(props: SignInProps) {
         });
     }, [props.originPathName, authClientConfig, tierConfig, tier]);
 
-    return { activeClientID, authorize, setClientID, authClientConfig };
+    return { activeAuthProvider, authorize, setAuthProvider, authClientConfig };
 }

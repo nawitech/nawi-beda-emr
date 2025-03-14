@@ -1,12 +1,12 @@
 import { t, Trans } from '@lingui/macro';
-import { Button, Segmented, Tooltip } from 'antd';
+import { Button, Tooltip } from 'antd';
 import React, { useCallback, useMemo } from 'react';
 import { SingleValue } from 'react-select';
 
 import { Select } from '@beda.software/emr/components';
 
 import logo from 'src/images/logo.svg';
-import { authClientConfigMap, ClientID, type SharedCredentials } from 'src/services/auth';
+import { authClientConfigMap, AuthProvider, type SharedCredentials } from 'src/services/auth';
 
 import { SignInProps, useSignIn } from './hooks';
 import s from './SignIn.module.scss';
@@ -59,18 +59,18 @@ function SharedCredentials(props: SharedCredentialsProps) {
 }
 
 interface ProvidersSelectProps {
-    defaultProvider: ClientID;
-    onChange: (clientId: ClientID) => void;
+    defaultProvider: AuthProvider;
+    onChange: (authProvider: AuthProvider) => void;
 }
 
 interface ProviderSelectItem {
-    value: ClientID;
+    value: AuthProvider;
     label: string;
 }
 
 function ProvidersSelect(props: ProvidersSelectProps) {
-    const options: ProviderSelectItem[] = Object.values(authClientConfigMap).map((configItem) => ({
-        value: configItem.clientId,
+    const options: ProviderSelectItem[] = Object.entries(authClientConfigMap).map(([authProvider, configItem]) => ({
+        value: authProvider as AuthProvider,
         label: configItem.tabTitle,
     }));
 
@@ -102,7 +102,7 @@ function ProvidersSelect(props: ProvidersSelectProps) {
 }
 
 export function SignIn(props: SignInProps) {
-    const { activeClientID, authorize, setClientID, authClientConfig } = useSignIn(props);
+    const { activeAuthProvider, authorize, setAuthProvider, authClientConfig } = useSignIn(props);
 
     return (
         <S.Container>
@@ -111,7 +111,7 @@ export function SignIn(props: SignInProps) {
                     <S.Text>{t`Welcome to`}</S.Text>
                     <img src={logo} alt="" />
                 </div>
-                <ProvidersSelect defaultProvider={activeClientID} onChange={setClientID} />
+                <ProvidersSelect defaultProvider={activeAuthProvider} onChange={setAuthProvider} />
                 <S.Message>
                     <b>
                         <Trans>{authClientConfig.message}</Trans>

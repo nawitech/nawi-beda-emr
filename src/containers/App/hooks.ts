@@ -1,14 +1,14 @@
 import { useCallback, useMemo, useState } from 'react';
 
-import { ClientID } from 'src/services/auth';
-import { getClientId } from 'src/services/storage';
 import { clientSharedUserInitService } from 'src/populateUserInfoSharedState';
+import { AuthProvider } from 'src/services/auth';
+import { getClientId } from 'src/services/storage';
 
 export function useApp() {
-    const [clientId, setClientId] = useState<ClientID | null>(getClientId());
+    const [authProvider, setClientId] = useState<AuthProvider | null>(getClientId());
     const sharedUserInitService = useMemo(
-        () => (clientId ? clientSharedUserInitService[clientId] : undefined),
-        [clientId],
+        () => (authProvider ? clientSharedUserInitService[authProvider] : undefined),
+        [authProvider],
     );
 
     const onSwitchLoginService = useCallback(() => {
