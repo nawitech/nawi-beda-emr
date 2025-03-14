@@ -1,6 +1,9 @@
 import { t, Trans } from '@lingui/macro';
 import { Button, Segmented, Tooltip } from 'antd';
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
+import { SingleValue } from 'react-select';
+
+import { Select } from '@beda.software/emr/components';
 
 import logo from 'src/images/logo.svg';
 import { authClientConfigMap, ClientID, type SharedCredentials } from 'src/services/auth';
@@ -8,8 +11,6 @@ import { authClientConfigMap, ClientID, type SharedCredentials } from 'src/servi
 import { SignInProps, useSignIn } from './hooks';
 import s from './SignIn.module.scss';
 import { S } from './SignIn.styles';
-
-// import {AppFooter} from '@beda.software/emr/dist/components/BaseLayout/Footer';
 
 interface SharedCredentialsProps {
     sharedCredentials: SharedCredentials;
@@ -57,6 +58,49 @@ function SharedCredentials(props: SharedCredentialsProps) {
     );
 }
 
+interface ProvidersSelectProps {
+    defaultProvider: ClientID;
+    onChange: (clientId: ClientID) => void;
+}
+
+interface ProviderSelectItem {
+    value: ClientID;
+    label: string;
+}
+
+function ProvidersSelect(props: ProvidersSelectProps) {
+    const options: ProviderSelectItem[] = Object.values(authClientConfigMap).map((configItem) => ({
+        value: configItem.clientId,
+        label: configItem.tabTitle,
+    }));
+
+    const defaultValue = useMemo(
+        () => options.find((item) => item.value === props.defaultProvider),
+        [options, props.defaultProvider],
+    );
+
+    const onChange = useCallback(
+        (selectedItem: SingleValue<ProviderSelectItem>) => {
+            if (selectedItem) {
+                props.onChange(selectedItem.value);
+            }
+        },
+        [props],
+    );
+
+    return (
+        <Select<ProviderSelectItem>
+            options={options}
+            defaultValue={defaultValue}
+            onChange={(selectedItem) => {
+                // TODO: IsMulti generic should be defined to resolve selectedItem type correctly
+                // https://react-select.com/typescript#select-generics
+                onChange(selectedItem as SingleValue<ProviderSelectItem>);
+            }}
+        />
+    );
+}
+
 export function SignIn(props: SignInProps) {
     const { activeClientID, authorize, setClientID, authClientConfig } = useSignIn(props);
 
@@ -67,18 +111,7 @@ export function SignIn(props: SignInProps) {
                     <S.Text>{t`Welcome to`}</S.Text>
                     <img src={logo} alt="" />
                 </div>
-                <Segmented
-                    value={activeClientID}
-                    options={Object.values(authClientConfigMap).map((configItem) => ({
-                        value: configItem.clientId,
-                        label: configItem.tabTitle,
-                    }))}
-                    block
-                    onChange={(value) => {
-                        setClientID(value as ClientID);
-                    }}
-                    className={s.signInServiceSelectLabel}
-                />
+                <ProvidersSelect defaultProvider={activeClientID} onChange={setClientID} />
                 <S.Message>
                     <b>
                         <Trans>{authClientConfig.message}</Trans>
@@ -91,7 +124,6 @@ export function SignIn(props: SignInProps) {
                     {t`Log in`}
                 </Button>
             </S.Form>
-            {/* <AppFooter type="light" /> */}
         </S.Container>
     );
 }
