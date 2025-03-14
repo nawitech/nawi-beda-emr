@@ -5,6 +5,7 @@ import { MenuLayout } from '@beda.software/emr/dist/components/BaseLayout/Sideba
 
 import { useApp } from './hooks';
 import { menuLayout } from './layout';
+import { PatientResourceList } from '../PatientResourceList';
 import { SignIn } from '../SignIn';
 
 export function App() {
@@ -19,6 +20,11 @@ export function App() {
                         <Route path="/signin" element={<SignIn onSwitchService={onSwitchLoginService} />} />
                         <Route path="/auth" element={<CodeGrantAuth />} />
                         <Route path="/auth-aidbox" element={<ImplicitGrantAuth />} />
+                    </>
+                }
+                authenticatedRoutes={
+                    <>
+                        <Route path="/patients" element={<PatientResourceList />} />
                     </>
                 }
             />
