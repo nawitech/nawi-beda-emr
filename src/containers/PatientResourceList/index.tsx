@@ -5,39 +5,16 @@ import { Patient } from 'fhir/r4b';
 import { SearchBarColumnType } from '@beda.software/emr/dist/components/SearchBar/types';
 import {
     ResourceListPage,
-    customAction,
     navigationAction,
     questionnaireAction,
 } from '@beda.software/emr/uberComponents';
-import { renderHumanName, formatHumanDate, matchCurrentUserRole, Role } from '@beda.software/emr/utils';
-
-import { S } from './styles';
-import { getPatientSearchParamsForPractitioner } from './utils';
+import { renderHumanName, formatHumanDate } from '@beda.software/emr/utils';
 
 export function PatientResourceList() {
-    /*
-    This page is just an example how the page can be constructed using ResourceList
-    */
-    const searchParams = matchCurrentUserRole({
-        [Role.Admin]: () => {
-            return { _count: 33 };
-        },
-        [Role.Practitioner]: (practitioner) => {
-            return getPatientSearchParamsForPractitioner(practitioner.id);
-        },
-        [Role.Receptionist]: () => {
-            return {};
-        },
-        [Role.Patient]: () => {
-            return {};
-        },
-    });
-
     return (
         <ResourceListPage<Patient>
             headerTitle={t`Patients`}
             resourceType="Patient"
-            searchParams={searchParams}
             getTableColumns={() => [
                 {
                     title: <Trans>Name</Trans>,
@@ -113,7 +90,6 @@ export function PatientResourceList() {
             getRecordActions={(record) => [
                 navigationAction('Open', `/patients/${record.resource.id}`),
                 questionnaireAction('Edit', 'patient-edit'),
-                customAction(<S.LinkButton type="link">Custom action</S.LinkButton>),
             ]}
             getHeaderActions={() => [
                 questionnaireAction(<Trans>Add patient</Trans>, 'patient-create', { icon: <PlusOutlined /> }),
