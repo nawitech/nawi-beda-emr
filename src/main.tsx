@@ -13,9 +13,11 @@ import '@beda.software/emr/dist/style.css';
 // You can specify your own theme to ajdust color,
 // Use you https://github.com/beda-software/fhir-emr/blob/master/src/theme/ThemeProvider.tsx as example
 import { ThemeProvider } from '@beda.software/emr/theme';
+import { ValueSetExpandProvider } from '@beda.software/emr/contexts';
 
 import { App } from './containers/App';
 import { dynamicActivate, getCurrentLocale } from './services/i18n';
+import { expandValueSet } from './services/expand';
 
 export const AppWithContext = () => {
     useEffect(() => {
@@ -25,7 +27,9 @@ export const AppWithContext = () => {
     return (
         <I18nProvider i18n={i18n}>
             <ThemeProvider>
-                <App />
+                <ValueSetExpandProvider.Provider value={expandValueSet}>
+                    <App />
+                </ValueSetExpandProvider.Provider>
             </ThemeProvider>
         </I18nProvider>
     );
