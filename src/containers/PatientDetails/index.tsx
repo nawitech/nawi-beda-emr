@@ -11,8 +11,6 @@ import { PatientServiceRequest } from './requests';
 
 const getName = compileAsFirst<Patient, string>("Patient.name.given.first() + ' ' + Patient.name.family");
 
-
-
 const tabs: Array<Tab<Patient>> = [
     {
         path: '',

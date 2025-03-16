@@ -8,6 +8,7 @@ import { menuLayout } from './layout';
 import { PatientResourceList } from '../PatientResourceList';
 import { SignIn } from '../SignIn';
 import { PatientDetails } from '../PatientDetails';
+import { EncounterPage } from '../PatientDetails/encounter';
 
 export function App() {
     const { sharedUserInitService, setAuthProvider } = useApp();
@@ -26,6 +27,7 @@ export function App() {
                 authenticatedRoutes={
                     <>
                         <Route path="/patients" element={<PatientResourceList />} />
+                        <Route path="/patients/:id/encounter/:encounter/*" element={<EncounterPage />} />
                         <Route path="/patients/:id/*" element={<PatientDetails />} />
                     </>
                 }

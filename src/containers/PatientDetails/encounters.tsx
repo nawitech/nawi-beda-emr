@@ -75,11 +75,10 @@ export function PatientEncounter({ patient }: { patient: Patient }) {
                     placement: ['table', 'search-bar'],
                 },
             ]}
-            getRecordActions={(record) => [navigationAction('Open', `/patients2/${record.resource.id}/encounter`)]}
+            getRecordActions={(record) => [navigationAction('Open', `${record.resource.id}`)]}
             getHeaderActions={() => [
                 questionnaireAction(<Trans>Create encounter</Trans>, 'encounter-create', { icon: <PlusOutlined /> }),
             ]}
-            getBatchActions={() => [questionnaireAction(<Trans>Finish encounters</Trans>, '')]}
             getReportColumns={(bundle) => [
                 {
                     title: t`Number of Encounters`,
