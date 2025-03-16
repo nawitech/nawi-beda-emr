@@ -10,6 +10,7 @@ import { compileAsFirst, formatPeriodDateTime } from '@beda.software/emr/dist/ut
 import { PatientOverview } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/index';
 import { PatientDashboardProvider } from '@beda.software/emr/dist/components/Dashboard/contexts';
 import { dashboard } from './dashboard';
+import { PatientApps } from '@beda.software/emr/dist/containers/PatientDetails/PatientApps/index';
 
 
 const getName = compileAsFirst<Patient, string>("Patient.name.given.first() + ' ' + Patient.name.family");
@@ -108,6 +109,11 @@ const tabs: Array<Tab<Patient>> = [
         label: 'Encounter',
         component: ({ resource }) => <PatientEncounter patient={resource} />,
     },
+    {
+        path: 'smart',
+        label: 'Smart Apps',
+        component: ({ resource }) => <PatientApps patient={resource} />,
+    }
 ];
 
 export function PatientDetails() {
