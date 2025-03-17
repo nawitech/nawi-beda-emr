@@ -1,3 +1,5 @@
+import config from "@beda.software/emr-config/config";
+
 export enum AuthProvider {
     AuCoreAidbox = 'au-core-aidbox',
     ErequestingAidbox = 'e-requesting-aidbox',
@@ -40,8 +42,8 @@ type TierConfig = { [key in Tier]: TierBaseConfig };
 export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
     [AuthProvider.AuCoreAidbox]: {
         develop: {
-            baseUrl: 'http://localhost:8080',
-            fhirBaseUrl: 'http://localhost:8080/fhir',
+            baseUrl: 'https://aucore.aidbox.beda.software',
+            fhirBaseUrl: 'https://aucore.aidbox.beda.software/fhir',
         },
         production: {
             baseUrl: 'https://aucore.aidbox.beda.software',
@@ -50,8 +52,8 @@ export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
     },
     [AuthProvider.ErequestingAidbox]: {
         develop: {
-            baseUrl: 'http://localhost:8080',
-            fhirBaseUrl: 'http://localhost:8080/fhir',
+            baseUrl: 'https://erequesting.aidbox.beda.software',
+            fhirBaseUrl: 'https://erequesting.aidbox.beda.software/fhir',
         },
         production: {
             baseUrl: 'https://erequesting.aidbox.beda.software',
@@ -60,8 +62,8 @@ export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
     },
     [AuthProvider.SmartOnFhirAidbox]: {
         develop: {
-            baseUrl: 'http://localhost:8080',
-            fhirBaseUrl: 'http://localhost:8080/fhir',
+            baseUrl: 'https://smartonfhir.aidbox.beda.software',
+            fhirBaseUrl: 'https://smartonfhir.aidbox.beda.software/fhir',
         },
         production: {
             baseUrl: 'https://smartonfhir.aidbox.beda.software',
@@ -82,7 +84,7 @@ export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
 
 export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParams } = {
     [AuthProvider.AuCoreAidbox]: {
-        clientId: 'web',
+        clientId: config.tier === 'production' ? 'web' : 'web-local',
         authPath: 'auth/authorize',
         tokenPath: 'auth/token',
         responseType: 'token',
@@ -101,7 +103,7 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         },
     },
     [AuthProvider.ErequestingAidbox]: {
-        clientId: 'web',
+        clientId: config.tier === 'production' ? 'web' : 'web-local',
         authPath: 'auth/authorize',
         tokenPath: 'auth/token',
         responseType: 'token',
@@ -120,7 +122,7 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         },
     },
     [AuthProvider.SmartOnFhirAidbox]: {
-        clientId: 'web',
+        clientId: config.tier === 'production' ? 'web' : 'web-local',
         authPath: 'auth/authorize',
         tokenPath: 'auth/token',
         responseType: 'token',
