@@ -5,10 +5,10 @@ import { MenuLayout } from '@beda.software/emr/dist/components/BaseLayout/Sideba
 
 import { useApp } from './hooks';
 import { menuLayout } from './layout';
-import { PatientResourceList } from '../PatientResourceList';
-import { SignIn } from '../SignIn';
 import { PatientDetails } from '../PatientDetails';
 import { EncounterPage } from '../PatientDetails/encounter';
+import { PatientResourceList } from '../PatientResourceList';
+import { SignIn } from '../SignIn';
 
 export function App() {
     const { sharedUserInitService, setAuthProvider } = useApp();
