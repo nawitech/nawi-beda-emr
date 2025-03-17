@@ -3,9 +3,9 @@ import { t, Trans } from '@lingui/macro';
 import { Encounter, Patient } from 'fhir/r4b';
 
 import { SearchBarColumnType } from '@beda.software/emr/dist/components/SearchBar/types';
-import { navigationAction, questionnaireAction } from '@beda.software/emr/uberComponents';
 import { ResourceListPageContent } from '@beda.software/emr/dist/uberComponents/ResourceListPageContent/index';
 import { formatPeriodDateTime } from '@beda.software/emr/dist/utils/index';
+import { navigationAction, questionnaireAction } from '@beda.software/emr/uberComponents';
 
 export function PatientEncounter({ patient }: { patient: Patient }) {
     return (
