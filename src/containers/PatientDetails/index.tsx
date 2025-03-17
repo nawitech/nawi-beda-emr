@@ -1,8 +1,8 @@
 import { Patient } from 'fhir/r4b';
 import { DetailPage, Tab } from '@beda.software/emr/dist/uberComponents/DetailPage/index';
 import { compileAsFirst } from '@beda.software/emr/dist/utils/index';
-import { PatientOverview } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/index';
-import { PatientDashboardProvider } from '@beda.software/emr/dist/components/Dashboard/contexts';
+import config from '@beda.software/emr-config';
+
 import { dashboard } from './dashboard';
 import { PatientApps } from '@beda.software/emr/dist/containers/PatientDetails/PatientApps/index';
 import { PatientEncounter } from './encounters';
@@ -40,7 +40,7 @@ export function PatientDetails() {
             <DetailPage<Patient>
                 resourceType="Patient"
                 getSearchParams={({ id }) => ({ _id: id })}
-                getTitle={({ resource, bundle }) => getName(resource, { bundle })!}
+                getTitle={({ resource, bundle }) => getName(resource, { bundle })! + ' ' + config.baseURL}
                 tabs={tabs}
             />
         </PatientDashboardProvider>
