@@ -35,7 +35,11 @@ export function DocRrefContainer(props: ContainerProps) {
     return (
         <DashboardCard title={t`Patient Summary`} extra={renderExtra()} icon={<FileOutlined />}>
             <S.DetailsRow>
-                <RenderRemoteData remoteData={latestSummaryDocRefResponse} renderLoading={Spinner}>
+                <RenderRemoteData
+                    remoteData={latestSummaryDocRefResponse}
+                    renderLoading={Spinner}
+                    renderFailure={(failure) => <span>{failure.message}</span>}
+                >
                     {({ docRef, patientSummary }) => {
                         return (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>

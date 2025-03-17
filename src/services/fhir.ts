@@ -50,7 +50,7 @@ export async function fetchPatientSummary(args: GetPatientSummaryDocRefArgs) {
     }
 
     if (!docRefResponse.data) {
-        return failure<FetchError>({message: 'DocumentReference was not found'})
+        return failure<FetchError>({message: 'No previously generated summary was not found'})
     }
 
     const patientSummaryResponse = mapSuccess(
