@@ -1,8 +1,9 @@
-import { OverviewCard } from "@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/components/StandardCard/types";
-import { AllergyIntolerance, Bundle, Condition, Extension, Observation, ObservationComponent } from "fhir/r4b";
-import { AlertOutlined, ExperimentOutlined, HeartOutlined } from '@ant-design/icons';
+import { AlertOutlined, CheckOutlined, ExperimentOutlined, HeartOutlined, MedicineBoxOutlined, SubnodeOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+import { AllergyIntolerance, Bundle, Condition, Extension, Immunization, MedicationStatement, Observation, ObservationComponent, Procedure, RelatedPerson } from "fhir/r4b";
 import { extractExtension } from 'sdc-qrf';
-import { formatHumanDate } from "@beda.software/emr/dist/utils/index";
+
+import type { OverviewCard } from "@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/components/StandardCard/types";
+import { formatHumanDate, formatHumanDateTime, formatPeriodDateTime, renderHumanName } from "@beda.software/emr/dist/utils/index";
 
 
 export function prepareAllergies(
@@ -137,6 +138,140 @@ export function prepareObservations(
                     }
                     return null;
                 },
+            },
+        ],
+    };
+}
+export function prepareImmunizations(
+    immunizations: Immunization[],
+    bundle: Bundle<Immunization>): OverviewCard<Immunization> {
+    return {
+        title: `Immunizations`,
+        key: 'Immunizations',
+        icon: <MedicineBoxOutlined />,
+        data: immunizations,
+        total: bundle.total!,
+        getKey: (r: Immunization) => r.id!,
+        columns: [
+            {
+                title: `Vaccine`,
+                key: 'vaccine',
+                render: (resource: Immunization) => {
+                    return resource.vaccineCode.text ?? 'Unknown';
+                },
+            },
+            {
+                title: `Date`,
+                key: 'date',
+                render: (r: Immunization) => {
+                    return r.occurrenceDateTime ? formatHumanDate(r.occurrenceDateTime) : 'Unknown'
+                },
+                width: 120,
+            },
+        ],
+    };
+}
+
+export function prepareMedicationStatements(
+    medicationStatements: MedicationStatement[],
+    bundle: Bundle<MedicationStatement>): OverviewCard<MedicationStatement> {
+    return {
+        title: `Medication Statements`,
+        key: 'MedicationStatements',
+        icon: <CheckOutlined />,
+        data: medicationStatements,
+        total: bundle.total!,
+        getKey: (r: MedicationStatement) => r.id!,
+        columns: [
+            {
+                title: `Medication`,
+                key: 'medication',
+                render: (resource: MedicationStatement) => {
+                    return resource.medicationCodeableConcept?.coding?.[0].display ?? 'Unknown';
+                },
+            },
+            {
+                title: 'Dosage',
+                key: 'dosage',
+                render: (resource: MedicationStatement) => {
+                    const dosageItem = resource.dosage?.find((item) => item.text !== undefined)
+
+                    return dosageItem?.text ?? 'Unknown'
+                }
+            },
+            {
+                title: `Date`,
+                key: 'date',
+                render: (r: MedicationStatement) => {
+                    return r.dateAsserted ? formatHumanDate(r.dateAsserted) : 'Unknown'
+                },
+                width: 120,
+            },
+        ],
+    };
+}
+
+export function prepareProcedures(
+    medicationStatements: Procedure[],
+    bundle: Bundle<Procedure>): OverviewCard<Procedure> {
+    return {
+        title: `Procedures`,
+        key: 'Procedures',
+        icon: <SubnodeOutlined />,
+        data: medicationStatements,
+        total: bundle.total!,
+        getKey: (r: Procedure) => r.id!,
+        columns: [
+            {
+                title: `Title`,
+                key: 'title',
+                render: (resource: Procedure) => {
+                    return resource.code?.coding?.[0].display ?? 'Unknown';
+                },
+            },
+            {
+                title: `Date`,
+                key: 'date',
+                render: (r: Procedure) => {
+                    if (r.performedPeriod) {
+                        return formatPeriodDateTime(r.performedPeriod)
+                    } else if (r.performedDateTime) {
+                        return formatHumanDateTime(r.performedDateTime)
+                    } else {
+                        return 'Unknown'
+                    }
+                },
+                width: 120,
+            },
+        ],
+    };
+}
+
+export function prepareRelatedPersons(
+    medicationStatements: RelatedPerson[],
+    bundle: Bundle<RelatedPerson>): OverviewCard<RelatedPerson> {
+    return {
+        title: `Related persons`,
+        key: 'related-persons',
+        icon: <UsergroupAddOutlined />,
+        data: medicationStatements,
+        total: bundle.total!,
+        getKey: (r: RelatedPerson) => r.id!,
+        columns: [
+            {
+                title: `Name`,
+                key: 'name',
+                render: (resource: RelatedPerson) => {
+                    return renderHumanName(resource.name?.[0]);
+                },
+            },
+            {
+                title: `Relationship`,
+                key: 'relationship',
+                render: (r: RelatedPerson) => {
+                    return r.relationship?.[0].coding?.[0].display ?? 'Unknown'
+                },
+                width: 120,
             },
         ],
     };
