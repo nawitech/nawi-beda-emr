@@ -2,7 +2,7 @@ import { Bundle, Composition, DocumentReference, Patient } from 'fhir/r4b';
 
 import { service } from '@beda.software/emr/services';
 import { extractBundleResources } from '@beda.software/fhir-react';
-import { failure, FetchError, isFailure, mapSuccess, sequenceMap, serviceFetch, success } from '@beda.software/remote-data';
+import { failure, FetchError, isFailure, mapSuccess, sequenceMap, serviceFetch } from '@beda.software/remote-data';
 
 interface GetPatientSummaryDocRefArgs {
     patient: Patient;
