@@ -1,4 +1,4 @@
-import { Bundle, Composition, DocumentReference, DomainResource, Patient } from 'fhir/r4b';
+import { Bundle, Composition, DocumentReference, Patient } from 'fhir/r4b';
 
 import { service } from '@beda.software/emr/services';
 import { extractBundleResources } from '@beda.software/fhir-react';
