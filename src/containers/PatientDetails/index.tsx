@@ -1,10 +1,13 @@
 import { Patient } from 'fhir/r4b';
+
+import { PatientDashboardProvider } from '@beda.software/emr/dist/components/Dashboard/contexts';
+import { PatientApps } from '@beda.software/emr/dist/containers/PatientDetails/PatientApps/index';
+import { PatientOverview } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/index';
 import { DetailPage, Tab } from '@beda.software/emr/dist/uberComponents/DetailPage/index';
 import { compileAsFirst } from '@beda.software/emr/dist/utils/index';
 import config from '@beda.software/emr-config';
 
 import { dashboard } from './dashboard';
-import { PatientApps } from '@beda.software/emr/dist/containers/PatientDetails/PatientApps/index';
 import { PatientEncounter } from './encounters';
 import { PatientServiceRequest } from './requests';
 

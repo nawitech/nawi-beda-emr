@@ -1,11 +1,18 @@
 
+import { Patient } from 'fhir/r4b';
+
 import type { Dashboard, DashboardInstance } from '@beda.software/emr/dist/components/Dashboard/types';
 import { StandardCardContainerFabric } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/containers/StandardCardContainerFabric/index';
-import { Patient } from 'fhir/r4b';
-import { prepareAllergies, prepareConditions, prepareObservations } from './utils';
+import {} from '@beda.software/emr/components'
+
+import { DocRrefContainer } from './containers/DocRefContainer';
+import { prepareAllergies, prepareConditions, prepareObservations } from '../utils';
 
 const patientDashboardConfig: DashboardInstance = {
     top: [
+        {
+            widget: DocRrefContainer,
+        },
         {
             query: {
                 resourceType: 'AllergyIntolerance',
