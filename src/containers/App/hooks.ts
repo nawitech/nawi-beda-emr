@@ -1,9 +1,8 @@
+import { getToken } from '@beda.software/emr/services';
 import { useEffect, useMemo, useState } from 'react';
 
-import config from '@beda.software/emr-config';
-
 import { clientSharedUserInitService } from 'src/populateUserInfoSharedState';
-import { AuthProvider, Tier, tierConfigMap } from 'src/services/auth';
+import { AuthProvider } from 'src/services/auth';
 
 export function useApp() {
     const clientId = window.localStorage.getItem('ClientId');
@@ -16,16 +15,14 @@ export function useApp() {
     );
 
     useEffect(() => {
-        if (authProvider) {
-            const authProviderHeader = document.getElementById('auth-provider-info');
-            const tier = config.tier as Tier;
-            const tierConfig = tierConfigMap[authProvider][tier];
-            const baseUrlElement = document.createElement('span');
-            baseUrlElement.textContent = tierConfig.baseUrl;
-            baseUrlElement.style.color = '#3366ff';
-            authProviderHeader?.replaceChildren(baseUrlElement);
+        const authProviderHeader = document.getElementById('auth-provider-info');
+        if (authProviderHeader) {
+            const token = getToken();
+            if (!token) {
+                authProviderHeader.style.display = 'none';
+            }
         }
-    }, [authProvider]);
+    }, []);
 
     return { sharedUserInitService, setAuthProvider };
 }
