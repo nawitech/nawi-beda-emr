@@ -14,6 +14,7 @@ import '@beda.software/emr/dist/style.css';
 // Use you https://github.com/beda-software/fhir-emr/blob/master/src/theme/ThemeProvider.tsx as example
 import { ValueSetExpandProvider } from '@beda.software/emr/contexts';
 import { ThemeProvider } from '@beda.software/emr/theme';
+import config from '@beda.software/emr-config';
 
 import { App } from './containers/App';
 import { expandValueSet } from './services/expand';
@@ -35,8 +36,23 @@ export const AppWithContext = () => {
     );
 };
 
+const authProviderStyle: React.CSSProperties = {
+    width: '100%',
+    backgroundColor: '#ddd',
+    display: 'flex',
+    justifyContent: 'center',
+};
+
 createRoot(document.getElementById('root')!).render(
-    <React.StrictMode>
-        <AppWithContext />
-    </React.StrictMode>,
+    <>
+        <div
+            id="auth-provider-info"
+            style={authProviderStyle}
+        >
+            <span style={{ color: '#3366ff' }}>{config.baseURL}</span>
+        </div>
+        <React.StrictMode>
+            <AppWithContext />
+        </React.StrictMode>
+    </>,
 );
