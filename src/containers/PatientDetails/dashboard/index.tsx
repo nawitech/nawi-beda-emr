@@ -2,7 +2,7 @@ import { Patient } from 'fhir/r4b';
 
 import type { Dashboard, DashboardInstance } from '@beda.software/emr/dist/components/Dashboard/types';
 import { StandardCardContainerFabric } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/containers/StandardCardContainerFabric/index';
-import {} from '@beda.software/emr/components';
+import config from '@beda.software/emr-config';
 
 import { DocRrefContainer } from './containers/DocRefContainer';
 import {
@@ -17,10 +17,10 @@ import {
 
 const patientDashboardConfig: DashboardInstance = {
     top: [
-        {
-            widget: DocRrefContainer,
-        },
-        {
+        ...(config.baseURL === 'https://aucore.aidbox.beda.software' ? [{
+                widget: DocRrefContainer,
+            }] : []),
+       {
             query: {
                 resourceType: 'AllergyIntolerance',
                 search: (patient: Patient) => ({

@@ -25,17 +25,23 @@ const tabs: Array<Tab<Patient>> = [
         label: 'Encounters',
         component: ({ resource }) => <PatientEncounter patient={resource} />,
     },
-    {
+];
+
+if(config.baseURL === 'https://erequesting.aidbox.beda.software'){
+    tabs.push({
         path: 'service',
         label: 'Service requests',
         component: ({ resource }) => <PatientServiceRequest patient={resource} />,
-    },
-    {
+    })
+}
+
+if (config.baseURL === 'https://smartonfhir.aidbox.beda.software') {
+    tabs.push({
         path: 'smart',
         label: 'Smart Apps',
         component: ({ resource }) => <PatientApps patient={resource} />,
-    }
-];
+    })
+}
 
 export function PatientDetails() {
     return (

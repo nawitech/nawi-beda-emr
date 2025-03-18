@@ -39,7 +39,7 @@ export function DocRrefContainer(props: ContainerProps) {
                 <RenderRemoteData
                     remoteData={latestSummaryDocRefResponse}
                     renderLoading={Spinner}
-                    renderFailure={(failure) => <span>{failure.message}</span>}
+                    renderFailure={(failure) => <pre>{failure.message ?? JSON.stringify(failure, undefined, 4)}</pre>}
                 >
                     {({ docRef, patientSummary }) => {
                         return (

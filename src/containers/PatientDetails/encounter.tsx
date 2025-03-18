@@ -5,6 +5,7 @@ import { DetailPage, Tab } from '@beda.software/emr/dist/uberComponents/DetailPa
 import { compileAsFirst, formatPeriodDateTime } from '@beda.software/emr/dist/utils/index';
 
 import { EncounterOverview } from './EncounterOverview';
+import config from '@beda.software/emr-config';
 
 const getPatientName = compileAsFirst<Patient | undefined, string>(
     "Patient.name.given.first() + ' ' + Patient.name.family",
@@ -17,12 +18,15 @@ const tabs: Array<Tab<Encounter>> = [
         label: 'Overview',
         component: ({ resource }) => <EncounterOverview encounter={resource} />,
     },
-    {
+];
+
+if (config.baseURL === 'https://smartonfhir.aidbox.beda.software') {
+    tabs.push({
         path: 'smart',
         label: 'Smart Apps',
         component: ({ resource, bundle }) => <PatientApps patient={getPatient(bundle)!} encounter={resource} />,
-    },
-];
+    })
+}
 
 function getName(resource: Encounter, bundle: Bundle) {
     const patient = getPatient(bundle);
