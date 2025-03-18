@@ -49,7 +49,7 @@ export function PatientDetails() {
             <DetailPage<Patient>
                 resourceType="Patient"
                 getSearchParams={({ id }) => ({ _id: id })}
-                getTitle={({ resource, bundle }) => getName(resource, { bundle })! + ' ' + config.baseURL}
+                getTitle={({ resource, bundle }) => getName(resource, { bundle })!}
                 tabs={tabs}
             />
         </PatientDashboardProvider>

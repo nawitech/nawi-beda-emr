@@ -9,12 +9,11 @@ import {
     questionnaireAction,
 } from '@beda.software/emr/uberComponents';
 import { renderHumanName, formatHumanDate } from '@beda.software/emr/utils';
-import config from '@beda.software/emr-config';
 
 export function PatientResourceList() {
     return (
         <ResourceListPage<Patient>
-            headerTitle={t`Patients` + ' ' + config.baseURL}
+            headerTitle={t`Patients`}
             resourceType="Patient"
             getTableColumns={() => [
                 {
