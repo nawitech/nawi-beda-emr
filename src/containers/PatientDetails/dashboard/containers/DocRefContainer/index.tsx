@@ -10,6 +10,7 @@ import { formatHumanDateTime } from '@beda.software/emr/utils';
 import { RenderRemoteData } from '@beda.software/fhir-react';
 import { isSuccess, isLoading } from '@beda.software/remote-data';
 
+import { S as DocRefStyles } from './DocRefContainer.styles';
 import { useDocRefCard } from './hook';
 import { parsePatientSummary } from './utils';
 
@@ -42,20 +43,22 @@ export function DocRrefContainer(props: ContainerProps) {
                 >
                     {({ docRef, patientSummary }) => {
                         return (
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                            <DocRefStyles.Container>
                                 {docRef ? (
                                     parsePatientSummary(patientSummary).map((item) => {
                                         return (
-                                            <div key={item.title} style={{display: 'flex', flexDirection: 'column'}}>
+                                            <DocRefStyles.PatientSummaryItemContainer key={item.title}>
                                                 <Typography.Text strong>{item.title}</Typography.Text>
-                                                <Typography.Text>{item.text}</Typography.Text>
-                                            </div>
+                                                <DocRefStyles.PatientSummaryItemText>
+                                                    {item.text}
+                                                </DocRefStyles.PatientSummaryItemText>
+                                            </DocRefStyles.PatientSummaryItemContainer>
                                         );
                                     })
                                 ) : (
                                     <Typography.Text>No summary</Typography.Text>
                                 )}
-                            </div>
+                            </DocRefStyles.Container>
                         );
                     }}
                 </RenderRemoteData>

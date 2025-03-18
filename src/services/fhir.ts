@@ -16,7 +16,6 @@ export async function getLatestPatientSummaryDocRef(args: GetPatientSummaryDocRe
         url: 'DocumentReference/$docref',
         params: { patient: patient.id!, 'on-demand': onDemand.toString() },
     });
-    console.log('response', JSON.stringify(response));
 
     return mapSuccess(response, (bundle) => {
         const resources = extractBundleResources(bundle).DocumentReference;
