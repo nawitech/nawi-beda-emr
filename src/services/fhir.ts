@@ -50,7 +50,7 @@ export async function fetchPatientSummary(args: GetPatientSummaryDocRefArgs) {
     }
 
     if (!docRefResponse.data) {
-        return failure<FetchError>({message: 'No previously generated summary was not found'})
+        return failure<FetchError>({ message: 'No previously generated summary was not found' });
     }
 
     const patientSummaryResponse = mapSuccess(
@@ -61,11 +61,9 @@ export async function fetchPatientSummary(args: GetPatientSummaryDocRefArgs) {
         (bundle) => {
             const composition = extractBundleResources(bundle).Composition;
 
-            return composition?.[0]
+            return composition?.[0];
         },
     );
 
     return sequenceMap({ docRef: docRefResponse, patientSummary: patientSummaryResponse });
 }
-
-// https://aupsdocrefdev.syd1.digitaloceanspaces.com/aupsdocrefdev/aiobotocore/202503171408_banks-mia-leanne_summary-20250317140837233640.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=DO003NG3LGXDN82CK2VN%2F20250317%2Fsyd1%2Fs3%2Faws4_request&X-Amz-Date=20250317T143408Z&X-Amz-Expires=600&X-Amz-SignedHeaders=host&X-Amz-Signature=c25de4da97e814a077bfeb0d588eddc31676b239da7900bd1efbc1c2434e9496
