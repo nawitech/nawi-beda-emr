@@ -4,6 +4,7 @@ import { Patient, ServiceRequest } from 'fhir/r4b';
 import { SearchBarColumnType } from '@beda.software/emr/dist/components/SearchBar/types';
 import { ResourceListPageContent } from '@beda.software/emr/dist/uberComponents/ResourceListPageContent/index';
 import { compileAsFirst } from '@beda.software/emr/dist/utils/index';
+
 import { renderIdentifier } from 'src/utils';
 
 const getCategory = compileAsFirst<ServiceRequest,string>(`

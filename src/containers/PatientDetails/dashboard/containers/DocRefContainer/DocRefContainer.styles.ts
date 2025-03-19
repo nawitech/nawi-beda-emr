@@ -1,11 +1,12 @@
-import styled from 'styled-components';
 import { Typography } from 'antd';
+import styled from 'styled-components';
 
 export const S = {
     Container: styled.div`
         display: flex;
         flex-direction: column;
         gap: 10px;
+        flex: 1;
     `,
     PatientSummaryItemContainer: styled.div`
         display: flex;

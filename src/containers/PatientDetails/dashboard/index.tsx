@@ -5,6 +5,7 @@ import { StandardCardContainerFabric } from '@beda.software/emr/dist/containers/
 import config from '@beda.software/emr-config';
 
 import { DocRrefContainer } from './containers/DocRefContainer';
+import { SummaryContainer } from './containers/SummaryContainer';
 import {
     prepareAllergies,
     prepareConditions,
@@ -14,7 +15,6 @@ import {
     prepareProcedures,
     prepareRelatedPersons,
 } from '../utils';
-import { SummaryContainer } from './containers/SummaryContainer';
 
 const patientDashboardConfig: DashboardInstance = {
     top: [

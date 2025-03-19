@@ -1,4 +1,4 @@
-import { Bundle, Composition, DocumentReference, Patient } from 'fhir/r4b';
+import { Bundle, DocumentReference, Patient } from 'fhir/r4b';
 
 import { service } from '@beda.software/emr/services';
 import { extractBundleResources } from '@beda.software/fhir-react';
@@ -52,15 +52,11 @@ export async function fetchPatientSummary(args: GetPatientSummaryDocRefArgs) {
         return failure<FetchError>({ message: 'No previously generated summary was not found' });
     }
 
-    const patientSummaryResponse = mapSuccess(
-        await serviceFetch<Bundle<Composition>>(docRefResponse.data.content![0].attachment.url!, {
+    const patientSummaryResponse = await serviceFetch<Bundle>(
+        docRefResponse.data.content![0].attachment.url!,
+        {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
-        }),
-        (bundle) => {
-            const composition = extractBundleResources(bundle).Composition;
-
-            return composition?.[0];
         },
     );
 
