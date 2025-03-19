@@ -5,6 +5,7 @@ export enum AuthProvider {
     ErequestingAidbox = 'e-requesting-aidbox',
     SmartOnFhirAidbox = 'smart-on-fhir-aidbox',
     SparkedHAPI = 'sparked-hapi',
+    BP = 'best-practice',
 }
 
 export type Tier = 'develop' | 'production';
@@ -80,6 +81,16 @@ export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
             fhirBaseUrl: 'https://fhir.hl7.org.au/aucore/fhir/DEFAULT',
         },
     },
+    [AuthProvider.BP]: {
+        develop: {
+            baseUrl: 'https://bps-interop-practicegateway-fhir-test-api.deva.svc.bpcloud.dev/api/interop/r4/fhir',
+            fhirBaseUrl: 'https://bps-interop-practicegateway-fhir-test-api.deva.svc.bpcloud.dev/api/interop/r4/fhir',
+        },
+        production: {
+            baseUrl: 'https://bps-interop-practicegateway-fhir-test-api.deva.svc.bpcloud.dev/api/interop/r4/fhir',
+            fhirBaseUrl: 'https://bps-interop-practicegateway-fhir-test-api.deva.svc.bpcloud.dev/api/interop/r4/fhir',
+        },
+    },
 };
 
 export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParams } = {
@@ -150,5 +161,16 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         scope: ['openid', 'fhirUser'],
         tabTitle: 'fhir.hl7.org.au/aucore',
         message: 'Please contact Heath Frankel for credentials',
+    },
+    [AuthProvider.BP]: {
+        clientId: 'bp',
+        authPath: 'smart/oauth/authorize',
+        tokenPath: 'smart/oauth/token',
+        responseType: 'code',
+        redirectURL: `${window.location.origin}/bp-auth`,
+        grantType: 'authorization_code',
+        scope: ['openid', 'fhirUser'],
+        tabTitle: 'Best practice facade',
+        message: 'No authorization required',
     },
 };

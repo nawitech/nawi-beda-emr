@@ -7,7 +7,8 @@ import { AuthProvider } from 'src/services/auth';
 export function useApp() {
     const clientId = window.localStorage.getItem('ClientId');
     const [authProvider, setAuthProvider] = useState<AuthProvider | null>(
-        clientId === 'beda-emr' ? AuthProvider.SparkedHAPI : null,
+        clientId === 'beda-emr' ? AuthProvider.SparkedHAPI :
+            (clientId === 'bp' ? AuthProvider.BP : null),
     );
     const sharedUserInitService = useMemo(
         () => (authProvider ? clientSharedUserInitService[authProvider] : undefined),

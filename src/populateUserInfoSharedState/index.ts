@@ -11,7 +11,32 @@ import { AuthProvider } from 'src/services/auth';
 export interface SmileIdTokenData extends JWTPayload {
     fhirUser: string; //e.g "null/Practitioner/<practitioner-id>"
 }
+
+export async function bpUserInfoSharedState(): Promise<RemoteDataResult<User>> {
+    const user: User = {
+        resourceType: 'User',
+        id: 'user',
+        fhirUser: {
+            resourceType: 'Practitioner',
+            id: '15000000-0020-0000-0000-98a3489d6ffc',
+        },
+        role: [
+            {
+                resourceType: 'Role',
+                name: 'practitioner',
+                user: { resourceType: 'User', id: 'user' },
+                links: { practitioner: { resourceType: 'Practitioner', id: '15000000-0020-0000-0000-98a3489d6ffc' } },
+            },
+        ],
+    };
+    sharedAuthorizedUser.setSharedState(user);
+    await fetchUserRoleDetails(user);
+
+    return success(user);
+}
+
 export async function smileUserInfoSharedState(): Promise<RemoteDataResult<User>> {
+    console.log("TRY AUTH")
     const idToken = getIdToken();
 
     if (!idToken) {
@@ -54,4 +79,5 @@ export const clientSharedUserInitService: { [key in AuthProvider]: SharedUserIni
     [AuthProvider.ErequestingAidbox]: aidboxPopulateUserInfoSharedState,
     [AuthProvider.SmartOnFhirAidbox]: aidboxPopulateUserInfoSharedState,
     [AuthProvider.SparkedHAPI]: smileUserInfoSharedState,
+    [AuthProvider.BP]: bpUserInfoSharedState,
 };

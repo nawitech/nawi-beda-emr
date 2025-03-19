@@ -28,6 +28,12 @@ export function useSignIn(props: SignInProps) {
     }, [props, authClientConfig, tierConfig, tier, activeAuthProvider]);
 
     const authorize = useCallback(() => {
+        if (activeAuthProvider === AuthProvider.BP) {
+            //BP doesn't requrie authorization
+            window.localStorage.setItem('token', 'no-token');
+            window.location.href = "/patients"
+            return
+        }
         const authState: OAuthState | undefined = props.originPathName ? { nextUrl: props.originPathName } : undefined;
 
         window.location.href = getAuthorizeUrl({
@@ -41,7 +47,7 @@ export function useSignIn(props: SignInProps) {
             }),
             state: authState,
         });
-    }, [props.originPathName, authClientConfig, tierConfig, tier]);
+    }, [props.originPathName, authClientConfig, tierConfig, tier, activeAuthProvider]);
 
     return { activeAuthProvider, authorize, setAuthProvider, authClientConfig };
 }

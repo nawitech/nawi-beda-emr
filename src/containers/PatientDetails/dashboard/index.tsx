@@ -14,13 +14,17 @@ import {
     prepareProcedures,
     prepareRelatedPersons,
 } from '../utils';
+import { SummaryContainer } from './containers/SummaryContainer';
 
 const patientDashboardConfig: DashboardInstance = {
     top: [
         ...(config.baseURL === 'https://aucore.aidbox.beda.software' ? [{
-                widget: DocRrefContainer,
-            }] : []),
-       {
+            widget: DocRrefContainer,
+        }] : []),
+        ...(config.baseURL === 'https://bps-interop-practicegateway-fhir-test-api.deva.svc.bpcloud.dev/api/interop/r4/fhir' ? [{
+            widget: SummaryContainer,
+        }] : []),
+        {
             query: {
                 resourceType: 'AllergyIntolerance',
                 search: (patient: Patient) => ({
