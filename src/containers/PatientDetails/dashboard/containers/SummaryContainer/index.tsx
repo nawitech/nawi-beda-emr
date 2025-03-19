@@ -2,7 +2,6 @@ import { FileOutlined } from '@ant-design/icons';
 import { t } from '@lingui/macro';
 import { Collapse, Typography } from 'antd';
 import { Bundle } from 'fhir/r4b';
-import React from 'react';
 
 import { DashboardCard, Spinner } from '@beda.software/emr/components';
 import type { ContainerProps } from '@beda.software/emr/dist/components/Dashboard/types';
