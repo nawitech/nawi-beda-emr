@@ -1,13 +1,13 @@
 import { FileOutlined } from '@ant-design/icons';
 import { t } from '@lingui/macro';
 import { Collapse, Typography } from 'antd';
-import { Bundle, Composition, Patient, Practitioner } from 'fhir/r4b';
+import { Bundle } from 'fhir/r4b';
 
 import { DashboardCard, Spinner } from '@beda.software/emr/components';
 import type { ContainerProps } from '@beda.software/emr/dist/components/Dashboard/types';
 import { S } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/PatientOverview.styles';
 import { service } from '@beda.software/emr/services';
-import { RenderRemoteData, extractBundleResources, useService } from '@beda.software/fhir-react';
+import { RenderRemoteData, useService } from '@beda.software/fhir-react';
 
 import { S as DocRefStyles } from '../DocRefContainer/DocRefContainer.styles';
 import { parsePatientSummary } from '../DocRefContainer/utils';
@@ -45,11 +45,11 @@ export function SummaryContainer(props: ContainerProps) {
                                                     ),
                                                     children: (
                                                         <DocRefStyles.PatientSummaryItemContainer>
-                                                            {item.entries.map((relatedResourceRef) => (
+                                                            {item.relatedResources.map((resource) => (
                                                                 <DocRefStyles.PatientSummaryItemText
-                                                                    key={relatedResourceRef.reference}
+                                                                    key={resource.id}
                                                                 >
-                                                                    {relatedResourceRef.reference}
+                                                                    {resource.id}
                                                                 </DocRefStyles.PatientSummaryItemText>
                                                             ))}
                                                         </DocRefStyles.PatientSummaryItemContainer>
