@@ -28,9 +28,13 @@ export function useSignIn(props: SignInProps) {
     }, [props, authClientConfig, tierConfig, tier, activeAuthProvider]);
 
     const authorize = useCallback(() => {
-        if (activeAuthProvider === AuthProvider.BP) {
-            //BP doesn't requrie authorization
-            window.localStorage.setItem('token', 'no-token');
+        if(AuthProvider.MediRecords === activeAuthProvider){
+            window.localStorage.setItem('token', 'dNX0Wj16FVI8YzKnbb9AoamQ8KE');
+            window.location.href = "/patients"
+            return
+        } else if ([AuthProvider.BP,AuthProvider.IRIS].indexOf(activeAuthProvider) != -1) {
+            //These providers don't neet authorization
+            window.localStorage.setItem('token', 'dNX0Wj16FVI8YzKnbb9AoamQ8KE');
             window.location.href = "/patients"
             return
         }

@@ -8,8 +8,9 @@ export function useApp() {
     const clientId = window.localStorage.getItem('ClientId');
     const [authProvider, setAuthProvider] = useState<AuthProvider | null>(
         clientId === 'beda-emr' ? AuthProvider.SparkedHAPI :
-            (clientId === 'bp' ? AuthProvider.BP : null),
-    );
+            (clientId === 'bp' ? AuthProvider.BP :
+                (clientId === 'iris' ? AuthProvider.IRIS :
+                    (clientId === 'mr' ? AuthProvider.MediRecords : null))));
     const sharedUserInitService = useMemo(
         () => (authProvider ? clientSharedUserInitService[authProvider] : undefined),
         [authProvider],

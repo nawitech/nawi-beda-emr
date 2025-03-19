@@ -6,6 +6,8 @@ export enum AuthProvider {
     SmartOnFhirAidbox = 'smart-on-fhir-aidbox',
     SparkedHAPI = 'sparked-hapi',
     BP = 'best-practice',
+    IRIS = 'isris',
+    MediRecords = 'medirecords',
 }
 
 export type Tier = 'develop' | 'production';
@@ -91,6 +93,26 @@ export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
             fhirBaseUrl: 'https://bps-interop-practicegateway-fhir-test-api.deva.svc.bpcloud.dev/api/interop/r4/fhir',
         },
     },
+    [AuthProvider.IRIS]: {
+        develop: {
+            baseUrl: 'https://fhirserver.intersystems.com.au/csp/fhir/r4',
+            fhirBaseUrl: 'https://fhirserver.intersystems.com.au/csp/fhir/r4',
+        },
+        production: {
+            baseUrl: 'https://fhirserver.intersystems.com.au/csp/fhir/r4',
+            fhirBaseUrl: 'https://fhirserver.intersystems.com.au/csp/fhir/r4',
+        },
+    },
+    [AuthProvider.MediRecords]: {
+        develop: {
+            baseUrl: 'https://api-v1.test.medirecords.com/fhir/v1',
+            fhirBaseUrl: 'https://api-v1.test.medirecords.com/fhir/v1',
+        },
+        production: {
+            baseUrl: 'https://api-v1.test.medirecords.com/fhir/v1',
+            fhirBaseUrl: 'https://api-v1.test.medirecords.com/fhir/v1',
+        },
+    },
 };
 
 export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParams } = {
@@ -171,6 +193,28 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         grantType: 'authorization_code',
         scope: ['openid', 'fhirUser'],
         tabTitle: 'Best practice facade',
+        message: 'No authorization required',
+    },
+    [AuthProvider.IRIS]: {
+        clientId: 'iris',
+        authPath: 'smart/oauth/authorize',
+        tokenPath: 'smart/oauth/token',
+        responseType: 'code',
+        redirectURL: `${window.location.origin}/isir-auth`,
+        grantType: 'authorization_code',
+        scope: ['openid', 'fhirUser'],
+        tabTitle: 'Intersystems',
+        message: 'No authorization required',
+    },
+    [AuthProvider.MediRecords]: {
+        clientId: 'mr',
+        authPath: 'smart/oauth/authorize',
+        tokenPath: 'smart/oauth/token',
+        responseType: 'code',
+        redirectURL: `${window.location.origin}/isir-auth`,
+        grantType: 'authorization_code',
+        scope: ['openid', 'fhirUser'],
+        tabTitle: 'Medirecords',
         message: 'No authorization required',
     },
 };
