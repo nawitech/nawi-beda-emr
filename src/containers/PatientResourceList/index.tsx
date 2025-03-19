@@ -9,6 +9,7 @@ import {
     questionnaireAction,
 } from '@beda.software/emr/uberComponents';
 import { renderHumanName, formatHumanDate } from '@beda.software/emr/utils';
+import { renderIdentifier } from 'src/utils';
 
 export function PatientResourceList() {
     return (
@@ -43,12 +44,7 @@ export function PatientResourceList() {
                     key: 'identifier',
                     render: (_text, { resource }) =>{
                         return <ul>{resource.identifier?.map(identifier => (
-                            <li key={identifier.value}>{
-                                identifier.type?.text
-                                ?? identifier.type?.coding?.[0].display
-                                ?? identifier.type?.coding?.[0].code
-                                ?? identifier.system
-                            }: {identifier.value}</li>
+                            <li key={identifier.value}>{renderIdentifier(identifier)}</li>
                             ))}</ul>
                     },
                     width: 250,

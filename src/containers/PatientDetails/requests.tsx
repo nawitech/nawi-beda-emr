@@ -4,13 +4,16 @@ import { Patient, ServiceRequest } from 'fhir/r4b';
 import { SearchBarColumnType } from '@beda.software/emr/dist/components/SearchBar/types';
 import { ResourceListPageContent } from '@beda.software/emr/dist/uberComponents/ResourceListPageContent/index';
 import { compileAsFirst } from '@beda.software/emr/dist/utils/index';
+import { renderIdentifier } from 'src/utils';
 
-const getCategory = compileAsFirst<ServiceRequest,string>("ServiceRequest.category.coding.display.join(',')");
-const getIdentifier = compileAsFirst<ServiceRequest,string>(`
-    ServiceRequest.identifier.where(
-        system='http://ns.electronichealth.net.au/id/hpio-scoped/order/1.0/8003629900040359').assigner.display + ' (' +
-    ServiceRequest.identifier.where(
-        system='http://ns.electronichealth.net.au/id/hpio-scoped/order/1.0/8003629900040359').value + ')'
+const getCategory = compileAsFirst<ServiceRequest,string>(`
+    ServiceRequest.category.select(text | coding.display).join(',')
+`);
+
+
+const getStatus = compileAsFirst<ServiceRequest, string>(`
+     %Bundle.entry.resource.where(resourceType='Task').where(focus.reference = 'ServiceRequest/'+ %ServiceRequest.id).select(
+         businessStatus.coding.code | status)
 `);
 
 export function PatientServiceRequest({ patient }: { patient: Patient }) {
@@ -19,12 +22,17 @@ export function PatientServiceRequest({ patient }: { patient: Patient }) {
             resourceType="ServiceRequest"
             searchParams={{
                 patient: patient.id!,
+                _revinclude: "Task:focus",
             }}
             getTableColumns={() => [
                 {
                     title: 'Identifier',
                     key: 'identifier',
-                    render: (_text: any, { resource }) => getIdentifier(resource) ?? 'N/A',
+                    render: (_text: any, { resource }) => (
+                        <ul>{resource.identifier?.map((identitifier) => (
+                            <li key={identitifier.value}>{renderIdentifier(identitifier)}</li>))}
+                        </ul>
+                    )
                 },
                 {
                     title: 'Category',
@@ -35,6 +43,11 @@ export function PatientServiceRequest({ patient }: { patient: Patient }) {
                     title: 'Service',
                     key: 'service',
                     render: (_text: any, { resource }) => resource.code?.text ?? 'N/A',
+                },
+                {
+                    title: 'Status',
+                    key: 'status',
+                    render: (_text:any, { resource, bundle}) => getStatus(resource, {ServiceRequest: resource, Bundle: bundle})?.toString() ?? 'N/A',
                 }
             ]}
             getFilters={() => [
