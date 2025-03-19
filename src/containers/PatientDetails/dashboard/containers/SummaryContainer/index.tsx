@@ -2,6 +2,7 @@ import { FileOutlined } from '@ant-design/icons';
 import { t } from '@lingui/macro';
 import { Collapse, Typography } from 'antd';
 import { Bundle } from 'fhir/r4b';
+import React from 'react';
 
 import { DashboardCard, Spinner } from '@beda.software/emr/components';
 import type { ContainerProps } from '@beda.software/emr/dist/components/Dashboard/types';
@@ -10,12 +11,33 @@ import { service } from '@beda.software/emr/services';
 import { RenderRemoteData, useService } from '@beda.software/fhir-react';
 
 import { S as DocRefStyles } from '../DocRefContainer/DocRefContainer.styles';
-import { parsePatientSummary } from '../DocRefContainer/utils';
+import { parsePatientSummary, ResourcFetchInfo } from '../DocRefContainer/utils';
+
+function RelatedResourceInfoContainer({ resourceInfo }: { resourceInfo: ResourcFetchInfo }) {
+    return (
+        <DocRefStyles.PatientSummaryItemContainer>
+            <DocRefStyles.PatientSummaryItemText>
+                {`Resource: ${resourceInfo.resourceType}`}
+            </DocRefStyles.PatientSummaryItemText>
+            {/* <DocRefStyles.PatientSummaryItemText>
+                {`ID: ${resourceInfo.resourceId}`}
+            </DocRefStyles.PatientSummaryItemText> */}
+            {resourceInfo.main ? (
+                <DocRefStyles.PatientSummaryItemText>
+                    {`Main info: ${resourceInfo.main}`}
+                </DocRefStyles.PatientSummaryItemText>
+            ) : null}
+            {resourceInfo.additional ? (
+                <DocRefStyles.PatientSummaryItemText>
+                    {`Additional info: ${resourceInfo.additional}`}
+                </DocRefStyles.PatientSummaryItemText>
+            ) : null}
+        </DocRefStyles.PatientSummaryItemContainer>
+    );
+}
 
 export function SummaryContainer(props: ContainerProps) {
-    const [response] = useService<Bundle>(() =>
-        service({ url: `Patient/${props.patient.id!}/$summary` }),
-    );
+    const [response] = useService<Bundle>(() => service({ url: `Patient/${props.patient.id!}/$summary` }));
 
     return (
         <DashboardCard title={t`Patient Summary`} icon={<FileOutlined />}>
@@ -44,15 +66,14 @@ export function SummaryContainer(props: ContainerProps) {
                                                         </DocRefStyles.PatientSummaryItemContainer>
                                                     ),
                                                     children: (
-                                                        <DocRefStyles.PatientSummaryItemContainer>
-                                                            {item.relatedResources.map((resource) => (
-                                                                <DocRefStyles.PatientSummaryItemText
-                                                                    key={resource.id}
-                                                                >
-                                                                    {resource.id}
-                                                                </DocRefStyles.PatientSummaryItemText>
+                                                        <DocRefStyles.ResourceFetchInfoContainer>
+                                                            {item.relatedResources.map((resourceInfo) => (
+                                                                <RelatedResourceInfoContainer
+                                                                    key={resourceInfo.resourceId}
+                                                                    resourceInfo={resourceInfo}
+                                                                />
                                                             ))}
-                                                        </DocRefStyles.PatientSummaryItemContainer>
+                                                        </DocRefStyles.ResourceFetchInfoContainer>
                                                     ),
                                                 },
                                             ]}

@@ -1,5 +1,6 @@
 import { Bundle, CompositionSection, BundleEntry, Reference, FhirResource } from 'fhir/r4b';
 
+import { formatHumanDate, formatHumanDateTime } from '@beda.software/emr/utils';
 import { extractBundleResources } from '@beda.software/fhir-react';
 
 function getResourceId(fhirReference: Reference) {
@@ -15,8 +16,76 @@ function getResourceId(fhirReference: Reference) {
     return reference.split('/').pop();
 }
 
+export interface ResourcFetchInfo {
+    resourceType: string;
+    resourceId: string;
+    main?: string;
+    additional?: string;
+}
+
+function getResourceMainInfo(resource: FhirResource): ResourcFetchInfo {
+    if (resource.resourceType === 'Condition') {
+        return {
+            resourceType: resource.resourceType,
+            resourceId: resource.id!,
+            main: resource.code?.text ?? 'No info',
+        };
+    }
+    if (resource.resourceType === 'AllergyIntolerance') {
+        return {
+            resourceType: resource.resourceType,
+            resourceId: resource.id!,
+            main: resource.code?.text ?? 'No info',
+        };
+    }
+
+    if (resource.resourceType === 'Immunization') {
+        return {
+            resourceType: resource.resourceType,
+            resourceId: resource.id!,
+            main: resource.vaccineCode?.text ?? 'No info',
+            additional: resource.occurrenceDateTime
+                ? `Date: ${formatHumanDate(resource.occurrenceDateTime)}`
+                : undefined,
+        };
+    }
+
+    if (resource.resourceType === 'MedicationStatement') {
+        return {
+            resourceType: resource.resourceType,
+            resourceId: resource.id!,
+            main: resource.medicationCodeableConcept?.text ?? 'No info',
+            additional: resource.dosage ? `Dosage: ${resource.dosage[0].text}` : undefined,
+        };
+    }
+
+    if (resource.resourceType === 'MedicationRequest') {
+        return {
+            resourceType: resource.resourceType,
+            resourceId: resource.id!,
+            main: resource.medicationCodeableConcept?.text ?? 'No info',
+            additional: resource.dosageInstruction ? `Dosage: ${resource.dosageInstruction[0].text}` : undefined,
+        };
+    }
+
+    if (resource.resourceType === 'Observation') {
+        return {
+            resourceType: resource.resourceType,
+            resourceId: resource.id!,
+            main:
+                `Observation: ${resource.code?.coding?.[0].display ?? 'No info'}. ` +
+                `Value: ${resource.valueQuantity ? resource.valueQuantity.value + ' ' + resource.valueQuantity.unit : ''}`,
+            additional: resource.effectiveDateTime
+                ? `Date: ${formatHumanDateTime(resource.effectiveDateTime)}`
+                : undefined,
+        };
+    }
+
+    return { resourceId: resource.id!, resourceType: resource.resourceType };
+}
+
 function getSectionRelatedResources(entries: BundleEntry[], sectionRelatedResourceRefs: Reference[]) {
-    const relatedResources: FhirResource[] = [];
+    const relatedResources: ResourcFetchInfo[] = [];
     for (const relatedResourceRef of sectionRelatedResourceRefs) {
         const resourceId = getResourceId(relatedResourceRef);
         if (resourceId === undefined) {
@@ -27,7 +96,7 @@ function getSectionRelatedResources(entries: BundleEntry[], sectionRelatedResour
         if (relatedEntry === undefined) {
             continue;
         }
-        relatedResources.push(relatedEntry.resource!);
+        relatedResources.push(getResourceMainInfo(relatedEntry.resource!));
     }
 
     return relatedResources;

@@ -15,4 +15,9 @@ export const S = {
     PatientSummaryItemText: styled(Typography.Text)`
         white-space: pre-line;
     `,
+    ResourceFetchInfoContainer: styled.div`
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    `
 };
