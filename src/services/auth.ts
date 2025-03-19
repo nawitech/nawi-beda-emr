@@ -218,3 +218,17 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         message: 'No authorization required',
     },
 };
+
+export function saveAuthProviderToStorage(value: AuthProvider) {
+    window.localStorage.setItem('auth_provider', value);
+}
+
+export function getAuthProviderFromStorage() {
+    const authProvider =  window.localStorage.getItem('auth_provider');
+
+    if (authProvider) {
+        return authProvider as AuthProvider;
+    }
+
+    return null;
+}

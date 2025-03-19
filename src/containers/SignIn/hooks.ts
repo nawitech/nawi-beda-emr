@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getAuthorizeUrl, OAuthState, setAuthClientRedirectURL, setAuthTokenURLpath } from '@beda.software/emr/services';
 import config from '@beda.software/emr-config';
 
-import { authClientConfigMap, tierConfigMap, AuthProvider, Tier } from 'src/services/auth';
+import { authClientConfigMap, tierConfigMap, AuthProvider, Tier, saveAuthProviderToStorage } from 'src/services/auth';
 import { setBaseUrl, setClientId, setFhirBaseUrl } from 'src/services/storage';
 export interface SignInProps {
     originPathName?: string;
@@ -22,6 +22,7 @@ export function useSignIn(props: SignInProps) {
         setClientId(authClientConfig.clientId);
         setAuthClientRedirectURL(authClientConfig.redirectURL);
         setAuthTokenURLpath(authClientConfig.tokenPath);
+        saveAuthProviderToStorage(activeAuthProvider)
         if (props.onSwitchService) {
             props.onSwitchService(activeAuthProvider);
         }
