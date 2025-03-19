@@ -9,6 +9,7 @@ import {
     questionnaireAction,
 } from '@beda.software/emr/uberComponents';
 import { renderHumanName, formatHumanDate } from '@beda.software/emr/utils';
+import { identity } from 'lodash';
 
 export function PatientResourceList() {
     return (
@@ -38,11 +39,19 @@ export function PatientResourceList() {
                     width: 150,
                 },
                 {
-                    title: <Trans>SSN</Trans>,
+                    title: "Ids",
                     dataIndex: 'identifier',
                     key: 'identifier',
-                    render: (_text, { resource }) =>
-                        resource.identifier?.find(({ system }) => system === 'http://hl7.org/fhir/sid/us-ssn')?.value,
+                    render: (_text, { resource }) =>{
+                        return <ul>{resource.identifier?.map(identifier => (
+                            <li key={identifier.value}>{
+                                identifier.type?.text
+                                ?? identifier.type?.coding?.[0].display
+                                ?? identifier.type?.coding?.[0].code
+                                ?? identifier.system
+                            }: {identifier.value}</li>
+                            ))}</ul>
+                    },
                     width: 250,
                 },
             ]}
