@@ -9,7 +9,6 @@ import {
     questionnaireAction,
 } from '@beda.software/emr/uberComponents';
 import { renderHumanName, formatHumanDate } from '@beda.software/emr/utils';
-import { identity } from 'lodash';
 
 export function PatientResourceList() {
     return (
