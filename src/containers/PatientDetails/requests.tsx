@@ -12,12 +12,16 @@ const getCategory = compileAsFirst<ServiceRequest,string>(`
 `);
 
 
-const getBusinessStatus = compileAsFirst<ServiceRequest, string>(`
+const getStatus = compileAsFirst<ServiceRequest, string>(`
      %Bundle.entry.resource.where(resourceType='Task').where(focus.reference = 'ServiceRequest/'+ %ServiceRequest.id).status
 `);
-const getStatus = compileAsFirst<ServiceRequest, string>(`
+const getBusinessStatus = compileAsFirst<ServiceRequest, string>(`
      %Bundle.entry.resource.where(resourceType='Task').where(focus.reference = 'ServiceRequest/'+ %ServiceRequest.id).businessStatus.coding.code
 `);
+const getError = compileAsFirst<ServiceRequest, string>(`
+     %Bundle.entry.resource.where(resourceType='Task').where(focus.reference = 'ServiceRequest/'+ %ServiceRequest.id).statusReason.text
+`);
+
 
 
 
@@ -52,12 +56,20 @@ export function PatientServiceRequest({ patient }: { patient: Patient }) {
                 {
                     title: 'Status',
                     key: 'status',
-                    render: (_text: any, { resource, bundle }) => (<>
-                        {getBusinessStatus(resource, { ServiceRequest: resource, Bundle: bundle })?.toString() ?? 'N/A'}
-                        " - "
-                        {getStatus(resource, { ServiceRequest: resource, Bundle: bundle })?.toString() ?? 'N/A'}
-                    </>
-                    )
+                    render: (_text: any, { resource, bundle }) => {
+                        const context = { ServiceRequest: resource, Bundle: bundle };
+                        const status = getStatus(resource, context)?.toString() ?? 'N/A';
+                        const businessStatus = getBusinessStatus(resource, context)?.toString() ?? 'N/A';
+                        const error = getError(resource, context)?.toString() ?? 'N/A';
+                        return (
+                            <>
+                                { businessStatus }
+                                {" - "}
+                                { status }
+                                {status === 'rejected' ? <><br/>{error}</> : null}
+                            </>
+                        );
+                    }
                 }
             ]}
             getFilters={() => [
