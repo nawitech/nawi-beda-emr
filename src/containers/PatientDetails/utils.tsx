@@ -187,7 +187,9 @@ export function prepareMedicationStatements(
                 title: `Medication`,
                 key: 'medication',
                 render: (resource: MedicationStatement) => {
-                    return resource.medicationCodeableConcept?.coding?.[0].display ?? 'Unknown';
+                    return resource.medicationCodeableConcept?.text
+                        ?? resource.medicationCodeableConcept?.coding?.[0].display
+                        ?? 'Unknown';
                 },
             },
             {
@@ -226,7 +228,9 @@ export function prepareProcedures(
                 title: `Title`,
                 key: 'title',
                 render: (resource: Procedure) => {
-                    return resource.code?.coding?.[0].display ?? 'Unknown';
+                    return resource.code?.coding?.[0].display
+                          ?? resource.code?.text
+                          ?? 'Unknown';
                 },
             },
             {
