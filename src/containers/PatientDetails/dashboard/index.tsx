@@ -14,6 +14,7 @@ import {
     prepareObservations,
     prepareProcedures,
     prepareRelatedPersons,
+    prepareMedicationRequests,
 } from '../utils';
 
 const patientDashboardConfig: DashboardInstance = {
@@ -73,6 +74,16 @@ const patientDashboardConfig: DashboardInstance = {
                 }),
             },
             widget: StandardCardContainerFabric(prepareMedicationStatements),
+        },
+        {
+            query: {
+                resourceType: 'MedicationRequest',
+                search: (patient: Patient) => ({
+                    patient: patient.id,
+                    _count: 7,
+                }),
+            },
+            widget: StandardCardContainerFabric(prepareMedicationRequests),
         },
         {
             query: {

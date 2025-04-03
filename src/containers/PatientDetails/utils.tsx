@@ -1,5 +1,5 @@
-import { AlertOutlined, CheckOutlined, ExperimentOutlined, HeartOutlined, MedicineBoxOutlined, SubnodeOutlined, UsergroupAddOutlined } from '@ant-design/icons';
-import { AllergyIntolerance, Bundle, Condition, Extension, Immunization, MedicationStatement, Observation, ObservationComponent, Procedure, RelatedPerson } from "fhir/r4b";
+import { AlertOutlined, CheckOutlined, ExperimentOutlined, HeartOutlined, MedicineBoxOutlined, SubnodeOutlined, UsergroupAddOutlined, ExceptionOutlined } from '@ant-design/icons';
+import { AllergyIntolerance, Bundle, Condition, Extension, Immunization, MedicationStatement, Observation, ObservationComponent, Procedure, RelatedPerson, MedicationRequest } from "fhir/r4b";
 import { extractExtension } from 'sdc-qrf';
 
 import type { OverviewCard } from "@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/components/StandardCard/types";
@@ -276,6 +276,46 @@ export function prepareRelatedPersons(
                     return r.relationship?.[0].coding?.[0].display ?? 'Unknown'
                 },
                 width: 120,
+            },
+        ],
+    };
+}
+
+export function prepareMedicationRequests(
+    medicationRequests: MedicationRequest[],
+    bundle: Bundle<MedicationRequest>): OverviewCard<MedicationRequest> {
+    return {
+        title: 'Medication Requests',
+        key: 'medication-requests',
+        icon: <ExceptionOutlined />,
+        data: medicationRequests,
+        total: bundle.total!,
+        getKey: (r: MedicationRequest) => r.id!,
+        columns: [
+            {
+                title: 'Name',
+                key: 'name',
+                render: (r: MedicationRequest) => {
+                    return r.medicationCodeableConcept?.coding?.[0]?.display ?? r.medicationCodeableConcept?.text ?? 'Unknown'
+                },
+            },
+            {
+                title: 'Reason',
+                key: 'reason',
+                render: (r: MedicationRequest) => {
+                    return r.reasonCode?.[0]?.coding?.[0]?. display ?? 'Unknown'
+                },
+            },
+            {
+                title: 'Dosage',
+                key: 'date',
+                render: (r: MedicationRequest) => (r.dosageInstruction?.[0]?.text ? r.dosageInstruction?.[0]?.text : ''),
+                width: 200,
+            },
+            {
+                title: 'Status',
+                key: 'status',
+                render: (r: MedicationRequest) => r.status
             },
         ],
     };
