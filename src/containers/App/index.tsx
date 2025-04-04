@@ -8,6 +8,7 @@ import { menuLayout } from './layout';
 import { PatientDetails } from '../PatientDetails';
 import { EncounterPage } from '../PatientDetails/encounter';
 import { PatientResourceList } from '../PatientResourceList';
+import { ResourceList } from '../PatientDetails/ResourceList';
 import { SignIn } from '../SignIn';
 
 export function App() {
@@ -29,6 +30,7 @@ export function App() {
                         <Route path="/patients" element={<PatientResourceList />} />
                         <Route path="/patients/:id/encounter/:encounter/*" element={<EncounterPage />} />
                         <Route path="/patients/:id/*" element={<PatientDetails />} />
+                        <Route path="/patients/:id/resources/:resourceType/*" element={<ResourceList />} />
                     </>
                 }
             />
