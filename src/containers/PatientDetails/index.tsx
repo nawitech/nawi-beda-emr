@@ -10,6 +10,8 @@ import config from '@beda.software/emr-config';
 import { dashboard } from './dashboard';
 import { PatientEncounter } from './encounters';
 import { PatientServiceRequest } from './requests';
+import { ResourceList } from './ResourceList'
+import { FakeResourcesList } from './FakeResourcesList';
 
 
 const getName = compileAsFirst<Patient, string>("Patient.name.given.first() + ' ' + Patient.name.family");
@@ -24,6 +26,11 @@ const tabs: Array<Tab<Patient>> = [
         path: 'encounter',
         label: 'Encounters',
         component: ({ resource }) => <PatientEncounter patient={resource} />,
+    },
+    {
+        path: 'resources',
+        label: 'Resources',
+        component: () => <FakeResourcesList />,
     },
 ];
 

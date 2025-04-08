@@ -30,7 +30,6 @@ export function App() {
                         <Route path="/patients" element={<PatientResourceList />} />
                         <Route path="/patients/:id/encounter/:encounter/*" element={<EncounterPage />} />
                         <Route path="/patients/:id/*" element={<PatientDetails />} />
-                        <Route path="/patients/:id/resources/:resourceType/*" element={<ResourceList />} />
                     </>
                 }
             />
