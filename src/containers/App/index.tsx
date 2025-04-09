@@ -8,7 +8,6 @@ import { menuLayout } from './layout';
 import { PatientDetails } from '../PatientDetails';
 import { EncounterPage } from '../PatientDetails/encounter';
 import { PatientResourceList } from '../PatientResourceList';
-import { ResourceList } from '../PatientDetails/ResourceList';
 import { SignIn } from '../SignIn';
 
 export function App() {
