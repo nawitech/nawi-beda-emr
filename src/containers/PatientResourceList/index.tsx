@@ -52,11 +52,18 @@ export function PatientResourceList() {
             ]}
             getFilters={() => [
                 {
+                    id: 'identifier',
+                    searchParam: 'identifier',
+                    type: SearchBarColumnType.STRING,
+                    placeholder: t`MPI identifier`,
+                    placement: ['table', 'search-bar'],
+                },
+                {
                     id: 'name',
                     searchParam: 'name',
                     type: SearchBarColumnType.STRING,
                     placeholder: t`Find patient`,
-                    placement: ['search-bar', 'table'],
+                    placement: ['table'],
                 },
                 {
                     id: 'birthDate',
