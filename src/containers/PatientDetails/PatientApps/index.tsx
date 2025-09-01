@@ -8,6 +8,7 @@ import { selectCurrentUserRoleResource } from '@beda.software/emr/dist/utils/rol
 import { mapSuccess } from '@beda.software/remote-data';
 
 import { getLaunchURI, LaunchProps, useSmartApps } from './hooks';
+import { S } from './PatientApps.styles';
 
 const { Text } = Typography;
 
@@ -74,11 +75,11 @@ export function PatientApps({ patient, encounter }: PatientAppsProps) {
                     return <Text>There are no registered smart apps</Text>;
                 } else {
                     return (
-                        <>
+                        <S.Container>
                             {apps.map((app) => (
                                 <SmartApp key={app.id} app={app} patient={patient} encounter={encounter} />
                             ))}
-                        </>
+                        </S.Container>
                     );
                 }
             }}
