@@ -26,7 +26,7 @@ export function useSmartApps(encounter?: Encounter) {
             }
         }
         return mapSuccess(
-            await getAidboxResources<Client>('Client', { ['.type']: clientType }),
+            await getAidboxResources<Client>('Client', { ['.type']: clientType, _sort: '-lastUpdated' }),
             (b) => extractBundleResources(b).Client,
         );
     });
