@@ -85,8 +85,10 @@ export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
     },
     [AuthProvider.BP]: {
         develop: {
-            baseUrl: 'https://bps-interop-practicegateway-fhir-test-api.deva.svc.bpcloud.dev/api/interop/r4/fhir',
-            fhirBaseUrl: 'https://bps-interop-practicegateway-fhir-test-api.deva.svc.bpcloud.dev/api/interop/r4/fhir',
+            baseUrl:
+                'https://bps-interop-practicegateway-connectathon-fhir-api.deva.svc.bpcloud.dev/api/interop/r4/fhir/',
+            fhirBaseUrl:
+                'https://bps-interop-practicegateway-connectathon-fhir-api.deva.svc.bpcloud.dev/api/interop/r4/fhir/',
         },
         production: {
             baseUrl: 'https://bps-interop-practicegateway-fhir-test-api.deva.svc.bpcloud.dev/api/interop/r4/fhir',

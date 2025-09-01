@@ -35,7 +35,7 @@ export function useSignIn(props: SignInProps) {
             return
         } else if ([AuthProvider.BP,AuthProvider.IRIS].indexOf(activeAuthProvider) != -1) {
             //These providers don't neet authorization
-            window.localStorage.setItem('token', 'dNX0Wj16FVI8YzKnbb9AoamQ8KE');
+            window.localStorage.setItem('token', 'september_connectathon_2025');
             window.location.href = "/patients"
             return
         }

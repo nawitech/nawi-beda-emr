@@ -22,6 +22,9 @@ const patientDashboardConfig: DashboardInstance = {
         ...(config.baseURL === 'https://aucore.aidbox.beda.software' ? [{
             widget: DocRrefContainer,
         }] : []),
+        ...(config.baseURL === 'https://bps-interop-practicegateway-connectathon-fhir-api.deva.svc.bpcloud.dev/api/interop/r4/fhir/' ? [{
+            widget: SummaryContainer,
+        }] : []),
         ...(config.baseURL === 'https://bps-interop-practicegateway-fhir-test-api.deva.svc.bpcloud.dev/api/interop/r4/fhir' ? [{
             widget: SummaryContainer,
         }] : []),
