@@ -7,6 +7,7 @@ import { DashboardCard, Spinner } from '@beda.software/emr/components';
 import type { ContainerProps } from '@beda.software/emr/dist/components/Dashboard/types';
 import { S } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/PatientOverview.styles';
 import { service } from '@beda.software/emr/services';
+import config from '@beda.software/emr-config';
 import { RenderRemoteData, useService } from '@beda.software/fhir-react';
 
 import { S as DocRefStyles } from '../DocRefContainer/DocRefContainer.styles';
@@ -36,7 +37,17 @@ function RelatedResourceInfoContainer({ resourceInfo }: { resourceInfo: ResourcF
 }
 
 export function SummaryContainer(props: ContainerProps) {
-    const [response] = useService<Bundle>(() => service({ url: `Patient/${props.patient.id!}/$summary` }));
+    const { patient } = props;
+    let url = `Patient/${patient.id!}/$summary`;
+
+    if (config.baseURL === 'https://api.stage.haloconnect.io/integrator/sites/63255e8a-d04a-42a6-8c75-90aa880ad94e/fhir/R4/') {
+        const identifiers = patient.identifier ?? [];
+        const identifierValue = identifiers.find((i) => i.system === 'http://ns.electronichealth.net.au/id/medicare-number')?.value ?? identifiers[0]?.value;
+
+        url = `Patient/$summary?identifier=${identifierValue}`;
+    }
+
+    const [response] = useService<Bundle>(() => service({ url }));
 
     return (
         <DashboardCard title={t`Patient Summary`} icon={<FileOutlined />}>
