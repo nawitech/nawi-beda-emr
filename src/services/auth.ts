@@ -1,4 +1,4 @@
-import config from "@beda.software/emr-config/config";
+import config from '@beda.software/emr-config/config';
 
 export enum AuthProvider {
     AuCoreAidbox = 'au-core-aidbox',
@@ -8,6 +8,7 @@ export enum AuthProvider {
     BP = 'best-practice',
     IRIS = 'isris',
     MediRecords = 'medirecords',
+    Sparked = 'sparked',
 }
 
 export type Tier = 'develop' | 'production';
@@ -91,8 +92,10 @@ export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
                 'https://bps-interop-practicegateway-connectathon-fhir-api.deva.svc.bpcloud.dev/api/interop/r4/fhir/',
         },
         production: {
-            baseUrl: 'https://bps-interop-practicegateway-fhir-test-api.deva.svc.bpcloud.dev/api/interop/r4/fhir',
-            fhirBaseUrl: 'https://bps-interop-practicegateway-fhir-test-api.deva.svc.bpcloud.dev/api/interop/r4/fhir',
+            baseUrl:
+                'https://bps-interop-practicegateway-connectathon-fhir-api.deva.svc.bpcloud.dev/api/interop/r4/fhir/',
+            fhirBaseUrl:
+                'https://bps-interop-practicegateway-connectathon-fhir-api.deva.svc.bpcloud.dev/api/interop/r4/fhir/',
         },
     },
     [AuthProvider.IRIS]: {
@@ -115,6 +118,16 @@ export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
             fhirBaseUrl: 'https://api-v1.test.medirecords.com/fhir/v1',
         },
     },
+    [AuthProvider.Sparked]: {
+        develop: {
+            baseUrl: 'https://smile.sparked-fhir.com/aucore/fhir/DEFAULT/',
+            fhirBaseUrl: 'https://smile.sparked-fhir.com/aucore/fhir/DEFAULT/',
+        },
+        production: {
+            baseUrl: 'https://smile.sparked-fhir.com/aucore/fhir/DEFAULT/',
+            fhirBaseUrl: 'https://smile.sparked-fhir.com/aucore/fhir/DEFAULT/',
+        },
+    }
 };
 
 export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParams } = {
@@ -213,10 +226,21 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         authPath: 'smart/oauth/authorize',
         tokenPath: 'smart/oauth/token',
         responseType: 'code',
-        redirectURL: `${window.location.origin}/isir-auth`,
+        redirectURL: `${window.location.origin}/auth`,
         grantType: 'authorization_code',
         scope: ['openid', 'fhirUser'],
         tabTitle: 'Medirecords',
+        message: 'No authorization required',
+    },
+    [AuthProvider.Sparked]: {
+        clientId: 'sparked',
+        authPath: 'smart/oauth/authorize',
+        tokenPath: 'smart/oauth/token',
+        responseType: 'code',
+        redirectURL: `${window.location.origin}/auth`,
+        grantType: 'authorization_code',
+        scope: ['openid', 'fhirUser'],
+        tabTitle: 'Sparked',
         message: 'No authorization required',
     },
 };
@@ -226,7 +250,7 @@ export function saveAuthProviderToStorage(value: AuthProvider) {
 }
 
 export function getAuthProviderFromStorage() {
-    const authProvider =  window.localStorage.getItem('auth_provider');
+    const authProvider = window.localStorage.getItem('auth_provider');
 
     if (authProvider) {
         return authProvider as AuthProvider;

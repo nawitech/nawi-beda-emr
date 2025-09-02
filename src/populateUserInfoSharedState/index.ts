@@ -12,7 +12,7 @@ export interface SmileIdTokenData extends JWTPayload {
     fhirUser: string; //e.g "null/Practitioner/<practitioner-id>"
 }
 
-const mockUserInfoSharedState = (practitionerId: string) => async ():Promise<RemoteDataResult<User>> =>  {
+const mockUserInfoSharedState = (practitionerId: string) => async (): Promise<RemoteDataResult<User>> => {
     const user: User = {
         resourceType: 'User',
         id: 'user',
@@ -25,7 +25,7 @@ const mockUserInfoSharedState = (practitionerId: string) => async ():Promise<Rem
                 resourceType: 'Role',
                 name: 'practitioner',
                 user: { resourceType: 'User', id: 'user' },
-                links: { practitioner: { resourceType: 'Practitioner', id: practitionerId} },
+                links: { practitioner: { resourceType: 'Practitioner', id: practitionerId } },
             },
         ],
     };
@@ -33,10 +33,10 @@ const mockUserInfoSharedState = (practitionerId: string) => async ():Promise<Rem
     await fetchUserRoleDetails(user);
 
     return success(user);
-}
+};
 
 export async function smileUserInfoSharedState(): Promise<RemoteDataResult<User>> {
-    console.log("TRY AUTH")
+    console.log('TRY AUTH');
     const idToken = getIdToken();
 
     if (!idToken) {
@@ -79,7 +79,8 @@ export const clientSharedUserInitService: { [key in AuthProvider]: SharedUserIni
     [AuthProvider.ErequestingAidbox]: aidboxPopulateUserInfoSharedState,
     [AuthProvider.SmartOnFhirAidbox]: aidboxPopulateUserInfoSharedState,
     [AuthProvider.SparkedHAPI]: smileUserInfoSharedState,
-    [AuthProvider.BP]: mockUserInfoSharedState("15000000-0020-0000-0000-98a3489d6ffc"),
-    [AuthProvider.IRIS]: mockUserInfoSharedState("cardy-igist"),
-    [AuthProvider.MediRecords]: mockUserInfoSharedState("b82b3842-ba16-4b01-8c24-7b0deee9b660"),
+    [AuthProvider.BP]: mockUserInfoSharedState('15000000-0020-0000-0000-98a3489d6ffc'),
+    [AuthProvider.IRIS]: mockUserInfoSharedState('cardy-igist'),
+    [AuthProvider.MediRecords]: mockUserInfoSharedState('b82b3842-ba16-4b01-8c24-7b0deee9b660'),
+    [AuthProvider.Sparked]: mockUserInfoSharedState('leishman-leesa'),
 };

@@ -1,6 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { getAuthorizeUrl, OAuthState, setAuthClientRedirectURL, setAuthTokenURLpath } from '@beda.software/emr/services';
+import {
+    axiosInstance as axiosFHIRInstance,
+    getAuthorizeUrl,
+    OAuthState,
+    setAuthClientRedirectURL,
+    setAuthTokenURLpath,
+} from '@beda.software/emr/services';
 import config from '@beda.software/emr-config';
 
 import { authClientConfigMap, tierConfigMap, AuthProvider, Tier, saveAuthProviderToStorage } from 'src/services/auth';
@@ -22,22 +28,27 @@ export function useSignIn(props: SignInProps) {
         setClientId(authClientConfig.clientId);
         setAuthClientRedirectURL(authClientConfig.redirectURL);
         setAuthTokenURLpath(authClientConfig.tokenPath);
-        saveAuthProviderToStorage(activeAuthProvider)
+        saveAuthProviderToStorage(activeAuthProvider);
         if (props.onSwitchService) {
             props.onSwitchService(activeAuthProvider);
         }
     }, [props, authClientConfig, tierConfig, tier, activeAuthProvider]);
 
     const authorize = useCallback(() => {
-        if(AuthProvider.MediRecords === activeAuthProvider){
-            window.localStorage.setItem('token', 'dNX0Wj16FVI8YzKnbb9AoamQ8KE');
-            window.location.href = "/patients"
-            return
-        } else if ([AuthProvider.BP,AuthProvider.IRIS].indexOf(activeAuthProvider) != -1) {
-            //These providers don't neet authorization
+        if (AuthProvider.MediRecords === activeAuthProvider) {
+            window.localStorage.setItem('token', 'JOsWSrXQauWP6rC7dnexWfNtGH0');
+            window.location.href = '/patients';
+            return;
+        } else if ([AuthProvider.BP, AuthProvider.IRIS].indexOf(activeAuthProvider) != -1) {
+            //These providers don't need authorization
             window.localStorage.setItem('token', 'september_connectathon_2025');
-            window.location.href = "/patients"
-            return
+            window.location.href = '/patients';
+            return;
+        } else if ([AuthProvider.Sparked].indexOf(activeAuthProvider) != -1) {
+            //These providers don't need authorization
+            window.localStorage.setItem('token', 'token');
+            window.location.href = '/patients';
+            return;
         }
         const authState: OAuthState | undefined = props.originPathName ? { nextUrl: props.originPathName } : undefined;
 

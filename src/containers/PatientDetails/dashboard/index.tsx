@@ -25,7 +25,10 @@ const patientDashboardConfig: DashboardInstance = {
         ...(config.baseURL === 'https://bps-interop-practicegateway-connectathon-fhir-api.deva.svc.bpcloud.dev/api/interop/r4/fhir/' ? [{
             widget: SummaryContainer,
         }] : []),
-        ...(config.baseURL === 'https://bps-interop-practicegateway-fhir-test-api.deva.svc.bpcloud.dev/api/interop/r4/fhir' ? [{
+        ...(config.baseURL === 'https://api-v1.test.medirecords.com/fhir/v1' ? [{
+            widget: SummaryContainer,
+        }] : []),
+        ...(config.baseURL === 'https://smile.sparked-fhir.com/aucore/fhir/DEFAULT/' ? [{
             widget: SummaryContainer,
         }] : []),
         {
