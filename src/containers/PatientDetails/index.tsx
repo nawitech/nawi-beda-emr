@@ -11,6 +11,8 @@ import { PatientEncounter } from './encounters';
 import { PatientApps } from './PatientApps/index';
 import { PatientServiceRequest } from './requests';
 import { ResourcesTabRoutes } from './ResourcesTabRoutes';
+import { useEffect } from 'react';
+import { axiosInstance as axiosFHIRInstance } from '@beda.software/emr/services';
 
 const getName = compileAsFirst<Patient, string>("Patient.name.given.first() + ' ' + Patient.name.family");
 
@@ -49,6 +51,10 @@ if (config.baseURL === 'https://smartonfhir.aidbox.beda.software') {
 }
 
 export function PatientDetails() {
+    useEffect(() => {
+        axiosFHIRInstance.defaults.headers['Ocp-Apim-Subscription-Key'] = `923b7ac4add44b02be0e93d3303e55e1`;
+    }, []);
+
     return (
         <PatientDashboardProvider dashboard={dashboard}>
             <DetailPage<Patient>

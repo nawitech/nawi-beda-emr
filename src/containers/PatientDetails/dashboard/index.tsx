@@ -25,6 +25,12 @@ const patientDashboardConfig: DashboardInstance = {
         ...(config.baseURL === 'https://bps-interop-practicegateway-connectathon-fhir-api.deva.svc.bpcloud.dev/api/interop/r4/fhir/' ? [{
             widget: SummaryContainer,
         }] : []),
+        ...(config.baseURL === 'https://api.stage.haloconnect.io/integrator/sites/63255e8a-d04a-42a6-8c75-90aa880ad94e/fhir/R4/' ? [{
+            widget: SummaryContainer,
+        }] : []),
+        ...(config.baseURL === 'https://alexapiuat.medtechglobal.com/FHIR' ? [{
+            widget: SummaryContainer,
+        }] : []),
         ...(config.baseURL === 'https://api-v1.test.medirecords.com/fhir/v1' ? [{
             widget: SummaryContainer,
         }] : []),

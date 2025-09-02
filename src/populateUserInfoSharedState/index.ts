@@ -82,5 +82,7 @@ export const clientSharedUserInitService: { [key in AuthProvider]: SharedUserIni
     [AuthProvider.BP]: mockUserInfoSharedState('15000000-0020-0000-0000-98a3489d6ffc'),
     [AuthProvider.IRIS]: mockUserInfoSharedState('cardy-igist'),
     [AuthProvider.MediRecords]: mockUserInfoSharedState('b82b3842-ba16-4b01-8c24-7b0deee9b660'),
+    [AuthProvider.HaloConnect]: mockUserInfoSharedState('pr-1'),
+    [AuthProvider.MedtechGlobal]: mockUserInfoSharedState('pr-1'),
     [AuthProvider.Sparked]: mockUserInfoSharedState('leishman-leesa'),
 };

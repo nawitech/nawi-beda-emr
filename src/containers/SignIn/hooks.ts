@@ -43,6 +43,19 @@ export function useSignIn(props: SignInProps) {
             window.localStorage.setItem('token', 'september_connectathon_2025');
             window.location.href = '/patients';
             return;
+        } else if ([AuthProvider.HaloConnect].indexOf(activeAuthProvider) != -1) {
+            //These provider doesn't need authorization
+            window.localStorage.setItem('token', 'token');
+            window.location.href = '/patients';
+            return;
+        } else if ([AuthProvider.MedtechGlobal].indexOf(activeAuthProvider) != -1) {
+            //These provider doesn't need authorization
+            window.localStorage.setItem(
+                'token',
+                'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IjVPZjlQNUY5Z0NDd0NtRjJCT0hIeEREUS1EayIsImtpZCI6IjVPZjlQNUY5Z0NDd0NtRjJCT0hIeEREUS1EayJ9',
+            );
+            window.location.href = '/patients';
+            return;
         } else if ([AuthProvider.Sparked].indexOf(activeAuthProvider) != -1) {
             //These providers don't need authorization
             window.localStorage.setItem('token', 'token');

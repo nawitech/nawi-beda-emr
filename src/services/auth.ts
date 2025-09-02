@@ -8,6 +8,8 @@ export enum AuthProvider {
     BP = 'best-practice',
     IRIS = 'isris',
     MediRecords = 'medirecords',
+    HaloConnect = 'halo-connect',
+    MedtechGlobal = 'medtech-global',
     Sparked = 'sparked',
 }
 
@@ -39,6 +41,7 @@ export interface AuthClientConfigParams {
     tabTitle: string;
     message: string;
     sharedCredentials?: SharedCredentials;
+    headers?: { [key in string]: string };
 }
 
 type TierConfig = { [key in Tier]: TierBaseConfig };
@@ -116,6 +119,28 @@ export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
         production: {
             baseUrl: 'https://api-v1.test.medirecords.com/fhir/v1',
             fhirBaseUrl: 'https://api-v1.test.medirecords.com/fhir/v1',
+        },
+    },
+    [AuthProvider.HaloConnect]: {
+        develop: {
+            baseUrl: 'https://api.stage.haloconnect.io/integrator/sites/63255e8a-d04a-42a6-8c75-90aa880ad94e/fhir/R4/',
+            fhirBaseUrl:
+                'https://api.stage.haloconnect.io/integrator/sites/63255e8a-d04a-42a6-8c75-90aa880ad94e/fhir/R4/',
+        },
+        production: {
+            baseUrl: 'https://api.stage.haloconnect.io/integrator/sites/63255e8a-d04a-42a6-8c75-90aa880ad94e/fhir/R4/',
+            fhirBaseUrl:
+                'https://api.stage.haloconnect.io/integrator/sites/63255e8a-d04a-42a6-8c75-90aa880ad94e/fhir/R4/',
+        },
+    },
+    [AuthProvider.MedtechGlobal]: {
+        develop: {
+            baseUrl: 'https://alexapiuat.medtechglobal.com/FHIR',
+            fhirBaseUrl: 'https://alexapiuat.medtechglobal.com/FHIR',
+        },
+        production: {
+            baseUrl: 'https://alexapiuat.medtechglobal.com/FHIR',
+            fhirBaseUrl: 'https://alexapiuat.medtechglobal.com/FHIR',
         },
     },
     [AuthProvider.Sparked]: {
@@ -230,6 +255,31 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         grantType: 'authorization_code',
         scope: ['openid', 'fhirUser'],
         tabTitle: 'Medirecords',
+        message: 'No authorization required',
+    },
+    [AuthProvider.HaloConnect]: {
+        clientId: 'halo-connect',
+        authPath: 'smart/oauth/authorize',
+        tokenPath: 'smart/oauth/token',
+        responseType: 'code',
+        redirectURL: `${window.location.origin}`,
+        grantType: 'authorization_code',
+        scope: ['openid', 'fhirUser'],
+        tabTitle: 'Halo Connect',
+        message: 'No authorization required',
+        headers: {
+            'Ocp-Apim-Subscription-Key': '923b7ac4add44b02be0e93d3303e55e1',
+        },
+    },
+    [AuthProvider.MedtechGlobal]: {
+        clientId: 'meditech-global',
+        authPath: 'smart/oauth/authorize',
+        tokenPath: 'https://login.microsoftonline.com/8a024e99-aba3-4b25-b875-28b0c0ca6096/oauth2/v2.0/token',
+        responseType: 'code',
+        redirectURL: `${window.location.origin}/auth`,
+        grantType: 'authorization_code',
+        scope: ['openid', 'fhirUser'],
+        tabTitle: 'Medtech Global',
         message: 'No authorization required',
     },
     [AuthProvider.Sparked]: {
