@@ -13,7 +13,7 @@ import {
     Resource,
     Bundle
 } from 'fhir/r4b';
-import { extractExtension } from 'sdc-qrf';
+import { extractCreatedAtFromMeta } from 'sdc-qrf';
 
 import {
     formatHumanDate,
@@ -47,7 +47,7 @@ function getAbsentReason(extension?: Array<Extension>) {
 export const isUberList = (renderType: 'uberList' | 'dashboard') => renderType == 'uberList';
 export const allergyName = (r: AllergyIntolerance): string => r.code?.text ?? r.code?.coding?.[0]?.display ?? 'Unknown';
 export const allergyDate = (r: AllergyIntolerance): string => {
-    const createdAt = extractExtension(r.meta?.extension, 'ex:createdAt');
+    const createdAt = extractCreatedAtFromMeta(r.meta);
     const date = r.recordedDate || createdAt || r.meta?.lastUpdated;
 
     return date ? formatHumanDate(date) : 'Unknown';
@@ -60,7 +60,7 @@ export const conditionDate = (r: Condition): string => {
 };
 export const observationName = (r: Observation): string => r.code.text ?? r.code.coding?.[0]?.display ?? 'Unknown';
 export const observationDate = (r: Observation): string => {
-    const createdAt = extractExtension(r.meta?.extension, 'ex:createdAt');
+    const createdAt = extractCreatedAtFromMeta(r.meta);
     const date = r.effectiveDateTime || r.issued || createdAt;
     if (date) {
         return formatHumanDate(date);

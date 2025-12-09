@@ -1,7 +1,7 @@
 import { Bundle, Encounter, Patient } from 'fhir/r4b';
 
 import { PatientApps } from '@beda.software/emr/dist/containers/PatientDetails/PatientApps/index';
-import { DetailPage, Tab } from '@beda.software/emr/dist/uberComponents/DetailPage/index';
+import { ResourceDetailPage, Tab } from '@beda.software/emr/dist/uberComponents/ResourceDetailPage/index';
 import { compileAsFirst, formatPeriodDateTime } from '@beda.software/emr/dist/utils/index';
 
 import { EncounterOverview } from './EncounterOverview';
@@ -38,7 +38,7 @@ function getName(resource: Encounter, bundle: Bundle) {
 
 export function EncounterPage() {
     return (
-        <DetailPage<Encounter>
+        <ResourceDetailPage<Encounter>
             resourceType="Encounter"
             getSearchParams={({ encounter, id }) => ({ _id: encounter, patient: id, _include: ['Encounter:patient', 'Encounter:practitioner'] })}
             getTitle={({ resource, bundle }) => getName(resource, bundle) ?? 'N/A'}
