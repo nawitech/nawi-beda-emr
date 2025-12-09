@@ -1,13 +1,11 @@
 import { Encounter } from 'fhir/r4b';
 
-import { useService } from 'aidbox-react/lib/hooks/service';
-import { success } from 'aidbox-react/lib/libs/remoteData';
-import { extractBundleResources, getFHIRResources as getAidboxResources, WithId } from 'aidbox-react/lib/services/fhir';
-import { mapSuccess, service } from 'aidbox-react/lib/services/service';
-
 import { Client } from '@beda.software/aidbox-types';
+import { aidboxService, getFHIRResources } from '@beda.software/emr/dist/services/fhir';
 import { matchCurrentUserRole, Role } from '@beda.software/emr/dist/utils/role';
 import config from '@beda.software/emr-config';
+import { extractBundleResources, useService, WithId } from '@beda.software/fhir-react';
+import { isSuccess, success, mapSuccess } from '@beda.software/remote-data';
 
 export function useSmartApps(encounter?: Encounter) {
     const [appsRemoteData] = useService(async () => {
@@ -26,7 +24,7 @@ export function useSmartApps(encounter?: Encounter) {
             }
         }
         return mapSuccess(
-            await getAidboxResources<Client>('Client', { ['.type']: clientType, _sort: '-lastUpdated' }),
+            await getFHIRResources<Client>('Client', { ['.type']: clientType, _sort: '-lastUpdated' }),
             (b) => extractBundleResources(b).Client,
         );
     });
@@ -48,7 +46,7 @@ interface LaunchRPCResult {
 }
 
 export async function getLaunchURI({ user, client, patient, practitioner, encounter }: LaunchProps) {
-    return await service<LaunchRPCResult>({
+    return await aidboxService<LaunchRPCResult>({
         url: '/rpc',
         method: 'POST',
         data: {
