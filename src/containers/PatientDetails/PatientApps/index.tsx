@@ -39,6 +39,9 @@ export function useLaunchApp({ app, patient, encounter }: SmartAppProps) {
                 case 'aus-cvd-risk-i':
                     window.location.href = launchURI.result.uri + '&ctoken=2025';
                     break;
+                case 'dd133f3b-4937-4575-b51f-419340a7d2dc':
+                    window.location.href = launchURI.result.uri + '&con=f1c3c1d4-ed0e-4eaf-8929-c8a3a689fe55';
+                    break;
                 default:
                     window.location.href = launchURI.result.uri;
                     break;
