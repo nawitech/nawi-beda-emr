@@ -37,6 +37,9 @@ const patientDashboardConfig: DashboardInstance = {
         ...(config.baseURL === 'https://smile.sparked-fhir.com/aucore/fhir/DEFAULT/' ? [{
             widget: SummaryContainer,
         }] : []),
+        ...(config.baseURL === 'https://fhir-xrp.digitalhealth.gov.au/fhir/' ? [{
+            widget: SummaryContainer,
+        }] : []),
         {
             query: {
                 resourceType: 'AllergyIntolerance',

@@ -11,6 +11,7 @@ export enum AuthProvider {
     HaloConnect = 'halo-connect',
     MedtechGlobal = 'medtech-global',
     Sparked = 'sparked',
+    DigitalHealth = 'digital-health',
 }
 
 export type Tier = 'develop' | 'production';
@@ -152,7 +153,17 @@ export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
             baseUrl: 'https://smile.sparked-fhir.com/aucore/fhir/DEFAULT/',
             fhirBaseUrl: 'https://smile.sparked-fhir.com/aucore/fhir/DEFAULT/',
         },
-    }
+    },
+    [AuthProvider.DigitalHealth]: {
+        develop: {
+            baseUrl: 'https://fhir-xrp.digitalhealth.gov.au/fhir/',
+            fhirBaseUrl: 'https://fhir-xrp.digitalhealth.gov.au/fhir/',
+        },
+        production: {
+            baseUrl: 'https://fhir-xrp.digitalhealth.gov.au/fhir/',
+            fhirBaseUrl: 'https://fhir-xrp.digitalhealth.gov.au/fhir/',
+        },
+    },
 };
 
 export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParams } = {
@@ -291,6 +302,17 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         grantType: 'authorization_code',
         scope: ['openid', 'fhirUser'],
         tabTitle: 'Sparked',
+        message: 'No authorization required',
+    },
+    [AuthProvider.DigitalHealth]: {
+        clientId: 'digital-health',
+        authPath: 'smart/oauth/authorize',
+        tokenPath: 'smart/oauth/token',
+        responseType: 'code',
+        redirectURL: `${window.location.origin}/auth`,
+        grantType: 'authorization_code',
+        scope: ['openid', 'fhirUser'],
+        tabTitle: 'Digital Health',
         message: 'No authorization required',
     },
 };
