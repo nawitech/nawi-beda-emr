@@ -5,7 +5,7 @@ import { aidboxService, getFHIRResources } from '@beda.software/emr/dist/service
 import { matchCurrentUserRole, Role } from '@beda.software/emr/dist/utils/role';
 import config from '@beda.software/emr-config';
 import { extractBundleResources, useService, WithId } from '@beda.software/fhir-react';
-import { isSuccess, success, mapSuccess } from '@beda.software/remote-data';
+import { success, mapSuccess } from '@beda.software/remote-data';
 
 export function useSmartApps(encounter?: Encounter) {
     const [appsRemoteData] = useService(async () => {
