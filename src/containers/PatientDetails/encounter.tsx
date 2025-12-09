@@ -40,7 +40,7 @@ export function EncounterPage() {
     return (
         <DetailPage<Encounter>
             resourceType="Encounter"
-            getSearchParams={({ encounter, id }) => ({ _id: encounter, patient: id, _include: ['patient', 'practitioner'] })}
+            getSearchParams={({ encounter, id }) => ({ _id: encounter, patient: id, _include: ['Encounter:patient', 'Encounter:practitioner'] })}
             getTitle={({ resource, bundle }) => getName(resource, bundle) ?? 'N/A'}
             tabs={tabs}
         />
