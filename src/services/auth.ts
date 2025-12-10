@@ -12,6 +12,7 @@ export enum AuthProvider {
     MedtechGlobal = 'medtech-global',
     Sparked = 'sparked',
     DigitalHealth = 'digital-health',
+    Epic = 'epic',
 }
 
 export type Tier = 'develop' | 'production';
@@ -164,6 +165,16 @@ export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
             fhirBaseUrl: 'https://fhir-xrp.digitalhealth.gov.au/fhir/',
         },
     },
+    [AuthProvider.Epic]: {
+        develop: {
+            baseUrl: 'https://connectathon-au.epic.com/Interconnect-connectathon-au/api/FHIR/R4/',
+            fhirBaseUrl: 'https://connectathon-au.epic.com/Interconnect-connectathon-au/api/FHIR/R4/',
+        },
+        production: {
+            baseUrl: 'https://connectathon-au.epic.com/Interconnect-connectathon-au/api/FHIR/R4/',
+            fhirBaseUrl: 'https://connectathon-au.epic.com/Interconnect-connectathon-au/api/FHIR/R4/',
+        },
+    },
 };
 
 export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParams } = {
@@ -313,6 +324,17 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         grantType: 'authorization_code',
         scope: ['openid', 'fhirUser'],
         tabTitle: 'Digital Health',
+        message: 'No authorization required',
+    },
+    [AuthProvider.Epic]: {
+        clientId: 'epic',
+        authPath: 'smart/oauth/authorize',
+        tokenPath: 'smart/oauth/token',
+        responseType: 'code',
+        redirectURL: `${window.location.origin}/auth`,
+        grantType: 'authorization_code',
+        scope: ['openid', 'fhirUser'],
+        tabTitle: 'Epic',
         message: 'No authorization required',
     },
 };

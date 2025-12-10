@@ -66,6 +66,14 @@ export function useSignIn(props: SignInProps) {
             window.localStorage.setItem('token', 'token');
             window.location.href = '/practitioners';
             return;
+        } else if ([AuthProvider.Epic].indexOf(activeAuthProvider) != -1) {
+            //These provider doesn't need authorization
+            window.localStorage.setItem(
+                'token',
+                'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ1cm46QUNUSDpDRSIsImNsaWVudF9pZCI6IkNPTk5FQ0FUSE9OLTIwMjUxMjA5IiwiZXBpYy5lY2kiOiJ1cm46ZXBpYzpBdXN0cmFsaWEtQ29ubmVjdGF0aG9uIiwiZXBpYy5tZXRhZGF0YSI6Ii1RUnJjOWx3ZXVRS0Y1cFVQUHhKSGctb0VVRTJ3c21KcHZtcHZUOHVWTEpwcF93N0VmSlppbWstb2NzbWtOYzc2NkduejhUcG41T2w0TXYwUFBKTkFIcHRqdU1fZUV1aF9zMUVwcEFNZ094aHpxblVENkludk81a0x2bFNnRzBlIiwiZXBpYy50b2tlbnR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3NjUzNDEyMjksImlhdCI6MTc2NTI1NDgzOSwiaXNzIjoidXJuOkFDVEg6Q0UiLCJqdGkiOiI3ZDk0YjI1NS1kYTZlLTRlY2QtYTU0MC05OTFmOTY5YWM2NGMiLCJuYmYiOjE3NjUyNTQ4MzksInN1YiI6ImVpUVBJdFduOUphSnN0c2VQS2pJM1JBMyJ9.BQsM8Q28cPBNgOVphF_lWfd6XhjaVjXuI5dhx98FHyWJyK_b8UEjzvYhvu1tXCJLlakhBjbNmBa1-JrjpSvdpX461onXdWqpBiFvxyHeTARlY8Q9d87DkBN5gN1jjWWXIeMiI8XANsIk0oWKHBbQSMPuxSdNomzHO8WV0nUNNeD7l-SO97qjyOKZ0ojgbLH1gLxQAC0bGnOR73uZL5mBGbv-GbRqhed4rSr_58-J5UH3l9rtk_XRjYKl0gjKmLQ73di28okB7ghL5_uN7VUbNxM0-DsIrMmy1B_dyzAPYTOsNuIpRGjT4cU_frnNJNSDV_sT_5FMDsR_Mj94faXUlw',
+            );
+            window.location.href = '/patients';
+            return;
         }
         const authState: OAuthState | undefined = props.originPathName ? { nextUrl: props.originPathName } : undefined;
 

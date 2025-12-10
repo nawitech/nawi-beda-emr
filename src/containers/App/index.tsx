@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom';
+import { Route, Navigate } from 'react-router-dom';
 
 import {
     App as EMR,
@@ -23,6 +23,7 @@ import { SignIn } from '../SignIn';
 export function App() {
     const { sharedUserInitService, setAuthProvider } = useApp();
     const isDigitalHealth = config.baseURL === 'https://fhir-xrp.digitalhealth.gov.au/fhir/';
+    const isEpic = config.baseURL === 'https://connectathon-au.epic.com/Interconnect-connectathon-au/api/FHIR/R4/';
     const digitalHealthRoutes = (
         <>
             <Route path="/practitioners" element={<PractitionerList />} />
@@ -36,15 +37,22 @@ export function App() {
     const renderRoutes = () => {
         if (isDigitalHealth) {
             return digitalHealthRoutes;
-        } else {
+        } else if (isEpic) {
             return (
                 <>
-                    <Route path="/patients" element={<PatientResourceList />} />
-                    <Route path="/patients/:id/encounter/:encounter/*" element={<EncounterPage />} />
+                    <Route path="/patients" element={<Navigate to="/patients/e0lof40pd7mW6R7f0v.4POw3" />} />
                     <Route path="/patients/:id/*" element={<PatientDetails />} />
                 </>
             );
         }
+
+        return (
+            <>
+                <Route path="/patients" element={<PatientResourceList />} />
+                <Route path="/patients/:id/encounter/:encounter/*" element={<EncounterPage />} />
+                <Route path="/patients/:id/*" element={<PatientDetails />} />
+            </>
+        );
     };
 
     const getMenuLayout = () => {
@@ -53,7 +61,7 @@ export function App() {
         }
 
         return menuLayout;
-    }
+    };
 
     return (
         <MenuLayout.Provider value={getMenuLayout()}>

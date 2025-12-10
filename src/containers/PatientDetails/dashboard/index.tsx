@@ -40,6 +40,9 @@ const patientDashboardConfig: DashboardInstance = {
         ...(config.baseURL === 'https://fhir-xrp.digitalhealth.gov.au/fhir/' ? [{
             widget: SummaryContainer,
         }] : []),
+        ...(config.baseURL === 'https://connectathon-au.epic.com/Interconnect-connectathon-au/api/FHIR/R4/' ? [{
+            widget: SummaryContainer,
+        }] : []),
         {
             query: {
                 resourceType: 'AllergyIntolerance',
