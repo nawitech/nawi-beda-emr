@@ -287,11 +287,11 @@ export function prepareIPSBundle(
         entry: [
             {
                 fullUrl: `urn:uuid:${composition.id}`,
-                resource: composition,
+                resource: assign_urn_uuid_to_references(composition),
             },
             {
                 fullUrl: `urn:uuid:${patient.id}`,
-                resource: patient,
+                resource: assign_urn_uuid_to_references(patient),
             },
         ],
     };
@@ -306,24 +306,24 @@ export function prepareIPSBundle(
         entry: [
             ...(initialBundle.entry ?? []),
             ...conditions.map((condition) => ({
-                fullUrl: `urn:uuid:${condition.id}`,
-                resource: condition,
+                fullUrl: `urn:uuid:Condition/${condition.id}`,
+                resource: assign_urn_uuid_to_references(condition),
             })),
             ...allergies.map((allergy) => ({
-                fullUrl: `urn:uuid:${allergy.id}`,
-                resource: allergy,
+                fullUrl: `urn:uuid:AllergyIntolerance/${allergy.id}`,
+                resource: assign_urn_uuid_to_references(allergy),
             })),
             ...medicationStatements.map((medicationStatement) => ({
-                fullUrl: `urn:uuid:${medicationStatement.id}`,
-                resource: medicationStatement,
+                fullUrl: `urn:uuid:MedicationStatement/${medicationStatement.id}`,
+                resource: assign_urn_uuid_to_references(medicationStatement),
             })),
             ...immunizations.map((immunization) => ({
-                fullUrl: `urn:uuid:${immunization.id}`,
-                resource: immunization,
+                fullUrl: `urn:uuid:Immunization/${immunization.id}`,
+                resource: assign_urn_uuid_to_references(immunization),
             })),
             ...procedures.map((procedure) => ({
-                fullUrl: `urn:uuid:${procedure.id}`,
-                resource: procedure,
+                fullUrl: `urn:uuid:Procedure/${procedure.id}`,
+                resource: assign_urn_uuid_to_references(procedure),
             })),
         ],
     };
@@ -377,4 +377,25 @@ export function prepareComposition(
             },
         ],
     };
+}
+
+export function assign_urn_uuid_to_references(obj: unknown): unknown {
+    if (obj === null || obj === undefined) {
+        return obj;
+    }
+    if (Array.isArray(obj)) {
+        return obj.map((item) => assign_urn_uuid_to_references(item));
+    }
+    if (typeof obj === 'object') {
+        const result: Record<string, unknown> = {};
+        for (const [key, value] of Object.entries(obj)) {
+            if (key === 'reference' && typeof value === 'string') {
+                result[key] = value.startsWith('urn:uuid:') ? value : `urn:uuid:${value}`;
+            } else {
+                result[key] = assign_urn_uuid_to_references(value);
+            }
+        }
+        return result;
+    }
+    return obj;
 }
