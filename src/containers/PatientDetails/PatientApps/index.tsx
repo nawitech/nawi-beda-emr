@@ -37,7 +37,7 @@ export function useLaunchApp({ app, patient, encounter }: SmartAppProps) {
         mapSuccess(await getLaunchURI(launchParams), (launchURI) => {
             switch (app.id) {
                 case 'aus-cvd-risk-i':
-                    window.location.href = launchURI.result.uri + '&ctoken=2025';
+                    window.location.href = launchURI.result.uri + '&access_code=2026';
                     break;
                 case 'dd133f3b-4937-4575-b51f-419340a7d2dc':
                     window.location.href = launchURI.result.uri + '&con=f1c3c1d4-ed0e-4eaf-8929-c8a3a689fe55';
