@@ -4,12 +4,15 @@ import { Route, Routes } from 'react-router-dom';
 
 import { PageContainer } from '@beda.software/emr/dist/components/BaseLayout/PageContainer/index';
 import { PatientDashboardProvider } from '@beda.software/emr/dist/components/Dashboard/contexts';
+import { PatientDocument } from '@beda.software/emr/dist/containers/PatientDetails/PatientDocument/index';
+import { PatientDocumentDetails } from '@beda.software/emr/dist/containers/PatientDetails/PatientDocumentDetails/index';
+import { PatientDocuments } from '@beda.software/emr/dist/containers/PatientDetails/PatientDocuments/index';
 import { PatientOverview } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/index';
-import { ResourceDetailPage, Tab, PageTabs } from '@beda.software/emr/dist/uberComponents/ResourceDetailPage/index';
-import { compileAsFirst, renderHumanName } from '@beda.software/emr/dist/utils/index';
+import { PageTabs, ResourceDetailPage, Tab } from '@beda.software/emr/dist/uberComponents/ResourceDetailPage/index';
+import { compileAsFirst, renderHumanName, selectCurrentUserRoleResource } from '@beda.software/emr/dist/utils/index';
 import { axiosInstance as axiosFHIRInstance, service } from '@beda.software/emr/services';
 import config from '@beda.software/emr-config';
-import { RenderRemoteData, useService } from '@beda.software/fhir-react';
+import { RenderRemoteData, useService, WithId } from '@beda.software/fhir-react';
 
 import { dashboard } from './dashboard';
 import { PatientEncounter } from './encounters';
@@ -19,7 +22,7 @@ import { ResourcesTabRoutes } from './ResourcesTabRoutes';
 
 const getName = compileAsFirst<Patient, string>("Patient.name.given.first() + ' ' + Patient.name.family");
 
-const tabs: Array<Tab<Patient>> = [
+const tabs: Array<Tab<WithId<Patient>>> = [
     {
         path: '',
         label: 'Overview',
@@ -36,6 +39,14 @@ const tabs: Array<Tab<Patient>> = [
         component: () => <ResourcesTabRoutes />,
     },
 ];
+
+if (config.baseURL === 'https://aucore.aidbox.beda.software') {
+    tabs.push({
+        path: 'documents',
+        label: 'Documents',
+        component: ({ resource }) => <Documents patient={resource} />,
+    });
+}
 
 if (config.baseURL === 'https://erequesting.aidbox.beda.software') {
     tabs.push({
@@ -104,5 +115,28 @@ function EpicPatientDetails() {
                 );
             }}
         </RenderRemoteData>
+    );
+}
+
+function Documents({ patient }: { patient: WithId<Patient> }) {
+    const author = selectCurrentUserRoleResource();
+    return (
+        <Routes>
+            <Route path="/" element={<PatientDocuments patient={patient} />} />
+            <Route
+                path="/new/:questionnaireId"
+                element={
+                    <PatientDocument
+                        patient={patient}
+                        author={author}
+                        autoSave={true}
+                        onSuccess={() => {
+                            window.history.back();
+                        }}
+                    />
+                }
+            />
+            <Route path="/:qrId/*" element={<PatientDocumentDetails patient={patient} />} />
+        </Routes>
     );
 }
