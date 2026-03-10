@@ -1,6 +1,6 @@
 import { Patient } from 'fhir/r4b';
 
-import type { Dashboard, DashboardInstance } from '@beda.software/emr/dist/components/Dashboard/types';
+import type { Dashboard, DashboardInstance, WidgetInfo } from '@beda.software/emr/dist/components/Dashboard/types';
 import { StandardCardContainerFabric } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/containers/StandardCardContainerFabric/index';
 import config from '@beda.software/emr-config';
 
@@ -8,41 +8,90 @@ import { DocRrefContainer } from './containers/DocRefContainer';
 import { SummaryContainer } from './containers/SummaryContainer';
 import {
     prepareAllergies,
+    prepareComposition,
     prepareConditions,
     prepareImmunizations,
+    prepareMedicationRequests,
     prepareMedicationStatements,
     prepareObservations,
     prepareProcedures,
     prepareRelatedPersons,
-    prepareMedicationRequests,
 } from '../utils';
 
 const patientDashboardConfig: DashboardInstance = {
     top: [
-        ...(config.baseURL === 'https://aucore.aidbox.beda.software' ? [{
-            widget: DocRrefContainer,
-        }] : []),
-        ...(config.baseURL === 'https://bps-interop-practicegateway-connectathon-fhir-api.deva.svc.bpcloud.dev/api/interop/r4/fhir/' ? [{
-            widget: SummaryContainer,
-        }] : []),
-        ...(config.baseURL === 'https://api.stage.haloconnect.io/integrator/sites/63255e8a-d04a-42a6-8c75-90aa880ad94e/fhir/R4/' ? [{
-            widget: SummaryContainer,
-        }] : []),
-        ...(config.baseURL === 'https://alexapiuat.medtechglobal.com/FHIR' ? [{
-            widget: SummaryContainer,
-        }] : []),
-        ...(config.baseURL === 'https://api-v1.test.medirecords.com/fhir/v1' ? [{
-            widget: SummaryContainer,
-        }] : []),
-        ...(config.baseURL === 'https://smile.sparked-fhir.com/aucore/fhir/DEFAULT/' ? [{
-            widget: SummaryContainer,
-        }] : []),
-        ...(config.baseURL === 'https://fhir-xrp.digitalhealth.gov.au/fhir/' ? [{
-            widget: SummaryContainer,
-        }] : []),
-        ...(config.baseURL === 'https://connectathon-au.epic.com/Interconnect-connectathon-au/api/FHIR/R4/' ? [{
-            widget: SummaryContainer,
-        }] : []),
+        ...(config.baseURL === 'https://aucore.aidbox.beda.software'
+            ? [
+                  {
+                      widget: DocRrefContainer,
+                  },
+              ]
+            : []),
+        ...(config.baseURL ===
+        'https://bps-interop-practicegateway-connectathon-fhir-api.deva.svc.bpcloud.dev/api/interop/r4/fhir/'
+            ? [
+                  {
+                      widget: SummaryContainer,
+                  },
+              ]
+            : []),
+        ...(config.baseURL ===
+        'https://api.stage.haloconnect.io/integrator/sites/63255e8a-d04a-42a6-8c75-90aa880ad94e/fhir/R4/'
+            ? [
+                  {
+                      widget: SummaryContainer,
+                  },
+              ]
+            : []),
+        ...(config.baseURL === 'https://alexapiuat.medtechglobal.com/FHIR'
+            ? [
+                  {
+                      widget: SummaryContainer,
+                  },
+              ]
+            : []),
+        ...(config.baseURL === 'https://api-v1.test.medirecords.com/fhir/v1'
+            ? [
+                  {
+                      widget: SummaryContainer,
+                  },
+              ]
+            : []),
+        ...(config.baseURL === 'https://smile.sparked-fhir.com/aucore/fhir/DEFAULT/'
+            ? [
+                  {
+                      widget: SummaryContainer,
+                  },
+              ]
+            : []),
+        ...(config.baseURL === 'https://fhir-xrp.digitalhealth.gov.au/fhir/'
+            ? [
+                  {
+                      widget: SummaryContainer,
+                  },
+              ]
+            : []),
+        ...(config.baseURL === 'https://connectathon-au.epic.com/Interconnect-connectathon-au/api/FHIR/R4/'
+            ? [
+                  {
+                      widget: SummaryContainer,
+                  },
+              ]
+            : []),
+        ...(config.baseURL === 'https://aucore.aidbox.beda.software'
+            ? Array.of<WidgetInfo>({
+                  widget: StandardCardContainerFabric(prepareComposition),
+                  query: {
+                      resourceType: 'Composition',
+                      search: (patient: Patient) => ({
+                          subject: patient.id,
+                          _sort: '-date',
+                          _count: 10,
+                          _include: ['Composition:subject:Patient', 'Composition:entry'],
+                      }),
+                  },
+              })
+            : []),
         {
             query: {
                 resourceType: 'AllergyIntolerance',

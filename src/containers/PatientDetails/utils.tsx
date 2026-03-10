@@ -1,54 +1,62 @@
 import {
     AlertOutlined,
     CheckOutlined,
+    ExceptionOutlined,
     ExperimentOutlined,
     HeartOutlined,
     MedicineBoxOutlined,
+    SnippetsOutlined,
     SubnodeOutlined,
     UsergroupAddOutlined,
-    ExceptionOutlined,
 } from '@ant-design/icons';
+import { t } from '@lingui/macro';
+import { Button, notification } from 'antd';
 import {
-    Resource,
     AllergyIntolerance,
     Bundle,
+    Composition,
     Condition,
     Immunization,
+    MedicationRequest,
     MedicationStatement,
     Observation,
+    Patient,
     Procedure,
     RelatedPerson,
-    MedicationRequest,
+    Resource,
 } from 'fhir/r4b';
+import { v4 as uuid4 } from 'uuid';
 
 import type { OverviewCard } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/components/StandardCard/types';
+import { formatHumanDateTime } from '@beda.software/emr/utils';
+import { extractBundleResources } from '@beda.software/fhir-react';
 
 import {
-    makeRenderer,
-    allergyName,
     allergyDate,
-    conditionName,
+    allergyName,
     conditionDate,
-    observationName,
-    observationDate,
-    observationValue,
-    immunizationVaccine,
+    conditionName,
     immunizationDate,
-    msMedication,
-    msDosage,
-    msDate,
-    procedureTitle,
-    procedureDate,
-    rpName,
-    rpRelationShip,
+    immunizationVaccine,
+    makeRenderer,
+    mrDosage,
     mrName,
     mrReason,
-    mrDosage,
     mrStatus,
+    msDate,
+    msDosage,
+    msMedication,
+    observationDate,
+    observationName,
+    observationValue,
+    procedureDate,
+    procedureTitle,
+    rpName,
+    rpRelationShip,
 } from './resourceDataGetters';
+import { AvailableResourceTypesStr, DashboardRT, MapResourceConfigType, UberListRT } from './types';
 
 
-import { AvailableResourceTypesStr, MapResourceConfigType, UberListRT, DashboardRT } from './types';
 
 export function getResourceConfigData<T extends Resource, RCM extends 'uberList' | 'dashboard'>(
     key: AvailableResourceTypesStr,
@@ -256,3 +264,117 @@ export const prepareMedicationRequests = (
     r: MedicationRequest[],
     bundle: Bundle<MedicationRequest>,
 ): OverviewCard<MedicationRequest> => prepareResource(r, bundle, 'MedicationRequest');
+
+export function prepareIPSBundle(
+    composition: Composition,
+    relatedResourcesBundle: Bundle<
+        Composition | Patient | Condition | AllergyIntolerance | MedicationStatement | Immunization | Procedure
+    >,
+): Bundle {
+    const resources = extractBundleResources(relatedResourcesBundle);
+    const patient = resources.Patient[0]!;
+    const initialBundle: Bundle = {
+        resourceType: 'Bundle',
+        type: 'document',
+        meta: {
+            profile: ['http://hl7.org/fhir/uv/ips/StructureDefinition/Bundle-uv-ips'],
+        },
+        identifier: {
+            system: 'http://hl7.org/fhir/uv/ips/ImplementationGuide/hl7.fhir.uv.ips',
+            value: uuid4(),
+        },
+        timestamp: new Date().toISOString(),
+        entry: [
+            {
+                fullUrl: `urn:uuid:${composition.id}`,
+                resource: composition,
+            },
+            {
+                fullUrl: `urn:uuid:${patient.id}`,
+                resource: patient,
+            },
+        ],
+    };
+
+    const conditions = resources.Condition ?? [];
+    const allergies = resources.AllergyIntolerance ?? [];
+    const medicationStatements = resources.MedicationStatement ?? [];
+    const immunizations = resources.Immunization ?? [];
+    const procedures = resources.Procedure ?? [];
+    const resultBundle: Bundle = {
+        ...initialBundle,
+        entry: [
+            ...(initialBundle.entry ?? []),
+            ...conditions.map((condition) => ({
+                fullUrl: `urn:uuid:${condition.id}`,
+                resource: condition,
+            })),
+            ...allergies.map((allergy) => ({
+                fullUrl: `urn:uuid:${allergy.id}`,
+                resource: allergy,
+            })),
+            ...medicationStatements.map((medicationStatement) => ({
+                fullUrl: `urn:uuid:${medicationStatement.id}`,
+                resource: medicationStatement,
+            })),
+            ...immunizations.map((immunization) => ({
+                fullUrl: `urn:uuid:${immunization.id}`,
+                resource: immunization,
+            })),
+            ...procedures.map((procedure) => ({
+                fullUrl: `urn:uuid:${procedure.id}`,
+                resource: procedure,
+            })),
+        ],
+    };
+
+    return resultBundle;
+}
+
+export function prepareComposition(
+    resources: Composition[],
+    bundle: Bundle<
+        Composition | Patient | Condition | AllergyIntolerance | MedicationStatement | Immunization | Procedure
+    >,
+): OverviewCard<Composition> {
+    return {
+        title: 'Composition',
+        key: 'composition',
+        icon: <SnippetsOutlined />,
+        data: resources,
+        total: bundle.total ?? 0,
+        getKey: (r) => r.id!,
+        columns: [
+            {
+                title: 'Title',
+                key: 'title',
+                render: (resource) => {
+                    return resource.title;
+                },
+            },
+            {
+                title: t`Date`,
+                key: 'date',
+                render: (resource) => formatHumanDateTime(resource.date),
+            },
+            {
+                title: '',
+                key: 'share',
+                render: (resource) => {
+                    const ipsBundle = prepareIPSBundle(resource, bundle);
+                    return (
+                        <Button
+                            type="link"
+                            onClick={() => {
+                                navigator.clipboard.writeText(JSON.stringify(ipsBundle, null, 2));
+                                notification.success({
+                                    message: t`IPS Bundle is copied to clipboard`,
+                                });
+                            }}
+                        >{t`Share`}</Button>
+                    );
+                },
+            },
+        ],
+    };
+}
