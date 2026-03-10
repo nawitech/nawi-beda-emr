@@ -58,7 +58,7 @@ export const conditionDate = (r: Condition): string => {
     const date = r.recordedDate || r.onsetDateTime;
     return date ? formatHumanDate(date) : 'Unknown';
 };
-export const observationName = (r: Observation): string => r.code.text ?? r.code.coding?.[0]?.display ?? 'Unknown';
+export const observationName = (r: Observation): string => r.code.text ?? r.code.coding?.[0]?.display ?? r.code.coding?.[0].code ?? 'Unknown';
 export const observationDate = (r: Observation): string => {
     const createdAt = extractCreatedAtFromMeta(r.meta);
     const date = r.effectiveDateTime || r.issued || createdAt;
@@ -79,7 +79,9 @@ export const observationValue = (r: Observation): string | React.ReactElement =>
         }
         return `${r.valueQuantity.value} ${r.valueQuantity.unit}`;
     } else if (r.valueCodeableConcept) {
-        return r.valueCodeableConcept.text ?? r.valueCodeableConcept.coding?.[0]?.display ?? 'Unknown';
+        return r.valueCodeableConcept.text ?? r.valueCodeableConcept.coding?.[0]?.display ??
+               r.valueCodeableConcept.coding?.[0]?.code ??
+               'Unknown';
     } else if (r.component) {
         return (
             <>
@@ -93,7 +95,7 @@ export const observationValue = (r: Observation): string | React.ReactElement =>
     }
     return 'Unknown';
 };
-export const immunizationVaccine = (r: Immunization) => r.vaccineCode.text ?? 'Unknown';
+export const immunizationVaccine = (r: Immunization) => r.vaccineCode.text ?? r.vaccineCode.coding?.[0].display ?? r.vaccineCode.coding?.[0].code ?? 'Unknown';
 export const immunizationDate = (r: Immunization) =>
     r.occurrenceDateTime ? formatHumanDate(r.occurrenceDateTime) : 'Unknown';
 export const msMedication = (r: MedicationStatement) =>
