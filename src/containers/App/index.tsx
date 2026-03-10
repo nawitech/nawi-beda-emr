@@ -1,7 +1,7 @@
 import { Route, Navigate } from 'react-router-dom';
 
 import {
-    App as EMR,
+    EMR,
     Auth as ImplicitGrantAuth,
     CodeGrantAuth,
     PractitionerList,
@@ -66,7 +66,7 @@ export function App() {
     return (
         <MenuLayout.Provider value={getMenuLayout()}>
             <EMR
-                populateUserInfoSharedState={sharedUserInitService}
+                authenticatedRoutes={renderRoutes()}
                 anonymousRoutes={
                     <>
                         <Route path="/signin" element={<SignIn onSwitchService={setAuthProvider} />} />
@@ -74,7 +74,8 @@ export function App() {
                         <Route path="/auth-aidbox" element={<ImplicitGrantAuth />} />
                     </>
                 }
-                authenticatedRoutes={renderRoutes()}
+                populateUserInfoSharedState={sharedUserInitService}
+                menuLayout={getMenuLayout()}
             />
         </MenuLayout.Provider>
     );
