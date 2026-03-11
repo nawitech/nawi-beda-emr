@@ -57,6 +57,8 @@ if (
         tierConfigMap[AuthProvider.ErequestingAidbox].production.baseUrl,
         tierConfigMap[AuthProvider.ErequestingSparked].develop.baseUrl,
         tierConfigMap[AuthProvider.ErequestingSparked].production.baseUrl,
+        tierConfigMap[AuthProvider.ErequestingCallistemon].develop.baseUrl,
+        tierConfigMap[AuthProvider.ErequestingCallistemon].production.baseUrl,
     ].includes(config.baseURL)
 ) {
     tabs.push({
