@@ -265,12 +265,20 @@ export const prepareMedicationRequests = (
     bundle: Bundle<MedicationRequest>,
 ): OverviewCard<MedicationRequest> => prepareResource(r, bundle, 'MedicationRequest');
 
+function getUuid(map: Map, key:string){
+    if(!map.has(key)){
+        map.set(key, crypto.randomUUID());
+    }
+    return map.get(key);
+}
+
 export function prepareIPSBundle(
     composition: Composition,
     relatedResourcesBundle: Bundle<
         Composition | Patient | Condition | AllergyIntolerance | MedicationStatement | Immunization | Procedure | Practitoner
     >,
 ): Bundle {
+    const uuidStorage = new Map();
     const resources = extractBundleResources(relatedResourcesBundle);
     const patient = resources.Patient[0]!;
     const practitioner = resources.Practitioner[0]!;
@@ -287,16 +295,16 @@ export function prepareIPSBundle(
         timestamp: new Date().toISOString(),
         entry: [
             {
-                fullUrl: `urn:uuid:Composition/${composition.id}`,
-                resource: assign_urn_uuid_to_references(composition),
+                fullUrl: `urn:uuid:${getUuid(uuidStorage, 'Composition/' + composition.id)}`,
+                resource: assign_urn_uuid_to_references(uuidStorage, composition),
             },
             {
-                fullUrl: `urn:uuid:Patient/${patient.id}`,
-                resource: assign_urn_uuid_to_references(patient),
+                fullUrl: `urn:uuid:${getUuid(uuidStorage, 'Patient/' + patient.id)}`,
+                resource: assign_urn_uuid_to_references(uuidStorage, patient),
             },
             {
-                fullUrl: `urn:uuid:Practitioner/${practitioner.id}`,
-                resource: assign_urn_uuid_to_references(practitioner),
+                fullUrl: `urn:uuid:${getUuid(uuidStorage, 'Practitioner/'+practitioner.id)}`,
+                resource: assign_urn_uuid_to_references(uuidStorage, practitioner),
             },
         ],
     };
@@ -311,24 +319,24 @@ export function prepareIPSBundle(
         entry: [
             ...(initialBundle.entry ?? []),
             ...conditions.map((condition) => ({
-                fullUrl: `urn:uuid:Condition/${condition.id}`,
-                resource: assign_urn_uuid_to_references(condition),
+                fullUrl: `urn:uuid:${getUuid(uuidStorage, 'Condition/' + condition.id)}`,
+                resource: assign_urn_uuid_to_references(uuidStorage, condition),
             })),
             ...allergies.map((allergy) => ({
-                fullUrl: `urn:uuid:AllergyIntolerance/${allergy.id}`,
-                resource: assign_urn_uuid_to_references(allergy),
+                fullUrl: `urn:uuid:${getUuid(uuidStorage, 'AllergyIntolerance/' + allergy.id)}`,
+                resource: assign_urn_uuid_to_references(uuidStorage, allergy),
             })),
             ...medicationStatements.map((medicationStatement) => ({
-                fullUrl: `urn:uuid:MedicationStatement/${medicationStatement.id}`,
-                resource: assign_urn_uuid_to_references(medicationStatement),
+                fullUrl: `urn:uuid:${getUuid(uuidStorage, 'MedicationStatement/' + medicationStatement.id)}`,
+                resource: assign_urn_uuid_to_references(uuidStorage, medicationStatement),
             })),
             ...immunizations.map((immunization) => ({
-                fullUrl: `urn:uuid:Immunization/${immunization.id}`,
-                resource: assign_urn_uuid_to_references(immunization),
+                fullUrl: `urn:uuid:${getUuid(uuidStorage, 'Immunization/' + immunization.id)}`,
+                resource: assign_urn_uuid_to_references(uuidStorage, immunization),
             })),
             ...procedures.map((procedure) => ({
-                fullUrl: `urn:uuid:Procedure/${procedure.id}`,
-                resource: assign_urn_uuid_to_references(procedure),
+                fullUrl: `urn:uuid:${getUuid(uuidStorage, 'Procedure/' + procedure.id)}`,
+                resource: assign_urn_uuid_to_references(uuidStorage, procedure),
             })),
         ],
     };
@@ -384,20 +392,20 @@ export function prepareComposition(
     };
 }
 
-export function assign_urn_uuid_to_references(obj: any): any {
+export function assign_urn_uuid_to_references(uuidStorage: Map, obj: any): any {
     if (obj === null || obj === undefined) {
         return obj;
     }
     if (Array.isArray(obj)) {
-        return obj.map((item) => assign_urn_uuid_to_references(item));
+        return obj.map((item) => assign_urn_uuid_to_references(uuidStorage, item));
     }
     if (typeof obj === 'object') {
         const result: Record<string, unknown> = {};
         for (const [key, value] of Object.entries(obj)) {
             if (key === 'reference' && typeof value === 'string') {
-                result[key] = value.startsWith('urn:uuid:') ? value : `urn:uuid:${value}`;
+                result[key] = value.startsWith('urn:uuid:') ? value : `urn:uuid:${getUuid(uuidStorage, value)}`;
             } else {
-                result[key] = assign_urn_uuid_to_references(value);
+                result[key] = assign_urn_uuid_to_references(uuidStorage, value);
             }
         }
         return result;
