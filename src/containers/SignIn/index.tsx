@@ -1,6 +1,6 @@
 import { t, Trans } from '@lingui/macro';
 import { Button, Tooltip } from 'antd';
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { SingleValue } from 'react-select';
 
 import { Select } from '@beda.software/emr/components';
@@ -22,26 +22,23 @@ function SharedCredentials(props: SharedCredentialsProps) {
     return (
         <S.CredentialsWrapper>
             <S.CredentialsBlock>
-                <S.CredentialLabel>{t`Username`}</S.CredentialLabel>
                 <S.CredentialsList>
-                    {sharedCredentials.accountDetails.map((accountDetails, index) => {
+                    {sharedCredentials.accountDetails.map((accountDetails) => {
                         return (
-                            <React.Fragment key={accountDetails.login}>
-                                <div>
+                            <S.CredentialsBlock key={accountDetails.login}>
+                                <S.CredentialsBlock>
+                                    <S.CredentialLabel>{t`Username`}</S.CredentialLabel>
                                     <Tooltip title={t`${accountDetails.accountDescription}`}>
                                         <S.CredentialName>{accountDetails.login}</S.CredentialName>
                                     </Tooltip>
-                                </div>
-                                {index !== sharedCredentials.accountDetails.length - 1 ? <span>/</span> : null}
+                                </S.CredentialsBlock>
                                 {accountDetails.password ? (
                                     <S.CredentialsBlock>
                                         <S.CredentialLabel>{t`Password`}</S.CredentialLabel>
-                                        <S.CredentialsList>
-                                            <span>{accountDetails.password}</span>
-                                        </S.CredentialsList>
+                                        <span>{accountDetails.password}</span>
                                     </S.CredentialsBlock>
                                 ) : null}
-                            </React.Fragment>
+                            </S.CredentialsBlock>
                         );
                     })}
                 </S.CredentialsList>

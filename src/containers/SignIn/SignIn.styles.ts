@@ -51,8 +51,8 @@ export const S = {
     `,
     CredentialsList: styled.div`
         display: flex;
-        flex-direction: row;
-        gap: 4px;
+        flex-direction: column;
+        gap: 16px;
     `,
     CredentialLabel: styled.span`
         font-weight: bold;
