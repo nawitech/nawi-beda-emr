@@ -119,9 +119,5 @@ export function parsePatientSummary(bundle: Bundle) {
 }
 
 export function parseSectionText(section: CompositionSection) {
-    const narative = section.text;
-    if (!narative) {
-        return undefined;
-    }
-    return narative.div;
+    return section?.text?.div ?? '';
 }
