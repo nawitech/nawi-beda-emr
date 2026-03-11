@@ -3,6 +3,7 @@ import config from '@beda.software/emr-config/config';
 export enum AuthProvider {
     AuCoreAidbox = 'au-core-aidbox',
     ErequestingAidbox = 'e-requesting-aidbox',
+    ErequestingSparked = 'e-requesting-sparked',
     SmartOnFhirAidbox = 'smart-on-fhir-aidbox',
     SparkedHAPI = 'sparked-hapi',
     BP = 'best-practice',
@@ -67,6 +68,16 @@ export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
         production: {
             baseUrl: 'https://erequesting.aidbox.beda.software',
             fhirBaseUrl: 'https://erequesting.aidbox.beda.software/fhir',
+        },
+    },
+    [AuthProvider.ErequestingSparked]: {
+        develop: {
+            baseUrl: 'https://smile.sparked-fhir.com/ereq',
+            fhirBaseUrl: 'https://smile.sparked-fhir.com/ereq/fhir/DEFAULT',
+        },
+        production: {
+            baseUrl: 'https://smile.sparked-fhir.com/ereq',
+            fhirBaseUrl: 'https://smile.sparked-fhir.com/ereq/fhir/DEFAULT',
         },
     },
     [AuthProvider.SmartOnFhirAidbox]: {
@@ -214,6 +225,30 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
                 },
             ],
             commonPassword: 'password',
+        },
+    },
+    [AuthProvider.ErequestingSparked]: {
+        clientId: 'sparked',
+        authPath: 'smartauth/oauth/authorize',
+        tokenPath: 'smartauth/oauth/token',
+        responseType: 'token',
+        redirectURL: `${window.location.origin}/auth`,
+        grantType: 'implicit',
+        tabTitle: 'smile.sparked-fhir.com/ereq',
+        message: 'On the next page, please, use one of the following credentials',
+        sharedCredentials: {
+            accountDetails: [
+                {
+                    login: 'placer',
+                    accountDescription: 'Placer',
+                    password: 'DTY4ybw7dzx2hdu*bwv',
+                },
+                {
+                    login: 'filler',
+                    accountDescription: 'Filler',
+                    password: 'J4bkWhdjoKED3YMmTBoQ',
+                },
+            ],
         },
     },
     [AuthProvider.SmartOnFhirAidbox]: {

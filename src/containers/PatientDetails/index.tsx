@@ -14,6 +14,8 @@ import { axiosInstance as axiosFHIRInstance, service } from '@beda.software/emr/
 import config from '@beda.software/emr-config';
 import { RenderRemoteData, useService, WithId } from '@beda.software/fhir-react';
 
+import { AuthProvider, tierConfigMap } from 'src/services/auth.ts';
+
 import { dashboard } from './dashboard';
 import { PatientEncounter } from './encounters';
 import { PatientApps } from './PatientApps/index';
@@ -49,7 +51,14 @@ if (config.baseURL === 'https://aucore.aidbox.beda.software') {
     });
 }
 
-if (config.baseURL === 'https://erequesting.aidbox.beda.software') {
+if (
+    [
+        tierConfigMap[AuthProvider.ErequestingAidbox].develop.baseUrl,
+        tierConfigMap[AuthProvider.ErequestingAidbox].production.baseUrl,
+        tierConfigMap[AuthProvider.ErequestingSparked].develop.baseUrl,
+        tierConfigMap[AuthProvider.ErequestingSparked].production.baseUrl,
+    ].includes(config.baseURL)
+) {
     tabs.push({
         path: 'service',
         label: 'Service requests',
