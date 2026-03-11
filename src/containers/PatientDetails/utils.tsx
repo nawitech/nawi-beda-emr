@@ -379,7 +379,7 @@ export function prepareComposition(
     };
 }
 
-export function assign_urn_uuid_to_references(obj: unknown): unknown {
+export function assign_urn_uuid_to_references(obj: any): any {
     if (obj === null || obj === undefined) {
         return obj;
     }
