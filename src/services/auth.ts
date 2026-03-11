@@ -235,21 +235,7 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         redirectURL: `${window.location.origin}/auth`,
         grantType: 'implicit',
         tabTitle: 'smile.sparked-fhir.com/ereq',
-        message: 'On the next page, please, use one of the following credentials',
-        sharedCredentials: {
-            accountDetails: [
-                {
-                    login: 'placer',
-                    accountDescription: 'Placer',
-                    password: 'DTY4ybw7dzx2hdu*bwv',
-                },
-                {
-                    login: 'filler',
-                    accountDescription: 'Filler',
-                    password: 'J4bkWhdjoKED3YMmTBoQ',
-                },
-            ],
-        },
+        message: 'Please contact https://github.com/aehrc/sparked-fhir-server-configuration for credentials',
     },
     [AuthProvider.SmartOnFhirAidbox]: {
         clientId: config.tier === 'production' ? 'web' : 'web-local',
