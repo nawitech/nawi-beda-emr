@@ -268,11 +268,12 @@ export const prepareMedicationRequests = (
 export function prepareIPSBundle(
     composition: Composition,
     relatedResourcesBundle: Bundle<
-        Composition | Patient | Condition | AllergyIntolerance | MedicationStatement | Immunization | Procedure
+        Composition | Patient | Condition | AllergyIntolerance | MedicationStatement | Immunization | Procedure | Practitoner
     >,
 ): Bundle {
     const resources = extractBundleResources(relatedResourcesBundle);
     const patient = resources.Patient[0]!;
+    const practitioner = resources.Practitioner[0]!;
     const initialBundle: Bundle = {
         resourceType: 'Bundle',
         type: 'document',
@@ -292,6 +293,10 @@ export function prepareIPSBundle(
             {
                 fullUrl: `urn:uuid:Patient/${patient.id}`,
                 resource: assign_urn_uuid_to_references(patient),
+            },
+            {
+                fullUrl: `urn:uuid:Practitioner/${practitioner.id}`,
+                resource: assign_urn_uuid_to_references(practitioner),
             },
         ],
     };
@@ -334,7 +339,7 @@ export function prepareIPSBundle(
 export function prepareComposition(
     resources: Composition[],
     bundle: Bundle<
-        Composition | Patient | Condition | AllergyIntolerance | MedicationStatement | Immunization | Procedure
+        Composition | Patient | Condition | AllergyIntolerance | MedicationStatement | Immunization | Procedure | Practitoner
     >,
 ): OverviewCard<Composition> {
     return {

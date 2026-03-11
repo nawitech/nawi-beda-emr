@@ -87,7 +87,7 @@ const patientDashboardConfig: DashboardInstance = {
                           subject: patient.id,
                           _sort: '-date',
                           _count: 10,
-                          _include: ['Composition:subject:Patient', 'Composition:entry'],
+                          _include: ['Composition:subject:Patient', 'Composition:entry', 'Composition:author:Practitioner'],
                       }),
                   },
               })
