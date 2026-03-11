@@ -286,11 +286,11 @@ export function prepareIPSBundle(
         timestamp: new Date().toISOString(),
         entry: [
             {
-                fullUrl: `urn:uuid:${composition.id}`,
+                fullUrl: `urn:uuid:Composition/${composition.id}`,
                 resource: assign_urn_uuid_to_references(composition),
             },
             {
-                fullUrl: `urn:uuid:${patient.id}`,
+                fullUrl: `urn:uuid:Patient/${patient.id}`,
                 resource: assign_urn_uuid_to_references(patient),
             },
         ],
