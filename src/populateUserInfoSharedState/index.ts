@@ -36,7 +36,6 @@ const mockUserInfoSharedState = (practitionerId: string) => async (): Promise<Re
 };
 
 export async function smileUserInfoSharedState(): Promise<RemoteDataResult<User>> {
-    console.log('TRY AUTH');
     const idToken = getIdToken();
 
     if (!idToken) {
@@ -44,7 +43,8 @@ export async function smileUserInfoSharedState(): Promise<RemoteDataResult<User>
     }
 
     const { fhirUser } = decodeJwt(idToken) as SmileIdTokenData;
-    const fhirUserData = fhirUser.split('/').slice(1);
+
+    const fhirUserData = fhirUser.split('/').slice(-2);
     const fhirUserRef: InternalReference<Patient | Practitioner> = {
         resourceType: fhirUserData[0] as 'Practitioner' | 'Patient',
         id: fhirUserData[1],
