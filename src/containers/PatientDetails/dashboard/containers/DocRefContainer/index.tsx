@@ -50,7 +50,7 @@ export function DocRrefContainer(props: ContainerProps) {
                                             <DocRefStyles.PatientSummaryItemContainer key={item.title}>
                                                 <Typography.Text strong>{item.title}</Typography.Text>
                                                 <DocRefStyles.PatientSummaryItemText>
-                                                    {item.text}
+                                                    <div dangerouslySetInnerHTML={{__html: item.text}} />
                                                 </DocRefStyles.PatientSummaryItemText>
                                             </DocRefStyles.PatientSummaryItemContainer>
                                         );

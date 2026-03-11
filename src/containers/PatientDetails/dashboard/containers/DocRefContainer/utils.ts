@@ -123,12 +123,5 @@ export function parseSectionText(section: CompositionSection) {
     if (!narative) {
         return undefined;
     }
-
-    let parsedString: string = narative.div;
-
-    if (parsedString.startsWith('<div')) {
-        parsedString = parsedString.match(/>([^<>]+)</)?.[1].trim() ?? 'There is no information available';
-    }
-
-    return parsedString;
+    return narative.div;
 }
