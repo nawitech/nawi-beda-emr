@@ -244,7 +244,7 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         tokenPath: 'smartauth/oauth/token',
         responseType: 'token',
         redirectURL: `${window.location.origin}/auth`,
-        grantType: 'implicit',
+        grantType: 'authorization_code',
         tabTitle: 'smile.sparked-fhir.com/ereq',
         message: 'Please contact https://github.com/aehrc/sparked-fhir-server-configuration for credentials',
     },
