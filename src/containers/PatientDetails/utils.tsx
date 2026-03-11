@@ -16,6 +16,7 @@ import {
     Bundle,
     Composition,
     Condition,
+    DocumentReference,
     Immunization,
     MedicationRequest,
     MedicationStatement,
@@ -31,6 +32,7 @@ import { v4 as uuid4 } from 'uuid';
 import type { OverviewCard } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/components/StandardCard/types';
 import { formatHumanDateTime } from '@beda.software/emr/utils';
 import { extractBundleResources } from '@beda.software/fhir-react';
+import { isSuccess } from '@beda.software/remote-data';
 
 import {
     allergyDate,
@@ -56,6 +58,9 @@ import {
     rpRelationShip,
 } from './resourceDataGetters';
 import { AvailableResourceTypesStr, DashboardRT, MapResourceConfigType, UberListRT } from './types';
+
+import {generateUploadUrl, uploadFileWithXHR} from '@beda.software/emr/dist/services/file-upload'
+import { createFHIRResource } from '@beda.software/emr/services';
 
 export function getResourceConfigData<T extends Resource, RCM extends 'uberList' | 'dashboard'>(
     key: AvailableResourceTypesStr,
@@ -384,25 +389,73 @@ export function prepareComposition(
                 render: (resource) => formatHumanDateTime(resource.date),
             },
             {
-                title: '',
+                title: 'Action',
                 key: 'share',
                 render: (resource) => {
-                    const ipsBundle = prepareIPSBundle(resource, bundle);
-                    return (
+                    return (<>
                         <Button
                             type="link"
                             onClick={() => {
+                                const ipsBundle = prepareIPSBundle(resource, bundle);
                                 navigator.clipboard.writeText(JSON.stringify(ipsBundle, null, 2));
                                 notification.success({
-                                    message: t`IPS Bundle is copied to clipboard`,
+                                    message: t`Bundle is copied to clipboard`,
                                 });
                             }}
-                        >{t`Share`}</Button>
-                    );
+                        >Copy</Button>
+                            <Button
+                                type="link"
+                                onClick={async () => {
+                                    const ipsBundle = prepareIPSBundle(resource, bundle);
+                                    await saveBundle(resource, ipsBundle);
+                                    notification.success({
+                                        message: t`Bundle saved as DocumentReference`,
+                                    });
+                                }}
+                            >Persist</Button>
+                    </>);
                 },
             },
         ],
     };
+}
+
+async function saveBundle(composition: Composition, bundle: Bundle){
+    const response = await generateUploadUrl("bundle.json")
+    console.log(response)
+    if (!isSuccess(response)) {
+        return;
+    }
+    const upload = new Promise<void>((resolve, reject) => {
+        uploadFileWithXHR(
+            {
+                file: new Blob([JSON.stringify(bundle)], { type: 'application/json' }),
+                onProgress: () => {},
+                onSuccess: () => resolve(),
+                onError: (error) => reject(error),
+            },
+            response.data.uploadUrl,
+        );
+    });
+    await upload;
+    const drResp = createFHIRResource<DocumentReference>({
+        resourceType: 'DocumentReference',
+        docStatus: "final",
+        status: "current",
+        subject: composition.subject,
+        content: [
+            {
+                attachment: {
+                    url: response.data.filename,
+                    title: composition.title,
+                    contentType: "application/fhir+json"
+                }
+            }
+        ],
+        type: composition.type,
+        date: composition.date,
+    });
+    console.log(drResp);
 }
 
 export function assign_urn_uuid_to_references(uuidStorage: Map<string, string>, obj: any): any {
