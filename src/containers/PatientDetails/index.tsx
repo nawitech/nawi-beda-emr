@@ -1,5 +1,5 @@
 import { Patient } from 'fhir/r4b';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { PageContainer } from '@beda.software/emr/dist/components/BaseLayout/PageContainer/index';
@@ -10,7 +10,7 @@ import { PatientDocuments } from '@beda.software/emr/dist/containers/PatientDeta
 import { PatientOverview } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/index';
 import { PageTabs, ResourceDetailPage, Tab } from '@beda.software/emr/dist/uberComponents/ResourceDetailPage/index';
 import { compileAsFirst, renderHumanName, selectCurrentUserRoleResource } from '@beda.software/emr/dist/utils/index';
-import { axiosInstance as axiosFHIRInstance, service } from '@beda.software/emr/services';
+import { service } from '@beda.software/emr/services';
 import config from '@beda.software/emr-config';
 import { RenderRemoteData, useService, WithId } from '@beda.software/fhir-react';
 
@@ -75,9 +75,6 @@ if (config.baseURL === 'https://smartonfhir.aidbox.beda.software') {
 }
 
 export function PatientDetails() {
-    useEffect(() => {
-        axiosFHIRInstance.defaults.headers['Ocp-Apim-Subscription-Key'] = `923b7ac4add44b02be0e93d3303e55e1`;
-    }, []);
     const isEpic = config.baseURL === 'https://connectathon-au.epic.com/Interconnect-connectathon-au/api/FHIR/R4/';
 
     return (
