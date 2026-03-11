@@ -19,6 +19,7 @@ import { PatientEncounter } from './encounters';
 import { PatientApps } from './PatientApps/index';
 import { PatientServiceRequest } from './requests';
 import { ResourcesTabRoutes } from './ResourcesTabRoutes';
+import { S } from './styles';
 
 const getName = compileAsFirst<Patient, string>("Patient.name.given.first() + ' ' + Patient.name.family");
 
@@ -80,6 +81,7 @@ export function PatientDetails() {
                     getSearchParams={({ id }) => ({ _id: id })}
                     getTitle={({ resource, bundle }) => getName(resource, { bundle })!}
                     tabs={tabs}
+                    maxWidth="100%"
                 />
             )}
         </PatientDashboardProvider>
@@ -126,14 +128,16 @@ function Documents({ patient }: { patient: WithId<Patient> }) {
             <Route
                 path="/new/:questionnaireId"
                 element={
-                    <PatientDocument
-                        patient={patient}
-                        author={author}
-                        autoSave={true}
-                        onSuccess={() => {
-                            window.history.back();
-                        }}
-                    />
+                    <S.PatientDocument>
+                        <PatientDocument
+                            patient={patient}
+                            author={author}
+                            autoSave={true}
+                            onSuccess={() => {
+                                window.history.back();
+                            }}
+                        />
+                    </S.PatientDocument>
                 }
             />
             <Route path="/:qrId/*" element={<PatientDocumentDetails patient={patient} />} />
