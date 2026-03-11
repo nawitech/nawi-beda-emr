@@ -242,7 +242,7 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         clientId: 'beda-emr',
         authPath: 'smartauth/oauth/authorize',
         tokenPath: 'smartauth/oauth/token',
-        responseType: 'token',
+        responseType: 'code',
         redirectURL: `${window.location.origin}/auth`,
         grantType: 'authorization_code',
         tabTitle: 'smile.sparked-fhir.com/ereq',
