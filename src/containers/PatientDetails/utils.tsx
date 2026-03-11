@@ -21,6 +21,7 @@ import {
     MedicationStatement,
     Observation,
     Patient,
+    Practitioner,
     Procedure,
     RelatedPerson,
     Resource,
@@ -55,8 +56,6 @@ import {
     rpRelationShip,
 } from './resourceDataGetters';
 import { AvailableResourceTypesStr, DashboardRT, MapResourceConfigType, UberListRT } from './types';
-
-
 
 export function getResourceConfigData<T extends Resource, RCM extends 'uberList' | 'dashboard'>(
     key: AvailableResourceTypesStr,
@@ -265,8 +264,8 @@ export const prepareMedicationRequests = (
     bundle: Bundle<MedicationRequest>,
 ): OverviewCard<MedicationRequest> => prepareResource(r, bundle, 'MedicationRequest');
 
-function getUuid(map: Map, key:string){
-    if(!map.has(key)){
+function getUuid(map: Map<string, string>, key: string) {
+    if (!map.has(key)) {
         map.set(key, crypto.randomUUID());
     }
     return map.get(key);
@@ -275,7 +274,14 @@ function getUuid(map: Map, key:string){
 export function prepareIPSBundle(
     composition: Composition,
     relatedResourcesBundle: Bundle<
-        Composition | Patient | Condition | AllergyIntolerance | MedicationStatement | Immunization | Procedure | Practitoner
+        | Composition
+        | Patient
+        | Condition
+        | AllergyIntolerance
+        | MedicationStatement
+        | Immunization
+        | Procedure
+        | Practitioner
     >,
 ): Bundle {
     const uuidStorage = new Map();
@@ -303,7 +309,7 @@ export function prepareIPSBundle(
                 resource: assign_urn_uuid_to_references(uuidStorage, patient),
             },
             {
-                fullUrl: `urn:uuid:${getUuid(uuidStorage, 'Practitioner/'+practitioner.id)}`,
+                fullUrl: `urn:uuid:${getUuid(uuidStorage, 'Practitioner/' + practitioner.id)}`,
                 resource: assign_urn_uuid_to_references(uuidStorage, practitioner),
             },
         ],
@@ -347,7 +353,14 @@ export function prepareIPSBundle(
 export function prepareComposition(
     resources: Composition[],
     bundle: Bundle<
-        Composition | Patient | Condition | AllergyIntolerance | MedicationStatement | Immunization | Procedure | Practitoner
+        | Composition
+        | Patient
+        | Condition
+        | AllergyIntolerance
+        | MedicationStatement
+        | Immunization
+        | Procedure
+        | Practitioner
     >,
 ): OverviewCard<Composition> {
     return {
@@ -392,7 +405,7 @@ export function prepareComposition(
     };
 }
 
-export function assign_urn_uuid_to_references(uuidStorage: Map, obj: any): any {
+export function assign_urn_uuid_to_references(uuidStorage: Map<string, string>, obj: any): any {
     if (obj === null || obj === undefined) {
         return obj;
     }
