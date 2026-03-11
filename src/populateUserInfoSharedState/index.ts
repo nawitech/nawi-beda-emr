@@ -77,6 +77,7 @@ export type SharedUserInitCallback = () => Promise<RemoteDataResult<User>>;
 export const clientSharedUserInitService: { [key in AuthProvider]: SharedUserInitCallback | undefined } = {
     [AuthProvider.AuCoreAidbox]: aidboxPopulateUserInfoSharedState,
     [AuthProvider.ErequestingAidbox]: aidboxPopulateUserInfoSharedState,
+    [AuthProvider.ErequestingSparked]: mockUserInfoSharedState('leishman-leesa'),
     [AuthProvider.SmartOnFhirAidbox]: aidboxPopulateUserInfoSharedState,
     [AuthProvider.SparkedHAPI]: smileUserInfoSharedState,
     [AuthProvider.BP]: mockUserInfoSharedState('15000000-0020-0000-0000-98a3489d6ffc'),
