@@ -228,7 +228,7 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         },
     },
     [AuthProvider.ErequestingSparked]: {
-        clientId: 'sparked',
+        clientId: 'beda-emr',
         authPath: 'smartauth/oauth/authorize',
         tokenPath: 'smartauth/oauth/token',
         responseType: 'token',
