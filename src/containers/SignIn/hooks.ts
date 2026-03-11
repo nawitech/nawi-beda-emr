@@ -48,6 +48,11 @@ export function useSignIn(props: SignInProps) {
             window.localStorage.setItem('token', 'token');
             window.location.href = '/patients';
             return;
+        } else if ([AuthProvider.ErequestingCallistemon].indexOf(activeAuthProvider) != -1) {
+            //These provider doesn't need authorization
+            window.localStorage.setItem('token', 'token');
+            window.location.href = '/patients';
+            return;
         } else if ([AuthProvider.MedtechGlobal].indexOf(activeAuthProvider) != -1) {
             //These provider doesn't need authorization
             window.localStorage.setItem(

@@ -4,6 +4,7 @@ export enum AuthProvider {
     AuCoreAidbox = 'au-core-aidbox',
     ErequestingAidbox = 'e-requesting-aidbox',
     ErequestingSparked = 'e-requesting-sparked',
+    ErequestingCallistemon = 'e-requesting-callistemon',
     SmartOnFhirAidbox = 'smart-on-fhir-aidbox',
     SparkedHAPI = 'sparked-hapi',
     BP = 'best-practice',
@@ -78,6 +79,16 @@ export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
         production: {
             baseUrl: 'https://smile.sparked-fhir.com/ereq',
             fhirBaseUrl: 'https://smile.sparked-fhir.com/ereq/fhir/DEFAULT',
+        },
+    },
+    [AuthProvider.ErequestingCallistemon]: {
+        develop: {
+            baseUrl: 'https://server.callistemon.site/fhir',
+            fhirBaseUrl: 'https://server.callistemon.site/fhir',
+        },
+        production: {
+            baseUrl: 'https://server.callistemon.site/fhir',
+            fhirBaseUrl: 'https://server.callistemon.site/fhir',
         },
     },
     [AuthProvider.SmartOnFhirAidbox]: {
@@ -266,6 +277,17 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         scope: ['openid', 'fhirUser'],
         tabTitle: 'fhir.hl7.org.au/aucore',
         message: 'Please contact Heath Frankel for credentials',
+    },
+    [AuthProvider.ErequestingCallistemon]: {
+        clientId: 'callistemon',
+        authPath: 'smart/oauth/authorize',
+        tokenPath: 'smart/oauth/token',
+        responseType: 'code',
+        redirectURL: `${window.location.origin}/callistemon-auth`,
+        grantType: 'authorization_code',
+        scope: ['openid', 'fhirUser'],
+        tabTitle: 'Callistemon (HAPI server)',
+        message: 'No authorization required',
     },
     [AuthProvider.BP]: {
         clientId: 'bp',
