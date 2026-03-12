@@ -10,6 +10,8 @@ import { service } from '@beda.software/emr/services';
 import config from '@beda.software/emr-config';
 import { RenderRemoteData, useService } from '@beda.software/fhir-react';
 
+import { AuthProvider, tierConfigMap } from 'src/services/auth.ts';
+
 import { S as DocRefStyles } from '../DocRefContainer/DocRefContainer.styles';
 import { parsePatientSummary, ResourcFetchInfo } from '../DocRefContainer/utils';
 
@@ -40,10 +42,7 @@ export function SummaryContainer(props: ContainerProps) {
     const { patient } = props;
     let url = `Patient/${patient.id!}/$summary`;
 
-    if (
-        config.baseURL ===
-        'https://api.stage.haloconnect.io/integrator/sites/63255e8a-d04a-42a6-8c75-90aa880ad94e/fhir/R4/'
-    ) {
+    if (config.baseURL === tierConfigMap[AuthProvider.HaloConnect].develop.baseUrl) {
         const identifiers = patient.identifier ?? [];
         const identifierValue =
             identifiers.find((i) => i.system === 'http://ns.electronichealth.net.au/id/medicare-number')?.value ??
@@ -55,7 +54,7 @@ export function SummaryContainer(props: ContainerProps) {
     const [response] = useService<Bundle>(() =>
         service({
             url,
-            ...(config.baseURL === 'https://interop-gateway.odl.io/fhir/4.0/'
+            ...(config.baseURL === tierConfigMap[AuthProvider.OrionHealth].develop.baseUrl
                 ? { headers: { 'Cache-Control': null } }
                 : {}),
         }),

@@ -43,7 +43,7 @@ const tabs: Array<Tab<WithId<Patient>>> = [
     },
 ];
 
-if (config.baseURL === 'https://aucore.aidbox.beda.software') {
+if (config.baseURL === tierConfigMap[AuthProvider.AuCoreAidbox].develop.baseUrl) {
     tabs.push({
         path: 'documents',
         label: 'Documents',
@@ -68,7 +68,7 @@ if (
     });
 }
 
-if (config.baseURL === 'https://smartonfhir.aidbox.beda.software') {
+if (config.baseURL === tierConfigMap[AuthProvider.SmartOnFhirAidbox].develop.baseUrl) {
     tabs.push({
         path: 'smart',
         label: 'Smart Apps',
@@ -77,8 +77,8 @@ if (config.baseURL === 'https://smartonfhir.aidbox.beda.software') {
 }
 
 export function PatientDetails() {
-    const isEpic = config.baseURL === 'https://connectathon-au.epic.com/Interconnect-connectathon-au/api/FHIR/R4/';
-    const isOrionHealth = config.baseURL === 'https://interop-gateway.odl.io/fhir/4.0/';
+    const isEpic = config.baseURL === tierConfigMap[AuthProvider.Epic].develop.baseUrl;
+    const isOrionHealth = config.baseURL === tierConfigMap[AuthProvider.OrionHealth].develop.baseUrl;
 
     return (
         <PatientDashboardProvider dashboard={dashboard}>
@@ -136,7 +136,7 @@ function OrionHealthPatientDetails() {
         return service<Patient>({
             method: 'GET',
             url: `/Patient/GE3DQMRZHE4UAU2ZKNPUC`,
-            ...(config.baseURL === 'https://interop-gateway.odl.io/fhir/4.0/'
+            ...(config.baseURL === tierConfigMap[AuthProvider.OrionHealth].develop.baseUrl
                 ? { headers: { 'Cache-Control': null } }
                 : {}),
         });

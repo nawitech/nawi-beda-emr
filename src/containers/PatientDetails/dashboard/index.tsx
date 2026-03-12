@@ -4,6 +4,8 @@ import type { Dashboard, DashboardInstance, WidgetInfo } from '@beda.software/em
 import { StandardCardContainerFabric } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/containers/StandardCardContainerFabric/index';
 import config from '@beda.software/emr-config';
 
+import { AuthProvider, tierConfigMap } from 'src/services/auth.ts';
+
 import { DocRrefContainer } from './containers/DocRefContainer';
 import { SummaryContainer } from './containers/SummaryContainer';
 import {
@@ -20,72 +22,70 @@ import {
 
 const patientDashboardConfig: DashboardInstance = {
     top:
-        config.baseURL === 'https://interop-gateway.odl.io/fhir/4.0/'
+        config.baseURL === tierConfigMap[AuthProvider.OrionHealth].develop.baseUrl
             ? [
                   {
                       widget: SummaryContainer,
                   },
               ]
             : [
-                  ...(config.baseURL === 'https://aucore.aidbox.beda.software'
+                  ...(config.baseURL === tierConfigMap[AuthProvider.AuCoreAidbox].develop.baseUrl
                       ? [
                             {
                                 widget: DocRrefContainer,
                             },
                         ]
                       : []),
-                  ...(config.baseURL ===
-                  'https://bps-interop-practicegateway-connectathon-fhir-api.deva.svc.bpcloud.dev/api/interop/r4/fhir/'
+                  ...(config.baseURL === tierConfigMap[AuthProvider.BP].develop.baseUrl
                       ? [
                             {
                                 widget: SummaryContainer,
                             },
                         ]
                       : []),
-                  ...(config.baseURL ===
-                  'https://api.stage.haloconnect.io/integrator/sites/63255e8a-d04a-42a6-8c75-90aa880ad94e/fhir/R4/'
+                  ...(config.baseURL === tierConfigMap[AuthProvider.HaloConnect].develop.baseUrl
                       ? [
                             {
                                 widget: SummaryContainer,
                             },
                         ]
                       : []),
-                  ...(config.baseURL === 'https://alexapiuat.medtechglobal.com/FHIR'
+                  ...(config.baseURL === tierConfigMap[AuthProvider.MedtechGlobal].develop.baseUrl
                       ? [
                             {
                                 widget: SummaryContainer,
                             },
                         ]
                       : []),
-                  ...(config.baseURL === 'https://api-v1.test.medirecords.com/fhir/v1'
+                  ...(config.baseURL === tierConfigMap[AuthProvider.MediRecords].develop.baseUrl
                       ? [
                             {
                                 widget: SummaryContainer,
                             },
                         ]
                       : []),
-                  ...(config.baseURL === 'https://smile.sparked-fhir.com/aucore/fhir/DEFAULT/'
+                  ...(config.baseURL === tierConfigMap[AuthProvider.Sparked].develop.baseUrl
                       ? [
                             {
                                 widget: SummaryContainer,
                             },
                         ]
                       : []),
-                  ...(config.baseURL === 'https://fhir-xrp.digitalhealth.gov.au/fhir/'
+                  ...(config.baseURL === tierConfigMap[AuthProvider.DigitalHealth].develop.baseUrl
                       ? [
                             {
                                 widget: SummaryContainer,
                             },
                         ]
                       : []),
-                  ...(config.baseURL === 'https://connectathon-au.epic.com/Interconnect-connectathon-au/api/FHIR/R4/'
+                  ...(config.baseURL === tierConfigMap[AuthProvider.Epic].develop.baseUrl
                       ? [
                             {
                                 widget: SummaryContainer,
                             },
                         ]
                       : []),
-                  ...(config.baseURL === 'https://aucore.aidbox.beda.software'
+                  ...(config.baseURL === tierConfigMap[AuthProvider.AuCoreAidbox].develop.baseUrl
                       ? Array.of<WidgetInfo>({
                             widget: StandardCardContainerFabric(prepareComposition),
                             query: {

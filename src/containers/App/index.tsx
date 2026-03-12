@@ -1,15 +1,17 @@
-import { Route, Navigate } from 'react-router-dom';
+import { Navigate, Route } from 'react-router-dom';
 
 import {
-    EMR,
     Auth as ImplicitGrantAuth,
     CodeGrantAuth,
-    PractitionerList,
-    PractitionerDetails,
+    EMR,
     HealthcareServiceList,
+    PractitionerDetails,
+    PractitionerList,
 } from '@beda.software/emr/containers';
 import { MenuLayout } from '@beda.software/emr/dist/components/BaseLayout/Sidebar/SidebarTop/context';
 import config from '@beda.software/emr-config';
+
+import { AuthProvider, tierConfigMap } from 'src/services/auth.ts';
 
 import { useApp } from './hooks';
 import { digitalHealthMenuLayout, menuLayout } from './layout';
@@ -22,9 +24,9 @@ import { SignIn } from '../SignIn';
 
 export function App() {
     const { sharedUserInitService, setAuthProvider } = useApp();
-    const isDigitalHealth = config.baseURL === 'https://fhir-xrp.digitalhealth.gov.au/fhir/';
-    const isEpic = config.baseURL === 'https://connectathon-au.epic.com/Interconnect-connectathon-au/api/FHIR/R4/';
-    const isOrionHealth = config.baseURL === 'https://interop-gateway.odl.io/fhir/4.0/';
+    const isDigitalHealth = config.baseURL === tierConfigMap[AuthProvider.DigitalHealth].develop.baseUrl;
+    const isEpic = config.baseURL === tierConfigMap[AuthProvider.Epic].develop.baseUrl;
+    const isOrionHealth = config.baseURL === tierConfigMap[AuthProvider.OrionHealth].develop.baseUrl;
     const digitalHealthRoutes = (
         <>
             <Route path="/practitioners" element={<PractitionerList />} />
