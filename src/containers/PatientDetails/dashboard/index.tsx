@@ -19,171 +19,171 @@ import {
 } from '../utils';
 
 const patientDashboardConfig: DashboardInstance = {
-    top: [
-        ...(config.baseURL === 'https://aucore.aidbox.beda.software'
-            ? [
-                  {
-                      widget: DocRrefContainer,
-                  },
-              ]
-            : []),
-        ...(config.baseURL ===
-        'https://bps-interop-practicegateway-connectathon-fhir-api.deva.svc.bpcloud.dev/api/interop/r4/fhir/'
+    top:
+        config.baseURL === 'https://interop-gateway.odl.io/fhir/4.0/'
             ? [
                   {
                       widget: SummaryContainer,
                   },
               ]
-            : []),
-        ...(config.baseURL ===
-        'https://api.stage.haloconnect.io/integrator/sites/63255e8a-d04a-42a6-8c75-90aa880ad94e/fhir/R4/'
-            ? [
+            : [
+                  ...(config.baseURL === 'https://aucore.aidbox.beda.software'
+                      ? [
+                            {
+                                widget: DocRrefContainer,
+                            },
+                        ]
+                      : []),
+                  ...(config.baseURL ===
+                  'https://bps-interop-practicegateway-connectathon-fhir-api.deva.svc.bpcloud.dev/api/interop/r4/fhir/'
+                      ? [
+                            {
+                                widget: SummaryContainer,
+                            },
+                        ]
+                      : []),
+                  ...(config.baseURL ===
+                  'https://api.stage.haloconnect.io/integrator/sites/63255e8a-d04a-42a6-8c75-90aa880ad94e/fhir/R4/'
+                      ? [
+                            {
+                                widget: SummaryContainer,
+                            },
+                        ]
+                      : []),
+                  ...(config.baseURL === 'https://alexapiuat.medtechglobal.com/FHIR'
+                      ? [
+                            {
+                                widget: SummaryContainer,
+                            },
+                        ]
+                      : []),
+                  ...(config.baseURL === 'https://api-v1.test.medirecords.com/fhir/v1'
+                      ? [
+                            {
+                                widget: SummaryContainer,
+                            },
+                        ]
+                      : []),
+                  ...(config.baseURL === 'https://smile.sparked-fhir.com/aucore/fhir/DEFAULT/'
+                      ? [
+                            {
+                                widget: SummaryContainer,
+                            },
+                        ]
+                      : []),
+                  ...(config.baseURL === 'https://fhir-xrp.digitalhealth.gov.au/fhir/'
+                      ? [
+                            {
+                                widget: SummaryContainer,
+                            },
+                        ]
+                      : []),
+                  ...(config.baseURL === 'https://connectathon-au.epic.com/Interconnect-connectathon-au/api/FHIR/R4/'
+                      ? [
+                            {
+                                widget: SummaryContainer,
+                            },
+                        ]
+                      : []),
+                  ...(config.baseURL === 'https://aucore.aidbox.beda.software'
+                      ? Array.of<WidgetInfo>({
+                            widget: StandardCardContainerFabric(prepareComposition),
+                            query: {
+                                resourceType: 'Composition',
+                                search: (patient: Patient) => ({
+                                    subject: patient.id,
+                                    _sort: '-date',
+                                    _count: 10,
+                                    _include: [
+                                        'Composition:subject:Patient',
+                                        'Composition:entry',
+                                        'Composition:author:Practitioner',
+                                    ],
+                                }),
+                            },
+                        })
+                      : []),
                   {
-                      widget: SummaryContainer,
+                      query: {
+                          resourceType: 'AllergyIntolerance',
+                          search: (patient: Patient) => ({
+                              patient: patient.id,
+                              _count: 7,
+                          }),
+                      },
+                      widget: StandardCardContainerFabric(prepareAllergies),
                   },
-              ]
-            : []),
-        ...(config.baseURL === 'https://alexapiuat.medtechglobal.com/FHIR'
-            ? [
                   {
-                      widget: SummaryContainer,
+                      query: {
+                          resourceType: 'Condition',
+                          search: (patient: Patient) => ({
+                              patient: patient.id,
+                              _count: 7,
+                          }),
+                      },
+                      widget: StandardCardContainerFabric(prepareConditions),
                   },
-              ]
-            : []),
-        ...(config.baseURL === 'https://api-v1.test.medirecords.com/fhir/v1'
-            ? [
                   {
-                      widget: SummaryContainer,
+                      query: {
+                          resourceType: 'Observation',
+                          search: (patient: Patient) => ({
+                              subject: patient.id,
+                              _count: 7,
+                          }),
+                      },
+                      widget: StandardCardContainerFabric(prepareObservations),
                   },
-              ]
-            : []),
-        ...(config.baseURL === 'https://smile.sparked-fhir.com/aucore/fhir/DEFAULT/'
-            ? [
                   {
-                      widget: SummaryContainer,
+                      query: {
+                          resourceType: 'Immunization',
+                          search: (patient: Patient) => ({
+                              patient: patient.id,
+                              _count: 7,
+                          }),
+                      },
+                      widget: StandardCardContainerFabric(prepareImmunizations),
                   },
-              ]
-            : []),
-        ...(config.baseURL === 'https://fhir-xrp.digitalhealth.gov.au/fhir/'
-            ? [
                   {
-                      widget: SummaryContainer,
+                      query: {
+                          resourceType: 'MedicationStatement',
+                          search: (patient: Patient) => ({
+                              patient: patient.id,
+                              _count: 7,
+                          }),
+                      },
+                      widget: StandardCardContainerFabric(prepareMedicationStatements),
                   },
-              ]
-            : []),
-        ...(config.baseURL === 'https://connectathon-au.epic.com/Interconnect-connectathon-au/api/FHIR/R4/'
-            ? [
                   {
-                      widget: SummaryContainer,
+                      query: {
+                          resourceType: 'MedicationRequest',
+                          search: (patient: Patient) => ({
+                              patient: patient.id,
+                              _count: 7,
+                          }),
+                      },
+                      widget: StandardCardContainerFabric(prepareMedicationRequests),
                   },
-              ]
-            : []),
-        ...(config.baseURL === 'https://interop-gateway.odl.io/fhir/4.0/'
-            ? [
                   {
-                      widget: SummaryContainer,
+                      query: {
+                          resourceType: 'Procedure',
+                          search: (patient: Patient) => ({
+                              subject: patient.id,
+                              _count: 7,
+                          }),
+                      },
+                      widget: StandardCardContainerFabric(prepareProcedures),
                   },
-              ]
-            : []),
-        ...(config.baseURL === 'https://aucore.aidbox.beda.software'
-            ? Array.of<WidgetInfo>({
-                  widget: StandardCardContainerFabric(prepareComposition),
-                  query: {
-                      resourceType: 'Composition',
-                      search: (patient: Patient) => ({
-                          subject: patient.id,
-                          _sort: '-date',
-                          _count: 10,
-                          _include: [
-                              'Composition:subject:Patient',
-                              'Composition:entry',
-                              'Composition:author:Practitioner',
-                          ],
-                      }),
+                  {
+                      query: {
+                          resourceType: 'RelatedPerson',
+                          search: (patient: Patient) => ({
+                              patient: patient.id,
+                              _count: 7,
+                          }),
+                      },
+                      widget: StandardCardContainerFabric(prepareRelatedPersons),
                   },
-              })
-            : []),
-        {
-            query: {
-                resourceType: 'AllergyIntolerance',
-                search: (patient: Patient) => ({
-                    patient: patient.id,
-                    _count: 7,
-                }),
-            },
-            widget: StandardCardContainerFabric(prepareAllergies),
-        },
-        {
-            query: {
-                resourceType: 'Condition',
-                search: (patient: Patient) => ({
-                    patient: patient.id,
-                    _count: 7,
-                }),
-            },
-            widget: StandardCardContainerFabric(prepareConditions),
-        },
-        {
-            query: {
-                resourceType: 'Observation',
-                search: (patient: Patient) => ({
-                    subject: patient.id,
-                    _count: 7,
-                }),
-            },
-            widget: StandardCardContainerFabric(prepareObservations),
-        },
-        {
-            query: {
-                resourceType: 'Immunization',
-                search: (patient: Patient) => ({
-                    patient: patient.id,
-                    _count: 7,
-                }),
-            },
-            widget: StandardCardContainerFabric(prepareImmunizations),
-        },
-        {
-            query: {
-                resourceType: 'MedicationStatement',
-                search: (patient: Patient) => ({
-                    patient: patient.id,
-                    _count: 7,
-                }),
-            },
-            widget: StandardCardContainerFabric(prepareMedicationStatements),
-        },
-        {
-            query: {
-                resourceType: 'MedicationRequest',
-                search: (patient: Patient) => ({
-                    patient: patient.id,
-                    _count: 7,
-                }),
-            },
-            widget: StandardCardContainerFabric(prepareMedicationRequests),
-        },
-        {
-            query: {
-                resourceType: 'Procedure',
-                search: (patient: Patient) => ({
-                    subject: patient.id,
-                    _count: 7,
-                }),
-            },
-            widget: StandardCardContainerFabric(prepareProcedures),
-        },
-        {
-            query: {
-                resourceType: 'RelatedPerson',
-                search: (patient: Patient) => ({
-                    patient: patient.id,
-                    _count: 7,
-                }),
-            },
-            widget: StandardCardContainerFabric(prepareRelatedPersons),
-        },
-    ],
+              ],
     left: [],
     right: [],
     bottom: [],

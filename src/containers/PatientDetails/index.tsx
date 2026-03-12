@@ -132,12 +132,15 @@ function EpicPatientDetails() {
 }
 
 function OrionHealthPatientDetails() {
-    const [response] = useService(() =>
-        service<Patient>({
+    const [response] = useService(() => {
+        return service<Patient>({
             method: 'GET',
             url: `/Patient/GE3DQMRZHE4UAU2ZKNPUC`,
-        }),
-    );
+            ...(config.baseURL === 'https://interop-gateway.odl.io/fhir/4.0/'
+                ? { headers: { 'Cache-Control': null } }
+                : {}),
+        });
+    });
 
     return (
         <RenderRemoteData remoteData={response}>

@@ -40,14 +40,26 @@ export function SummaryContainer(props: ContainerProps) {
     const { patient } = props;
     let url = `Patient/${patient.id!}/$summary`;
 
-    if (config.baseURL === 'https://api.stage.haloconnect.io/integrator/sites/63255e8a-d04a-42a6-8c75-90aa880ad94e/fhir/R4/') {
+    if (
+        config.baseURL ===
+        'https://api.stage.haloconnect.io/integrator/sites/63255e8a-d04a-42a6-8c75-90aa880ad94e/fhir/R4/'
+    ) {
         const identifiers = patient.identifier ?? [];
-        const identifierValue = identifiers.find((i) => i.system === 'http://ns.electronichealth.net.au/id/medicare-number')?.value ?? identifiers[0]?.value;
+        const identifierValue =
+            identifiers.find((i) => i.system === 'http://ns.electronichealth.net.au/id/medicare-number')?.value ??
+            identifiers[0]?.value;
 
         url = `Patient/$summary?identifier=${identifierValue}`;
     }
 
-    const [response] = useService<Bundle>(() => service({ url }));
+    const [response] = useService<Bundle>(() =>
+        service({
+            url,
+            ...(config.baseURL === 'https://interop-gateway.odl.io/fhir/4.0/'
+                ? { headers: { 'Cache-Control': null } }
+                : {}),
+        }),
+    );
 
     return (
         <DashboardCard title={t`Patient Summary`} icon={<FileOutlined />}>

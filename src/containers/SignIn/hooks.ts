@@ -8,8 +8,9 @@ import {
 } from '@beda.software/emr/services';
 import config from '@beda.software/emr-config';
 
-import { authClientConfigMap, tierConfigMap, AuthProvider, Tier, saveAuthProviderToStorage } from 'src/services/auth';
+import { authClientConfigMap, AuthProvider, saveAuthProviderToStorage, Tier, tierConfigMap } from 'src/services/auth';
 import { setBaseUrl, setClientId, setFhirBaseUrl } from 'src/services/storage';
+
 export interface SignInProps {
     originPathName?: string;
     onSwitchService?: (authProvider: AuthProvider) => void;
