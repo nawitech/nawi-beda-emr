@@ -78,6 +78,13 @@ const patientDashboardConfig: DashboardInstance = {
                   },
               ]
             : []),
+        ...(config.baseURL === 'https://interop-gateway.odl.io/fhir/4.0/'
+            ? [
+                  {
+                      widget: SummaryContainer,
+                  },
+              ]
+            : []),
         ...(config.baseURL === 'https://aucore.aidbox.beda.software'
             ? Array.of<WidgetInfo>({
                   widget: StandardCardContainerFabric(prepareComposition),
@@ -87,7 +94,11 @@ const patientDashboardConfig: DashboardInstance = {
                           subject: patient.id,
                           _sort: '-date',
                           _count: 10,
-                          _include: ['Composition:subject:Patient', 'Composition:entry', 'Composition:author:Practitioner'],
+                          _include: [
+                              'Composition:subject:Patient',
+                              'Composition:entry',
+                              'Composition:author:Practitioner',
+                          ],
                       }),
                   },
               })

@@ -24,6 +24,7 @@ export function App() {
     const { sharedUserInitService, setAuthProvider } = useApp();
     const isDigitalHealth = config.baseURL === 'https://fhir-xrp.digitalhealth.gov.au/fhir/';
     const isEpic = config.baseURL === 'https://connectathon-au.epic.com/Interconnect-connectathon-au/api/FHIR/R4/';
+    const isOrionHealth = config.baseURL === 'https://interop-gateway.odl.io/fhir/4.0/';
     const digitalHealthRoutes = (
         <>
             <Route path="/practitioners" element={<PractitionerList />} />
@@ -41,6 +42,13 @@ export function App() {
             return (
                 <>
                     <Route path="/patients" element={<Navigate to="/patients/e0lof40pd7mW6R7f0v.4POw3" />} />
+                    <Route path="/patients/:id/*" element={<PatientDetails />} />
+                </>
+            );
+        } else if (isOrionHealth) {
+            return (
+                <>
+                    <Route path="/patients" element={<Navigate to="/patients/GE3DQMRZHE4UAU2ZKNPUC" />} />
                     <Route path="/patients/:id/*" element={<PatientDetails />} />
                 </>
             );

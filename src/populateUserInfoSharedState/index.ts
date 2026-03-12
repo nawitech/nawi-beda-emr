@@ -1,9 +1,14 @@
 import { decodeJwt, JWTPayload } from 'jose';
 
 import { InternalReference, Patient, Practitioner, User } from '@beda.software/aidbox-types';
-import { fetchUserRoleDetails, aidboxPopulateUserInfoSharedState } from '@beda.software/emr/dist/containers/App/utils';
+import { aidboxPopulateUserInfoSharedState, fetchUserRoleDetails } from '@beda.software/emr/dist/containers/App/utils';
 import { getIdToken } from '@beda.software/emr/services';
-import { sharedAuthorizedUser } from '@beda.software/emr/sharedState';
+import {
+    sharedAuthorizedPractitioner,
+    sharedAuthorizedPractitionerRoles,
+    sharedAuthorizedUser,
+} from '@beda.software/emr/sharedState';
+import config from '@beda.software/emr-config';
 import { failure, RemoteDataResult, success } from '@beda.software/remote-data';
 
 import { AuthProvider } from 'src/services/auth';
@@ -30,7 +35,13 @@ const mockUserInfoSharedState = (practitionerId: string) => async (): Promise<Re
         ],
     };
     sharedAuthorizedUser.setSharedState(user);
-    await fetchUserRoleDetails(user);
+
+    if (config.baseURL === 'https://interop-gateway.odl.io/fhir/4.0/') {
+        sharedAuthorizedPractitioner.setSharedState({ resourceType: 'Practitioner', id: practitionerId });
+        sharedAuthorizedPractitionerRoles.setSharedState([]);
+    } else {
+        await fetchUserRoleDetails(user);
+    }
 
     return success(user);
 };
@@ -89,4 +100,5 @@ export const clientSharedUserInitService: { [key in AuthProvider]: SharedUserIni
     [AuthProvider.Sparked]: mockUserInfoSharedState('leishman-leesa'),
     [AuthProvider.DigitalHealth]: mockUserInfoSharedState('example-healthconnect-practitioner-1'),
     [AuthProvider.Epic]: mockUserInfoSharedState('e-.Lo31-.yLLfMmz0ylcV7A3'),
+    [AuthProvider.OrionHealth]: mockUserInfoSharedState('orion-health'),
 };

@@ -15,6 +15,7 @@ export enum AuthProvider {
     Sparked = 'sparked',
     DigitalHealth = 'digital-health',
     Epic = 'epic',
+    OrionHealth = 'orion-health'
 }
 
 export type Tier = 'develop' | 'production';
@@ -195,6 +196,16 @@ export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
         production: {
             baseUrl: 'https://connectathon-au.epic.com/Interconnect-connectathon-au/api/FHIR/R4/',
             fhirBaseUrl: 'https://connectathon-au.epic.com/Interconnect-connectathon-au/api/FHIR/R4/',
+        },
+    },
+    [AuthProvider.OrionHealth]: {
+        develop: {
+            baseUrl: 'https://interop-gateway.odl.io/fhir/4.0/',
+            fhirBaseUrl: 'https://interop-gateway.odl.io/fhir/4.0/',
+        },
+        production: {
+            baseUrl: 'https://interop-gateway.odl.io/fhir/4.0/',
+            fhirBaseUrl: 'https://interop-gateway.odl.io/fhir/4.0/',
         },
     },
 };
@@ -378,6 +389,17 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         grantType: 'authorization_code',
         scope: ['openid', 'fhirUser'],
         tabTitle: 'Epic',
+        message: 'No authorization required',
+    },
+    [AuthProvider.OrionHealth]: {
+        clientId: 'orion-health',
+        authPath: 'smart/oauth/authorize',
+        tokenPath: 'smart/oauth/token',
+        responseType: 'code',
+        redirectURL: `${window.location.origin}/auth`,
+        grantType: 'authorization_code',
+        scope: ['openid', 'fhirUser'],
+        tabTitle: 'Orion Health',
         message: 'No authorization required',
     },
 };

@@ -79,6 +79,11 @@ export function useSignIn(props: SignInProps) {
             );
             window.location.href = '/patients';
             return;
+        } else if ([AuthProvider.OrionHealth].indexOf(activeAuthProvider) != -1) {
+            //These providers don't need authorization
+            window.localStorage.setItem('token', 'token');
+            window.location.href = '/patients';
+            return;
         }
         const authState: OAuthState | undefined = props.originPathName ? { nextUrl: props.originPathName } : undefined;
 

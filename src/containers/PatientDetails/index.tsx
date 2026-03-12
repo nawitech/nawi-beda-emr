@@ -78,11 +78,14 @@ if (config.baseURL === 'https://smartonfhir.aidbox.beda.software') {
 
 export function PatientDetails() {
     const isEpic = config.baseURL === 'https://connectathon-au.epic.com/Interconnect-connectathon-au/api/FHIR/R4/';
+    const isOrionHealth = config.baseURL === 'https://interop-gateway.odl.io/fhir/4.0/';
 
     return (
         <PatientDashboardProvider dashboard={dashboard}>
             {isEpic ? (
                 <EpicPatientDetails />
+            ) : isOrionHealth ? (
+                <OrionHealthPatientDetails />
             ) : (
                 <ResourceDetailPage<Patient>
                     resourceType="Patient"
@@ -101,6 +104,38 @@ function EpicPatientDetails() {
         service<Patient>({
             method: 'GET',
             url: `/Patient/e0lof40pd7mW6R7f0v.4POw3`,
+        }),
+    );
+
+    return (
+        <RenderRemoteData remoteData={response}>
+            {(patient) => {
+                return (
+                    <PageContainer
+                        title={renderHumanName(patient.name?.[0])}
+                        layoutVariant="with-tabs"
+                        headerContent={<PageTabs tabs={tabs} />}
+                    >
+                        <Routes>
+                            {tabs.map(({ path, component }) => (
+                                <React.Fragment key={path}>
+                                    <Route path={'/' + path} element={component({ resource: patient } as any)} />
+                                    <Route path={'/' + path + '/*'} element={component({ resource: patient } as any)} />
+                                </React.Fragment>
+                            ))}
+                        </Routes>
+                    </PageContainer>
+                );
+            }}
+        </RenderRemoteData>
+    );
+}
+
+function OrionHealthPatientDetails() {
+    const [response] = useService(() =>
+        service<Patient>({
+            method: 'GET',
+            url: `/Patient/GE3DQMRZHE4UAU2ZKNPUC`,
         }),
     );
 
