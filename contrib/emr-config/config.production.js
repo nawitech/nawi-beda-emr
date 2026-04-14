@@ -19,7 +19,7 @@ const config = {
     jitsiMeetServer: null,
     wearablesDataStreamService: null,
     metriportIdentifierSystem: null,
-    aiAssistantServiceUrl: 'https://scribe.emr.beda.software',
+    aiAssistantServiceUrl: 'https://scribe.au-core.beda.software',
 };
 
 export { config as default };
