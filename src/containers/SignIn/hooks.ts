@@ -35,6 +35,17 @@ export function useSignIn(props: SignInProps) {
     }, [props, authClientConfig, tierConfig, tier, activeAuthProvider]);
 
     const authorize = useCallback(() => {
+
+	 // Explicitly persist all config to localStorage right before any redirect.
+        // This guarantees CodeGrantAuth and the FHIR client have correct values
+        // regardless of whether the useEffect has already run.
+        setBaseUrl(tierConfig[tier].baseUrl);
+        setFhirBaseUrl(tierConfig[tier].fhirBaseUrl);
+        setClientId(authClientConfig.clientId);
+        setAuthClientRedirectURL(authClientConfig.redirectURL);
+        setAuthTokenURLpath(authClientConfig.tokenPath);
+        saveAuthProviderToStorage(activeAuthProvider);
+
         if (AuthProvider.MediRecords === activeAuthProvider) {
             window.localStorage.setItem('token', 'JOsWSrXQauWP6rC7dnexWfNtGH0');
             window.location.href = '/patients';

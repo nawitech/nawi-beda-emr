@@ -3,6 +3,7 @@ import { t } from "@lingui/macro";
 import { MenuLayoutValue } from "@beda.software/emr/dist/components/BaseLayout/Sidebar/SidebarTop/context";
 import {OrganizationsIcon, PatientsIcon, PractitionersIcon, ServicesIcon} from '@beda.software/emr/icons';
 import {matchCurrentUserRole, Role} from '@beda.software/emr/utils'
+import { Patient } from 'fhir/r4b';
 
 export const menuLayout: MenuLayoutValue = () =>
     matchCurrentUserRole({
@@ -12,7 +13,9 @@ export const menuLayout: MenuLayoutValue = () =>
         [Role.Practitioner]: () => [
             { label: t`Patients`, path: '/patients', icon: <PatientsIcon /> },
         ],
-        [Role.Patient]: () => [],
+        [Role.Patient]: (patient: Patient) => [
+            { label: t`Patient`, path: `/patients/${patient!.id}`, icon: <PatientsIcon /> },
+        ],
         [Role.Receptionist]: () => [],
     });
 

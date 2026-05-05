@@ -1,0 +1,86 @@
+services:
+  postgres-keycloak:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: ${POSTGRES_KEYCLOAK_PASSWORD}
+    volumes:
+      - keycloak_data:/var/lib/postgresql/data
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.5.5
+    command: start-dev
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_BOOTSTRAP_ADMIN_PASSWORD}
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres-keycloak:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: ${POSTGRES_KEYCLOAK_PASSWORD}
+      KC_HOSTNAME: 35.202.40.190
+      KC_HOSTNAME_URL: http://35.202.40.190:8080
+      KC_HOSTNAME_STRICT: "false"
+      KC_HOSTNAME_STRICT_HTTPS: "false"
+      KC_HTTP_PORT: 8080
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres-keycloak
+
+  hapi-fhir:
+    image: hapiproject/hapi:latest
+    ports:
+      - "8082:8080"
+    environment:
+      - hapi.fhir.fhir_version=R4
+      - hapi.fhir.cors.allowed_origin=*
+
+  fhir-gateway:
+    image: us-docker.pkg.dev/fhir-proxy-build/stable/fhir-gateway:latest
+    ports:
+      - "8084:8080"
+    environment:
+      # Proxy target — internal Docker DNS, no auth required (HAPI is network-isolated)
+      - PROXY_TO=http://hapi-fhir:8080/fhir
+      - BACKEND_TYPE=HAPI
+      # Must exactly match the `iss` claim in Keycloak-issued JWTs.
+      # KC_HOSTNAME_URL above pins Keycloak to this public URL, so the claim is consistent.
+      - TOKEN_ISSUER=http://35.202.40.190:8080/realms/beda-emr
+      # Access checker — requires each JWT to carry a `patient_list` claim referencing
+      # a FHIR List resource in HAPI.
+      - ACCESS_CHECKER=list
+      # Disable SSL validation for HTTP-only dev/connectathon environment
+      - RUN_MODE=DEV
+      - ALLOW_CORS=true
+      - ALLOWED_QUERIES_FILE=/app/config/hapi_allowed_queries.json
+    volumes:
+      - ./gateway-config/hapi_allowed_queries.json:/app/config/hapi_allowed_queries.json:ro
+    depends_on:
+      - hapi-fhir
+      - keycloak
+
+  beda-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - fhir-gateway
+
+  fhir-sdc:
+    image: bedasoftware/fhir-sdc:latest
+    ports:
+      - "8083:8081"
+    environment:
+      - FHIR_URL=http://hapi-fhir:8080/fhir
+      - BACKEND_TYPE=fhir
+      - AUTH_TYPE=none
+      - CONSTRAINT_LEGACY_BEHAVIOR=False
+      - CREATE_MANIFEST_ATTRS=False
+    depends_on:
+      - hapi-fhir
+
+volumes:
+  keycloak_data:

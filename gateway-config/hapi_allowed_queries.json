@@ -1,0 +1,82 @@
+{
+  "entries": [
+    {
+      "_comment": "HAPI pagination — used by all paginated FHIR queries",
+      "path": "",
+      "queryParams": { "_getpages": "ANY_VALUE" },
+      "allowExtraParams": true,
+      "allParamsRequired": true
+    },
+    {
+      "_comment": "Practitioner — GET by ID (fetchUserRoleDetails)",
+      "path": "Practitioner/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Practitioner — search by _id",
+      "path": "Practitioner",
+      "queryParams": { "_id": "ANY_VALUE" },
+      "allowExtraParams": true,
+      "allParamsRequired": true
+    },
+    {
+      "_comment": "PractitionerRole — search by practitioner (fetchUserRoleDetails)",
+      "path": "PractitionerRole",
+      "queryParams": { "practitioner": "ANY_VALUE" },
+      "allowExtraParams": true,
+      "allParamsRequired": true
+    },
+    {
+      "_comment": "Organization — GET by ID (fetchUserRoleDetails admin role)",
+      "path": "Organization/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "List — GET by ID (patient_list resource read by gateway access checker)",
+      "path": "List/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "List — search",
+      "path": "List",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Questionnaire — GET by ID (SDC forms)",
+      "path": "Questionnaire/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Questionnaire — search",
+      "path": "Questionnaire",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Patient — listing",
+      "path": "Patient",
+      "queryParams": { "_sort": "ANY_VALUE" },
+      "allowExtraParams": true,
+      "allParamsRequired": true
+    },
+    {
+      "_comment": "Patient — GET by ID (fetchUserRoleDetails patient role)",
+      "path": "Patient/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    }
+  ]
+}
+

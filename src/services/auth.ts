@@ -15,7 +15,8 @@ export enum AuthProvider {
     Sparked = 'sparked',
     DigitalHealth = 'digital-health',
     Epic = 'epic',
-    OrionHealth = 'orion-health'
+    OrionHealth = 'orion-health',
+    OHSKeycloak = 'ohs-keycloak',
 }
 
 export type Tier = 'develop' | 'production';
@@ -206,6 +207,20 @@ export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
         production: {
             baseUrl: 'https://interop-gateway.odl.io/fhir/4.0/',
             fhirBaseUrl: 'https://interop-gateway.odl.io/fhir/4.0/',
+        },
+    },
+    // OHS FHIR Gateway (HAPI FHIR + Keycloak)
+    // baseUrl  → Keycloak host: used by getAuthorizeUrl() to build the browser auth redirect URL.
+    // fhirBaseUrl → OHS Gateway: used for all FHIR API calls (Bearer token enforced by gateway).
+    // This split mirrors the MedtechGlobal pattern (absolute tokenPath, relative authPath off baseUrl).
+    [AuthProvider.OHSKeycloak]: {
+        develop: {
+            baseUrl: 'http://35.202.40.190:8080',
+            fhirBaseUrl: 'http://35.202.40.190:8084/fhir',
+        },
+        production: {
+            baseUrl: 'http://35.202.40.190:8080',
+            fhirBaseUrl: 'http://35.202.40.190:8084/fhir',
         },
     },
 };
@@ -402,6 +417,37 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         tabTitle: 'Orion Health',
         message: 'No authorization required',
     },
+    // OHS FHIR Gateway — Keycloak OIDC (authorization_code flow).
+    // Auth endpoint strategy (Option A — baseUrl split):
+    //   baseUrl is the Keycloak host, so getAuthorizeUrl() builds:
+    //     http://35.202.40.190:8080/realms/beda-emr/protocol/openid-connect/auth?...
+    //   tokenPath is absolute (same pattern as AuthProvider.MedtechGlobal) so setAuthTokenURLpath
+    //   stores it directly — the code→token exchange POSTs straight to Keycloak.
+    //   All FHIR API calls use fhirBaseUrl (the gateway at :8084), not baseUrl.
+    //
+    // Keycloak client 'fhir-emr' must have http://35.202.40.190:5000/* as a valid redirect URI.
+    // Each Keycloak user needs a `patient_list` claim → FHIR List resource ID in HAPI
+    // (required by ACCESS_CHECKER=list in docker-compose.yml).
+    [AuthProvider.OHSKeycloak]: {
+        clientId: 'beda-frontend',
+        authPath: 'realms/beda-emr/protocol/openid-connect/auth',
+        tokenPath: 'realms/beda-emr/protocol/openid-connect/token',
+        responseType: 'code',
+        redirectURL: `${window.location.origin}/auth`,
+        grantType: 'authorization_code',
+        scope: ['openid', 'profile'],
+        tabTitle: 'OHS FHIR Gateway (HAPI + Keycloak)',
+        message: 'Sign in with your institutional Keycloak account',
+        sharedCredentials: {
+            accountDetails: [
+                {
+                    login: 'practitioner@nawi-emr.com',
+                    accountDescription: 'Test practitioner account',
+                },
+            ],
+            commonPassword: 'password1',
+        },
+    },
 };
 
 export function saveAuthProviderToStorage(value: AuthProvider) {
@@ -417,3 +463,4 @@ export function getAuthProviderFromStorage() {
 
     return null;
 }
+
