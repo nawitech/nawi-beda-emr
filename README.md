@@ -139,5 +139,5 @@ Make sure to add  `type` when for your import
 
 ```js
 import type { Dashboard } from '@beda.software/emr/dist/components/Dashboard/types';
-
+```
 
