@@ -15,9 +15,8 @@ import '@beda.software/emr/dist/style.css';
 import { App } from '@beda.software/emr/containers';
 import { PatientDashboardProvider } from '@beda.software/emr/dist/components/Dashboard/contexts';
 import { dashboard } from '@beda.software/emr/dist/dashboard.config';
+import { dynamicActivate, getCurrentLocale } from '@beda.software/emr/services';
 import { ThemeProvider } from '@beda.software/emr/theme';
-
-import { dynamicActivate, getCurrentLocale } from './services/i18n';
 
 export const AppWithContext = () => {
     useEffect(() => {
