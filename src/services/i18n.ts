@@ -1,5 +1,4 @@
 import { i18n } from '@lingui/core';
-import type { Locale } from 'antd/es/locale';
 import deAntdLocale from 'antd/es/locale/de_DE';
 import enAntdLocale from 'antd/es/locale/en_US';
 import esAntdLocale from 'antd/es/locale/es_ES';
@@ -29,15 +28,6 @@ export function dynamicActivate(locale: string) {
 
     i18n.activate(locale);
 }
-
-/**
- * @deprecated Use `localesConfig` and access `antdLocale` from the locale entry instead.
- */
-export const antdLocaleMap: { [code: string]: Locale } = {
-    en: enAntdLocale,
-    es: esAntdLocale,
-    ru: ruAntdLocale,
-};
 
 const defaultLocalesConfig: LocalesConfig = {
     ru: {
