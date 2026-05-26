@@ -36,12 +36,17 @@ cp contrib/emr-config/config.local.js contrib/emr-config/config.js
 yarn
 ```
 
-5. Build language locales
+5. Extract and merge language locales
+```
+yarn extract
+```
+
+6. Build language locales
 ```
 yarn compile
 ```
 
-6. Run
+7. Run
 ```
 yarn start
 ```
@@ -64,7 +69,7 @@ add your aidbox license to .env
 
 ```
 cd contrib/fhir-emr
-docker-compose up
+docker compose up -d
 ```
 
 ## Adding new code to EMR submodule
