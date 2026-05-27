@@ -13,12 +13,12 @@ import '@beda.software/emr/dist/style.css';
 // You can specify your own theme to ajdust color,
 // Use you https://github.com/beda-software/fhir-emr/blob/master/src/theme/ThemeProvider.tsx as example
 import { ValueSetExpandProvider } from '@beda.software/emr/contexts';
+import { dynamicActivate, getCurrentLocale } from '@beda.software/emr/services';
 import { ThemeProvider } from '@beda.software/emr/theme';
 import config from '@beda.software/emr-config';
 
 import { App } from './containers/App';
 import { expandValueSet } from './services/expand';
-import { dynamicActivate, getCurrentLocale } from './services/i18n';
 
 export const AppWithContext = () => {
     useEffect(() => {
@@ -45,10 +45,7 @@ const authProviderStyle: React.CSSProperties = {
 
 createRoot(document.getElementById('root')!).render(
     <>
-        <div
-            id="auth-provider-info"
-            style={authProviderStyle}
-        >
+        <div id="auth-provider-info" style={authProviderStyle}>
             <span style={{ color: '#3366ff' }}>{config.baseURL}</span>
         </div>
         <React.StrictMode>

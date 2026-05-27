@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { upperFirst } from 'lodash';
-import { getCurrentLocale } from './i18n';
+
 import { ValueSetOption } from '@beda.software/emr/dist/services/valueset-expand';
+import { getCurrentLocale } from '@beda.software/emr/services';
 
 const ontoserver = axios.create({
     baseURL: 'https://tx.dev.hl7.org.au',
@@ -12,7 +13,7 @@ const ontoserver = axios.create({
 
 export async function expandValueSet(
     answerValueSet: string | undefined,
-    searchText: string
+    searchText: string,
 ): Promise<Array<ValueSetOption>> {
     if (!answerValueSet) {
         return [];
@@ -36,4 +37,4 @@ export async function expandValueSet(
             },
         },
     }));
-};
+}
