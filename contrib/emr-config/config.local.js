@@ -1,8 +1,7 @@
+import { commonConfig } from './config.common.js';
 
 const config = {
-    clientId: 'web',
-
-    wearablesAccessConsentCodingSystem: 'https://fhir.emr.beda.software/CodeSystem/consent-subject',
+    ...commonConfig,
 
     tier: 'develop',
     baseURL: 'http://localhost:8080',
@@ -17,7 +16,6 @@ const config = {
 
     wearablesDataStreamService: 'http://localhost:8082/api/v1',
 
-    metriportIdentifierSystem: 'https://api.sandbox.metriport.com',
     aiAssistantServiceUrl: null,
 };
 

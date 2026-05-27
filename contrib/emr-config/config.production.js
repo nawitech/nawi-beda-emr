@@ -1,7 +1,7 @@
-const config = {
-    clientId: 'web',
+import { commonConfig } from './config.common.js';
 
-    wearablesAccessConsentCodingSystem: 'https://fhir.emr.beda.software/CodeSystem/consent-subject',
+const config = {
+    ...commonConfig,
 
     tier: 'production',
     baseURL: 'https://aidbox.emr.beda.software',
@@ -13,7 +13,6 @@ const config = {
     mobileSentryDSN: null,
     jitsiMeetServer: 'video.emr.beda.software/',
     wearablesDataStreamService: 'https://ingest.emr.beda.software/api/v1',
-    metriportIdentifierSystem: 'https://api.sandbox.metriport.com',
     aiAssistantServiceUrl: 'https://scribe.emr.beda.software',
 };
 
