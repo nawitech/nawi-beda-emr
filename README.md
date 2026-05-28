@@ -74,10 +74,22 @@ Open http://localhost:3000 and select **OHS FHIR Gateway (HAPI + Keycloak) - Loc
 
 ## Seed accounts
 
-| Role | Username | Password |
-|---|---|---|
-| Practitioner | `practitioner` | `password` |
-| Patient | `patient` | `password` |
+| Role | Username | Password | FHIR resource |
+|---|---|---|---|
+| Administrator | `administrator` | `password` | `Organization/org-1001` |
+| Clinician | `clinician` | `password` | `Practitioner/prac-1000` |
+| Receptionist | `receptionist` | `password` | `Practitioner/prac-1001` |
+| Triage Nurse | `triage-nurse` | `password` | `Practitioner/prac-1002` |
+| Lab Technician | `lab-technician` | `password` | `Practitioner/prac-1003` |
+| Pharmacist | `pharmacist` | `password` | `Practitioner/prac-1004` |
+| Cashier | `cashier` | `password` | `Practitioner/prac-1005` |
+| Patient | `patient` | `password` | `Patient/pat-1001` |
+
+> **Reseeding after seed changes:** Keycloak persists realm data in a Docker volume. To force a clean reimport of the realm and all seed users, run:
+> ```sh
+> docker compose down -v
+> docker compose up -d
+> ```
 
 ## Auth flow
 
