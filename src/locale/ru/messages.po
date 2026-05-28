@@ -1,59 +1,75 @@
 # #-#-#-#-#  1.po  #-#-#-#-#
-# #-#-#-#-#  2.po  #-#-#-#-#
 # #-#-#-#-#  1.po  #-#-#-#-#
 # , fuzzy
 # , fuzzy
-# , fuzzy
 # #-#-#-#-#  2.po  #-#-#-#-#
-# #-#-#-#-#  1.po  #-#-#-#-#
-# , fuzzy
 # , fuzzy
 # , fuzzy
 msgid ""
 msgstr ""
 "#-#-#-#-#  1.po  #-#-#-#-#: \n"
 "#-#-#-#-#  1.po  #-#-#-#-#: \n"
-"POT-Creation-Date: 2026-04-09 19:12+0400\n"
+"#-#-#-#-#  1.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
-"Language: en\n"
+"Language: ru\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  2.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ru\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  3.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ru\n"
+"#-#-#-#-#  2.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ru\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  3.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ru\n"
 "#-#-#-#-#  2.po  #-#-#-#-#: \n"
 "#-#-#-#-#  1.po  #-#-#-#-#: \n"
-"#-#-#-#-#  messages.po  #-#-#-#-#: \n"
-"POT-Creation-Date: 2026-04-09 19:12+0400\n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
-"Language: en\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
-"#-#-#-#-#  messages.po  #-#-#-#-#: \n"
-"POT-Creation-Date: 2026-04-09 19:12+0400\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: en\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
-"#-#-#-#-#  messages.po  #-#-#-#-#: \n"
-"POT-Creation-Date: 2026-04-09 19:12+0400\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: en\n"
+"Language: ru\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: \n"
@@ -61,12 +77,12 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 "#-#-#-#-#  2.po  #-#-#-#-#: \n"
-"POT-Creation-Date: 2026-04-09 19:12+0400\n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
-"Language: en\n"
+"Language: ru\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: \n"
@@ -74,25 +90,19 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 "#-#-#-#-#  3.po  #-#-#-#-#: \n"
-"POT-Creation-Date: 2026-04-09 19:12+0400\n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
-"Language: en\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
+"Language: ru\n"
 "#-#-#-#-#  3.po  #-#-#-#-#: \n"
-"POT-Creation-Date: 2026-04-09 19:12+0400\n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
-"Language: en\n"
+"Language: ru\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: \n"
@@ -100,116 +110,17 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 "#-#-#-#-#  4.po  #-#-#-#-#: \n"
-"POT-Creation-Date: 2026-04-09 19:12+0400\n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
-"Language: en\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
-"#-#-#-#-#  2.po  #-#-#-#-#: \n"
-"#-#-#-#-#  1.po  #-#-#-#-#: \n"
-"#-#-#-#-#  messages.po  #-#-#-#-#: \n"
-"POT-Creation-Date: 2026-04-09 19:12+0400\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: en\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
-"#-#-#-#-#  messages.po  #-#-#-#-#: \n"
-"POT-Creation-Date: 2026-04-09 19:12+0400\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: en\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
-"#-#-#-#-#  messages.po  #-#-#-#-#: \n"
-"POT-Creation-Date: 2026-04-09 19:12+0400\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: en\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
-"#-#-#-#-#  2.po  #-#-#-#-#: \n"
-"POT-Creation-Date: 2026-04-09 19:12+0400\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: en\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
-"#-#-#-#-#  3.po  #-#-#-#-#: \n"
-"POT-Creation-Date: 2026-04-09 19:12+0400\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: en\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
-"#-#-#-#-#  3.po  #-#-#-#-#: \n"
-"POT-Creation-Date: 2026-04-09 19:12+0400\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: en\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
-"#-#-#-#-#  4.po  #-#-#-#-#: \n"
-"POT-Creation-Date: 2026-04-09 19:12+0400\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: en\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
+"Language: ru\n"
 
 #. js-lingui-explicit-id
 #: src/containers/QuestionnaireList/index.tsx:22
 #~ msgid "msg.QuestionnaireName"
-#~ msgstr "Name"
+#~ msgstr "Название"
 
 #: src/uberComponents/ResourceListPage/BatchActions.tsx:57
 #~ msgid "{0, plural, one {Selected # item} other {Selected # items}}"
@@ -391,7 +302,7 @@ msgstr ""
 #: src/containers/DocumentsList/index.tsx:69
 #: src/uberComponents/ResourceListPage/index.tsx:272
 #~ msgid "Actions"
-#~ msgstr ""
+#~ msgstr "Действия"
 
 #: src/containers/HealthcareServiceList/index.tsx:68
 #~ msgid "Activate"
@@ -399,7 +310,7 @@ msgstr ""
 
 #: src/containers/OrganizationResourceList/index.tsx:21
 msgid "Active"
-msgstr ""
+msgstr "Активный"
 
 #: src/containers/PatientDetails/PatientResources/utils.tsx:39
 #~ msgid "Active Medications"
@@ -464,12 +375,12 @@ msgstr ""
 
 #: src/containers/PatientResourceList/index.tsx:107
 msgid "Add patient"
-msgstr ""
+msgstr "Добавить пациенда"
 
 #: src/containers/FormList/index.tsx:57
 #: src/containers/QuestionnaireList/index.tsx:58
 #~ msgid "Add questionnaire"
-#~ msgstr ""
+#~ msgstr "Добавить опросник"
 
 #: src/containers/LocationResourceList/index.tsx:46
 msgid "Address"
@@ -600,7 +511,7 @@ msgstr ""
 #: src/containers/PatientResourceList/index.tsx:29
 #: src/containers/PatientResourceList/index.tsx:73
 msgid "Birth date"
-msgstr ""
+msgstr "Дата рождения"
 
 #: src/containers/PatientDetails/PatientOverviewDynamic/containers/GeneralIInformationDashboardContainer/hooks.ts:41
 #~ msgid "BMI"
@@ -880,7 +791,7 @@ msgstr ""
 #: src/containers/PatientDetails/PatientDetailsTabs/index.tsx:20
 #: src/containers/PatientDetails/PatientHeader/index.tsx:94
 #~ msgid "Documents"
-#~ msgstr ""
+#~ msgstr "Документы"
 
 #: src/containers/EncounterDetails/AIScribe/index.tsx:277
 #~ msgid "Documents have been successfully extracted"
@@ -904,7 +815,7 @@ msgstr ""
 #: src/containers/Prescriptions/index.tsx:258
 #: src/containers/QuestionnaireBuilder/QuestionnaireSaveForm/index.tsx:89
 #~ msgid "Draft"
-#~ msgstr ""
+#~ msgstr "Черновик"
 
 #: src/hooks/questionnaire-response-form-data.ts:158
 #: src/hooks/questionnaire-response-form-data.ts:167
@@ -943,15 +854,16 @@ msgstr ""
 #: src/containers/Scheduling/ScheduleCalendar/components/AppointmentDetailsModal/index.tsx:87
 #: src/controls/GroupTable/hooks.tsx:613
 #~ msgid "Edit"
-#~ msgstr ""
+#~ msgstr "Редактировать"
 
 #: src/containers/Scheduling/ScheduleCalendar/components/EditAppointmentModal/index.tsx:30
 #~ msgid "Edit Appointment"
 #~ msgstr ""
 
 #: src/containers/PatientDetails/PatientOverviewDynamic/components/EditPatient/index.tsx:24
+#: src/containers/PatientDetails/PatientOverviewDynamic/components/EditPatient/index.tsx:20
 #~ msgid "Edit patient"
-#~ msgstr ""
+#~ msgstr "Редактировать пациента"
 
 #: src/containers/PractitionerDetails/PractitionerOverview/index.tsx:67
 #~ msgid "Edit practitioner data"
@@ -980,7 +892,7 @@ msgstr ""
 #: src/containers/PatientDetails/PatientDetailsTabs/index.tsx:19
 #: src/containers/PatientDetails/PatientHeader/index.tsx:93
 #~ msgid "Encounters"
-#~ msgstr ""
+#~ msgstr "Приемы"
 
 #: src/containers/PatientDetails/PatientWearables/index.tsx:42
 #~ msgid "End"
@@ -988,7 +900,7 @@ msgstr ""
 
 #: src/containers/EncounterList/searchBarUtils.ts:23
 #~ msgid "End date"
-#~ msgstr ""
+#~ msgstr "Конец периода"
 
 #: src/containers/MagicSearchPage/index.tsx:120
 #~ msgid "Enter your search query"
@@ -1055,11 +967,11 @@ msgstr ""
 
 #: src/containers/PatientResourceList/index.tsx:66
 msgid "Find patient"
-msgstr ""
+msgstr "Найти пациента"
 
 #: src/containers/QuestionnaireList/index.tsx:20
 #~ msgid "Find questionnaire"
-#~ msgstr ""
+#~ msgstr "Найти опросник"
 
 #: src/containers/PatientDetails/requests.tsx:80
 msgid "Find service request"
@@ -1123,26 +1035,20 @@ msgstr ""
 #~ msgid "Group"
 #~ msgstr ""
 
-#: src/utils/__tests__/questionnaire/custom-validation.test.ts:16
-#: src/utils/__tests__/questionnaire/custom-validation.test.ts:29
-#: src/utils/__tests__/questionnaire/custom-validation.test.ts:53
 #: components/__tests__/questionnaire/custom-validation.test.ts:19
 #: components/__tests__/questionnaire/custom-validation.test.ts:32
 #: components/__tests__/questionnaire/custom-validation.test.ts:56
 #~ msgid "Has at least one lower case letter"
-#~ msgstr ""
+#~ msgstr "Содержит хотя бы одну строчную букву"
 
-#: src/utils/__tests__/questionnaire/custom-validation.test.ts:75
 #: components/__tests__/questionnaire/custom-validation.test.ts:78
 #~ msgid "Has at least one number"
-#~ msgstr ""
+#~ msgstr "Содержит хотя бы одну цифру"
 
-#: src/utils/__tests__/questionnaire/custom-validation.test.ts:40
-#: src/utils/__tests__/questionnaire/custom-validation.test.ts:64
 #: components/__tests__/questionnaire/custom-validation.test.ts:43
 #: components/__tests__/questionnaire/custom-validation.test.ts:67
 #~ msgid "Has at least one uppercase letter"
-#~ msgstr ""
+#~ msgstr "Содержит хотя бы одну заглавную букву"
 
 #: src/containers/HealthcareServiceList/index.tsx:90
 #~ msgid "Healthcare Services"
@@ -1293,7 +1199,7 @@ msgstr ""
 
 #: src/containers/App/bottomMenuLayout.tsx:54
 msgid "Log out"
-msgstr ""
+msgstr "Выйти"
 
 #: src/containers/MedicationManagementDetail/index.tsx:81
 #~ msgid "Lot number"
@@ -1365,13 +1271,13 @@ msgstr ""
 #: src/utils/questionnaire.ts:179
 #: components/QuestionnaireResponseForm/BaseQuestionnaireResponseForm/utils.tsx:118
 #~ msgid "Must be a valid time (HH:mm:ss)"
-#~ msgstr ""
+#~ msgstr "Должно быть допустимым временем (ЧЧ:мм:сс)"
 
 #: src/containers/LocationResourceList/index.tsx:14
 #: src/containers/OrganizationResourceList/index.tsx:14
 #: src/containers/PatientResourceList/index.tsx:22
 msgid "Name"
-msgstr ""
+msgstr "Имя"
 
 #: src/containers/OrganizationScheduling/NewAppointmentModal/index.tsx:27
 #: src/containers/Scheduling/ScheduleCalendar/components/NewAppointmentModal/index.tsx:25
@@ -1391,7 +1297,7 @@ msgstr ""
 #: src/uberComponents/ResourceListPage/index.tsx:212
 #: src/uberComponents/ResourceListPageContent/index.tsx:193
 #~ msgid "No data"
-#~ msgstr ""
+#~ msgstr "Нет данных"
 
 #: src/containers/PatientDetails/PatientOverviewDynamic/components/PatientNoteListCard/NoteList/index.tsx:27
 #~ msgid "No notes"
@@ -1458,8 +1364,9 @@ msgstr ""
 #: src/containers/MedicationManagement/index.tsx:50
 #: src/containers/PatientDetails/PatientOverviewDynamic/components/PatientNoteListCard/ModalNoteOpen/index.tsx:23
 #: src/containers/PractitionerList/index.tsx:56
+#: src/containers/PatientDetails/PatientOverviewDynamic/components/PatientNoteListCard/ModalNoteOpen/index.tsx:22
 #~ msgid "Open"
-#~ msgstr ""
+#~ msgstr "Открыть"
 
 #: src/containers/QuestionnaireBuilder/QuestionnaireItemSettings/controls.tsx:165
 #~ msgid "Option {0}"
@@ -1530,15 +1437,20 @@ msgstr ""
 
 #: src/containers/App/layout.tsx:17
 msgid "Patient"
-msgstr ""
+msgstr "Пациент"
 
 #: src/containers/PatientDetails/PatientWearables/index.tsx:92
 #~ msgid "Patient consent is required"
 #~ msgstr ""
 
 #: src/containers/PatientDetails/PatientOverviewDynamic/components/EditPatient/index.tsx:49
+#: src/containers/PatientDetails/PatientOverviewDynamic/components/EditPatient/index.tsx:33
 #~ msgid "Patient saved"
-#~ msgstr ""
+#~ msgstr "Пациент сохранен"
+
+#: src/components/ModalNewPatient/index.tsx:30
+#~ msgid "Patient successfully created"
+#~ msgstr "Пациент успешно создан"
 
 #: src/containers/PatientDetails/dashboard/containers/DocRefContainer/index.tsx:37
 #: src/containers/PatientDetails/dashboard/containers/SummaryContainer/index.tsx:64
@@ -1549,7 +1461,7 @@ msgstr ""
 #: src/containers/App/layout.tsx:14
 #: src/containers/PatientResourceList/index.tsx:18
 msgid "Patients"
-msgstr ""
+msgstr "Пациенты"
 
 #: src/components/Assistant/index.tsx:108
 #~ msgid "Pause"
@@ -1592,13 +1504,15 @@ msgstr ""
 #: src/containers/InvoiceList/index.tsx:55
 #: src/containers/PatientDetails/PatientOverviewDynamic/components/StandardCard/prepare.tsx:172
 #: src/containers/PatientDetails/PatientResources/utils.tsx:273
+#: src/containers/PatientDetails/PatientOverviewDynamic/components/StandardCard/prepare.tsx:146
+#: src/containers/PatientDetails/PatientResources/utils.tsx:229
 #~ msgid "Practitioner"
-#~ msgstr ""
+#~ msgstr "Врач"
 
 #: src/containers/App/layout.tsx:27
 #: src/containers/App/layout.tsx:33
 msgid "Practitioners"
-msgstr ""
+msgstr "Врачи"
 
 #: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:210
 #~ msgid "Prepare for print"
@@ -1642,7 +1556,7 @@ msgstr ""
 #: src/containers/DocumentsList/index.tsx:46
 #: src/containers/PatientQuestionnaire/index.tsx:72
 #~ msgid "Questionnaire"
-#~ msgstr ""
+#~ msgstr "Опросник"
 
 #: src/hooks/useQuestionnaireResponseDraft.ts:74
 #~ msgid "Questionnaire not found"
@@ -1664,7 +1578,7 @@ msgstr ""
 #: src/components/BaseLayout/Sidebar/SidebarTop/context.tsx:39
 #: src/containers/QuestionnaireList/index.tsx:73
 #~ msgid "Questionnaires"
-#~ msgstr ""
+#~ msgstr "Опросники"
 
 #: src/containers/InvoiceDetails/index.tsx:69
 #~ msgid "Rate"
@@ -1697,7 +1611,11 @@ msgstr ""
 
 #: src/containers/OrganizationScheduling/index.tsx:85
 #~ msgid "Reset"
-#~ msgstr ""
+#~ msgstr "Сбросить"
+
+#: src/containers/App/index.tsx:86
+#~ msgid "Reset password"
+#~ msgstr "Сбросить пароль"
 
 #: src/uberComponents/ResourceListPage/BatchActions.tsx:48
 #~ msgid "Reset selection"
@@ -1733,7 +1651,7 @@ msgstr ""
 #: src/containers/Scheduling/Availability/index.tsx:73
 #: src/containers/SetPassword/index.tsx:25
 #~ msgid "Save"
-#~ msgstr ""
+#~ msgstr "Сохранить"
 
 #: src/components/BaseQuestionnaireResponseForm/FormFooter.tsx:96
 #~ msgid "Save as draft"
@@ -1776,17 +1694,17 @@ msgstr ""
 #: src/containers/HealthcareServiceList/index.tsx:23
 #: src/containers/PractitionerList/index.tsx:27
 #~ msgid "Search by name"
-#~ msgstr ""
+#~ msgstr "Поиск по имени"
 
 #: src/containers/EncounterList/searchBarUtils.ts:10
 #: src/containers/InvoiceList/index.tsx:27
 #~ msgid "Search by patient"
-#~ msgstr ""
+#~ msgstr "Поиск по пациенту"
 
 #: src/containers/EncounterList/searchBarUtils.ts:18
 #: src/containers/InvoiceList/index.tsx:34
 #~ msgid "Search by practitioner"
-#~ msgstr ""
+#~ msgstr "Поиск по врачу"
 
 #: src/containers/InvoiceList/index.tsx:22
 #~ msgid "Search by status"
@@ -1846,8 +1764,9 @@ msgid "Services"
 msgstr ""
 
 #: src/containers/SetPassword/index.tsx:33
+#: src/containers/SetPassword/index.tsx:22
 #~ msgid "Set password"
-#~ msgstr ""
+#~ msgstr "Задать пароль"
 
 #: src/containers/PatientDetails/HMBDiagnostic/config.tsx:71
 #~ msgid "Severe"
@@ -1888,8 +1807,9 @@ msgstr ""
 #~ msgstr ""
 
 #: src/containers/PatientList/index.tsx:69
+#: src/containers/PatientList/index.tsx:82
 #~ msgid "SSN"
-#~ msgstr ""
+#~ msgstr "СНИЛС"
 
 #: src/containers/PatientDetails/PatientWearables/index.tsx:36
 #~ msgid "Start"
@@ -1903,7 +1823,7 @@ msgstr ""
 
 #: src/containers/EncounterList/searchBarUtils.ts:23
 #~ msgid "Start date"
-#~ msgstr ""
+#~ msgstr "Начало периода"
 
 #: src/containers/EncounterDetails/index.tsx:113
 #: src/controls/AudioRecorderUploader/index.tsx:80
@@ -1938,7 +1858,7 @@ msgstr ""
 #: src/containers/Prescriptions/index.tsx:124
 #: src/containers/QuestionnaireBuilder/QuestionnaireSaveForm/index.tsx:85
 #~ msgid "Status"
-#~ msgstr ""
+#~ msgstr "Статус"
 
 #: src/containers/QuestionnaireBuilder/QuestionnaireItemSettings/controls.tsx:125
 #~ msgid "Step"
@@ -2070,7 +1990,7 @@ msgstr ""
 #: src/utils/questionnaire.ts:179
 #: components/QuestionnaireResponseForm/BaseQuestionnaireResponseForm/utils.tsx:118
 #~ msgid "time"
-#~ msgstr ""
+#~ msgstr "время"
 
 #: src/containers/PatientDetails/PatientOverviewDynamic/components/StandardCard/prepare.tsx:333
 #: src/containers/Scheduling/Availability/index.tsx:129
