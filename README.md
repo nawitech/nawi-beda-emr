@@ -1,143 +1,122 @@
-# EMR template
+# Nawi EMR
 
-- [Docs](https://docs.emr.beda.software/Developers%20Guide/custom-emr-build)
-- [Beda EMR](https://github.com/beda-software/fhir-emr)
+A customized clinical EMR built on [Beda EMR](https://github.com/beda-software/fhir-emr), using HAPI FHIR + Keycloak + fhir-gateway as the backend stack.
 
-## Intro
+## Architecture
 
-Beda EMR is designed to be a framework for building EHR and EMR solutions on top of it. This article describes how you can build your own custom version of Beda EMR suitable for your needs.
+| Service | Port | Description |
+|---|---|---|
+| Keycloak | 8080 | OIDC identity provider |
+| HAPI FHIR | 8082 | FHIR R4 server |
+| fhir-gateway | 8084 | Auth-enforcing FHIR proxy |
+| fhir-sdc | 8083 | Structured data capture |
+| Frontend (dev) | 3000 | Vite dev server |
+| Frontend (prod) | 5000 | Built frontend |
 
-We prepared [Beda EMR template](https://github.com/beda-software/emr-template) for quick project initialization. The template
-- uses [vitejs](https://vitejs.dev/) and [yarn](https://yarnpkg.com/) for building frontend;
-- already includes all required dev dependencies;
-- includes [Beda EMR](https://github.com/beda-software/fhir-emr) as dependency so you could use containers, components, utils, etc. for you EMR;
-- has [linter](https://eslint.org/), [prettier](https://prettier.io/) and [husky](https://typicode.github.io/husky/) configured for better development experience;
-- includes basic [lingui](https://lingui.dev/) configuration
-- includes custom [aidbox types](https://docs.aidbox.app/storage-1/aidbox-and-fhir-formats)
-- has [storybook](https://storybook.js.org/) configured for development your custom components
+## Local dev bootstrap
 
-## Quick start guide
+### Prerequisites
 
-1. Initialize the project.
-Start with fork or clone of [Beda EMR template](https://github.com/beda-software/emr-template).
+- Docker + Docker Compose
+- Node.js 20+, Yarn
+- Add to `/etc/hosts`: `127.0.0.1 host.docker.internal` (Linux only)
 
-2. Initialize [Beda EMR](https://github.com/beda-software/fhir-emr) submodule.
-```
+### 1. Clone with submodules
+
+```sh
+git clone --recurse-submodules <repo-url>
+# or after clone:
 git submodule update --init
 ```
 
-3. Copy local configuration file for development
-```
-cp contrib/emr-config/config.local.js contrib/emr-config/config.js
+### 2. Configure environment
+
+```sh
+cp .env.tpl .env
 ```
 
-4. Prepare to run
-```
-yarn
-```
-
-5. Extract and merge language locales
-```
-yarn extract
-```
-
-6. Build language locales
-```
-yarn compile
-```
-
-7. Run
-```
-yarn start
-```
-
-Now you have fhir-emr under your full control.
-
-Next steps:
-- you can copy the whole https://github.com/beda-software/fhir-emr/blob/master/src/containers/App/index.tsx into your workspace to adjust routes and adjust page components.
-- you can replace the patient dashboard and theme as the next step of customization.
-
-
-## Running backend
-
-Copy envs
-```
-cp contrib/fhir-emr/.env.tpl contrib/fhir-emr/.env
-```
-
-add your aidbox license to .env
+Edit `.env` and set:
 
 ```
-cd contrib/fhir-emr
+POSTGRES_KEYCLOAK_PASSWORD=<choose a password>
+KC_BOOTSTRAP_ADMIN_PASSWORD=<choose a password>
+```
+
+### 3. Start backend services
+
+```sh
 docker compose up -d
 ```
 
-## Adding new code to EMR submodule
+Services start in order: Postgres → Keycloak → HAPI FHIR → fhir-gateway. Keycloak realm and seed users are imported automatically. FHIR seed resources are uploaded once HAPI is ready.
 
-You can update code of EMR inside `contrib/fhir-emr` directory.
-But to see your changes you need to run
+To follow startup progress:
 
+```sh
+docker compose logs -f keycloak-ready hapi-fhir-ready upload-fhir-bundle
 ```
+
+### 4. Install frontend dependencies
+
+```sh
+yarn
+yarn extract
+yarn compile
+```
+
+### 5. Start frontend
+
+```sh
+yarn start
+```
+
+Open http://localhost:3000 and select **OHS FHIR Gateway (HAPI + Keycloak) - Local** on the sign-in screen.
+
+## Seed accounts
+
+| Role | Username | Password |
+|---|---|---|
+| Practitioner | `practitioner` | `password` |
+| Patient | `patient` | `password` |
+
+## Auth flow
+
+The frontend uses Keycloak's authorization code flow (PKCE). After login, tokens are stored in `localStorage`. A silent refresh interceptor automatically exchanges the refresh token when the access token expires. Logout redirects to Keycloak's end-session endpoint to terminate the SSO session.
+
+## Customizing contrib
+
+The `contrib/fhir-emr` submodule is the base EMR. After editing contrib source, rebuild its dist:
+
+```sh
 yarn prepare
 ```
 
-Remember to push or make pull request for your changes in [Beda EMR](https://github.com/beda-software/fhir-emr) if you want them to be applied.
+Then stage the submodule pointer:
 
-Then add updated submodule to your git commit
-```
+```sh
 git add contrib/fhir-emr
 git commit -m "Update submodule"
 ```
 
 ## Language locales
 
-If you have new messages in your app that need to be translated use 
+After adding new translatable strings:
 
+```sh
+yarn extract   # extract new messages
+# add translations in src/locale/
+yarn compile   # compile for runtime
 ```
-yarn extract
-```
-
-then add the translations and run
-
-```
-yarn compile
-```
-
-## Storybook
-
-Storybook works out of the box. If you need to create your own components you can create stories for them.
-
-To run storybook use
-```
-yarn storybook
-```
-
-The main storybook for Beda EMR also publicly available [here](https://master--64b7c5c51809d460dc448e6b.chromatic.com/).
 
 ## Imports troubleshooting
 
-<b>1. If you face typescript/eslint error like</b>
+**TypeScript error: `Module has no exported member`**
 
-```js
-Module '"@beda.software/emr/utils"' has no exported member 'getPersonAge'
-```
+Ensure the symbol is explicitly re-exported from the relevant `@beda.software/emr/*` entry point.
 
-Make sure that `getPersonAge` was used somewhere in the Beda EMR or it was explicitly exported
+**ESLint `import/no-unresolved` on a type import**
 
-```js
-export * from './relative-date.ts';
-```
-
-<b> 2. If you face next eslint error when you import interface or type</b>
-
-```js
-Unable to resolve path to module '@beda.software/emr/dist/components/Dashboard/types'.(eslintimport/no-unresolved)
-
-```
-
-Make sure to add  `type` when for your import
-
-```js
+Use `import type`:
+```ts
 import type { Dashboard } from '@beda.software/emr/dist/components/Dashboard/types';
 ```
-
