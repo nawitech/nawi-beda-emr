@@ -1,0 +1,10 @@
+id: prac-role-1001
+resourceType: PractitionerRole
+active: true
+practitioner:
+  reference: Practitioner/prac-1001
+code:
+  - coding:
+      - system: http://snomed.info/sct
+        code: "159016003"
+        display: Receptionist

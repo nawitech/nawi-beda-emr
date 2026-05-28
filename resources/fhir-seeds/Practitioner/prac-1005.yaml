@@ -1,0 +1,17 @@
+id: prac-1005
+resourceType: Practitioner
+active: true
+name:
+  - use: official
+    family: Njoroge
+    given:
+      - Peter
+telecom:
+  - system: phone
+    value: +254-20-1234-5683
+    use: work
+  - system: email
+    value: peter.njoroge@example.org
+    use: work
+search:
+  mode: match

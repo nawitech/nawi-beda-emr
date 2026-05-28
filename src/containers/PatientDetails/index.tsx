@@ -9,12 +9,13 @@ import { PatientDocumentDetails } from '@beda.software/emr/dist/containers/Patie
 import { PatientDocuments } from '@beda.software/emr/dist/containers/PatientDetails/PatientDocuments/index';
 import { PatientOverview } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/index';
 import { PageTabs, ResourceDetailPage, Tab } from '@beda.software/emr/dist/uberComponents/ResourceDetailPage/index';
-import { compileAsFirst, renderHumanName, selectCurrentUserRoleResource } from '@beda.software/emr/dist/utils/index';
+import { compileAsFirst, renderHumanName } from '@beda.software/emr/dist/utils/index';
 import { service } from '@beda.software/emr/services';
 import config from '@beda.software/emr-config';
 import { RenderRemoteData, useService, WithId } from '@beda.software/fhir-react';
 
 import { AuthProvider, tierConfigMap } from 'src/services/auth.ts';
+import { selectCurrentUserRoleResource } from 'src/utils/role';
 
 import { dashboard } from './dashboard';
 import { PatientEncounter } from './encounters';

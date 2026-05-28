@@ -1,0 +1,19 @@
+id: prac-1002
+resourceType: Practitioner
+active: true
+name:
+  - use: official
+    family: Omondi
+    given:
+      - Aisha
+    prefix:
+      - RN
+telecom:
+  - system: phone
+    value: +254-20-1234-5680
+    use: work
+  - system: email
+    value: aisha.omondi@example.org
+    use: work
+search:
+  mode: match

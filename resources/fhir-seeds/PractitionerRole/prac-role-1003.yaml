@@ -1,0 +1,10 @@
+id: prac-role-1003
+resourceType: PractitionerRole
+active: true
+practitioner:
+  reference: Practitioner/prac-1003
+code:
+  - coding:
+      - system: http://snomed.info/sct
+        code: "159016003"
+        display: Laboratory technician

@@ -7,10 +7,22 @@
     "accessTokenLifespan": 900,
     "ssoSessionIdleTimeout": 1800,
     "ssoSessionMaxLifespan": 36000,
+    "roles": {
+        "realm": [
+            { "name": "receptionist" },
+            { "name": "triage-nurse" },
+            { "name": "clinician" },
+            { "name": "lab-technician" },
+            { "name": "pharmacist" },
+            { "name": "cashier" },
+            { "name": "administrator" },
+            { "name": "patient" }
+        ]
+    },
     "users": [
         {
-            "username": "practitioner",
-            "email": "practitioner@nawi-emr.com",
+            "username": "clinician",
+            "email": "clinician@nawi-emr.com",
             "firstName": "Joyce",
             "lastName": "Daktari",
             "enabled": true,
@@ -22,9 +34,128 @@
                     "temporary": false
                 }
             ],
+            "realmRoles": ["clinician"],
             "attributes": {
                 "fhirUser": ["Practitioner/prac-1000"],
                 "patient_list": ["list-patient-1"]
+            }
+        },
+        {
+            "username": "receptionist",
+            "email": "receptionist@nawi-emr.com",
+            "firstName": "Grace",
+            "lastName": "Kamau",
+            "enabled": true,
+            "emailVerified": true,
+            "credentials": [
+                {
+                    "type": "password",
+                    "value": "password",
+                    "temporary": false
+                }
+            ],
+            "realmRoles": ["receptionist"],
+            "attributes": {
+                "fhirUser": ["Practitioner/prac-1001"],
+                "patient_list": ["list-patient-1"]
+            }
+        },
+        {
+            "username": "triage-nurse",
+            "email": "triage.nurse@nawi-emr.com",
+            "firstName": "Aisha",
+            "lastName": "Omondi",
+            "enabled": true,
+            "emailVerified": true,
+            "credentials": [
+                {
+                    "type": "password",
+                    "value": "password",
+                    "temporary": false
+                }
+            ],
+            "realmRoles": ["triage-nurse"],
+            "attributes": {
+                "fhirUser": ["Practitioner/prac-1002"],
+                "patient_list": ["list-patient-1"]
+            }
+        },
+        {
+            "username": "lab-technician",
+            "email": "lab.technician@nawi-emr.com",
+            "firstName": "Samuel",
+            "lastName": "Waweru",
+            "enabled": true,
+            "emailVerified": true,
+            "credentials": [
+                {
+                    "type": "password",
+                    "value": "password",
+                    "temporary": false
+                }
+            ],
+            "realmRoles": ["lab-technician"],
+            "attributes": {
+                "fhirUser": ["Practitioner/prac-1003"],
+                "patient_list": ["list-patient-1"]
+            }
+        },
+        {
+            "username": "pharmacist",
+            "email": "pharmacist@nawi-emr.com",
+            "firstName": "Esther",
+            "lastName": "Muthoni",
+            "enabled": true,
+            "emailVerified": true,
+            "credentials": [
+                {
+                    "type": "password",
+                    "value": "password",
+                    "temporary": false
+                }
+            ],
+            "realmRoles": ["pharmacist"],
+            "attributes": {
+                "fhirUser": ["Practitioner/prac-1004"],
+                "patient_list": ["list-patient-1"]
+            }
+        },
+        {
+            "username": "cashier",
+            "email": "cashier@nawi-emr.com",
+            "firstName": "Peter",
+            "lastName": "Njoroge",
+            "enabled": true,
+            "emailVerified": true,
+            "credentials": [
+                {
+                    "type": "password",
+                    "value": "password",
+                    "temporary": false
+                }
+            ],
+            "realmRoles": ["cashier"],
+            "attributes": {
+                "fhirUser": ["Practitioner/prac-1005"]
+            }
+        },
+        {
+            "username": "administrator",
+            "email": "administrator@nawi-emr.com",
+            "firstName": "Admin",
+            "lastName": "User",
+            "enabled": true,
+            "emailVerified": true,
+            "credentials": [
+                {
+                    "type": "password",
+                    "value": "password",
+                    "temporary": false
+                }
+            ],
+            "realmRoles": ["administrator"],
+            "attributes": {
+                "fhirUser": ["Organization/org-1001"]
             }
         },
         {
@@ -41,6 +172,7 @@
                     "temporary": false
                 }
             ],
+            "realmRoles": ["patient"],
             "attributes": {
                 "fhirUser": ["Patient/pat-1001"]
             }
@@ -84,6 +216,21 @@
                     "config": {
                         "user.attribute": "patient_list",
                         "claim.name": "patient_list",
+                        "jsonType.label": "String",
+                        "id.token.claim": "true",
+                        "access.token.claim": "true",
+                        "userinfo.token.claim": "true",
+                        "introspection.token.claim": "true",
+                        "lightweight.claim": "false"
+                    }
+                },
+                {
+                    "name": "realm roles",
+                    "protocol": "openid-connect",
+                    "protocolMapper": "oidc-usermodel-realm-role-mapper",
+                    "config": {
+                        "multivalued": "true",
+                        "claim.name": "realm_access.roles",
                         "jsonType.label": "String",
                         "id.token.claim": "true",
                         "access.token.claim": "true",

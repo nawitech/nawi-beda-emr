@@ -1,0 +1,15 @@
+id: prac-role-1002
+resourceType: PractitionerRole
+active: true
+practitioner:
+  reference: Practitioner/prac-1002
+code:
+  - coding:
+      - system: http://terminology.hl7.org/CodeSystem/practitioner-role
+        code: nurse
+        display: Nurse
+specialty:
+  - coding:
+      - system: http://snomed.info/sct
+        code: "310407001"
+        display: Emergency nursing

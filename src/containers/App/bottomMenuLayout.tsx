@@ -7,10 +7,11 @@ import {
     sharedAuthorizedPractitioner,
     sharedAuthorizedUser,
 } from '@beda.software/emr/sharedState';
-import { matchCurrentUserRole, renderHumanName, Role } from '@beda.software/emr/utils';
+import { renderHumanName } from '@beda.software/emr/utils';
 
 import { AvatarImage } from 'src/images/AvatarImage';
 import { doLogout } from 'src/services/auth';
+import { matchCurrentUserRole, Role } from 'src/utils/role';
 
 function PatientName() {
     const [patient] = sharedAuthorizedPatient.useSharedState();
@@ -41,10 +42,14 @@ export function keycloakBottomMenuLayout(onItemClick?: () => void) {
                 <>
                     {hasRole
                         ? matchCurrentUserRole({
-                              [Role.Admin]: () => <OrganizationName />,
+                              [Role.Administrator]: () => <OrganizationName />,
                               [Role.Patient]: () => <PatientName />,
-                              [Role.Practitioner]: () => <PractitionerName />,
+                              [Role.Clinician]: () => <PractitionerName />,
                               [Role.Receptionist]: () => <PractitionerName />,
+                              [Role.TriageNurse]: () => <PractitionerName />,
+                              [Role.LabTechnician]: () => <PractitionerName />,
+                              [Role.Pharmacist]: () => <PractitionerName />,
+                              [Role.Cashier]: () => <PractitionerName />,
                           })
                         : user?.email}
                 </>

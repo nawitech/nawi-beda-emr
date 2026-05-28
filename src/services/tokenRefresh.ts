@@ -7,6 +7,10 @@ import {
 } from '@beda.software/emr/services';
 import config from '@beda.software/emr-config';
 
+import { doLogout } from 'src/services/auth';
+
+let isLoggingOut = false;
+
 interface TokenResponse {
     access_token: string;
     refresh_token?: string;
@@ -62,9 +66,11 @@ export function setupTokenRefreshInterceptor() {
                     originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
                     return axiosInstance(originalRequest);
                 }
-                resetInstanceToken();
-                localStorage.clear();
-                window.location.href = '/';
+                if (!isLoggingOut) {
+                    isLoggingOut = true;
+                    resetInstanceToken();
+                    doLogout();
+                }
             }
             return Promise.reject(error);
         },

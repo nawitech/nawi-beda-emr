@@ -1,0 +1,17 @@
+id: prac-1003
+resourceType: Practitioner
+active: true
+name:
+  - use: official
+    family: Waweru
+    given:
+      - Samuel
+telecom:
+  - system: phone
+    value: +254-20-1234-5681
+    use: work
+  - system: email
+    value: samuel.waweru@example.org
+    use: work
+search:
+  mode: match

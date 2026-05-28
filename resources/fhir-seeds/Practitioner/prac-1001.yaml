@@ -1,0 +1,17 @@
+id: prac-1001
+resourceType: Practitioner
+active: true
+name:
+  - use: official
+    family: Kamau
+    given:
+      - Grace
+telecom:
+  - system: phone
+    value: +254-20-1234-5679
+    use: work
+  - system: email
+    value: grace.kamau@example.org
+    use: work
+search:
+  mode: match

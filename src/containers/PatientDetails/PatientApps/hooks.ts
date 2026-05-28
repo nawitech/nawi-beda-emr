@@ -2,18 +2,23 @@ import { Encounter } from 'fhir/r4b';
 
 import { Client } from '@beda.software/aidbox-types';
 import { aidboxService, getFHIRResources } from '@beda.software/emr/dist/services/fhir';
-import { matchCurrentUserRole, Role } from '@beda.software/emr/dist/utils/role';
 import config from '@beda.software/emr-config';
 import { extractBundleResources, useService, WithId } from '@beda.software/fhir-react';
 import { success, mapSuccess } from '@beda.software/remote-data';
+
+import { matchCurrentUserRole, Role } from 'src/utils/role';
 
 export function useSmartApps(encounter?: Encounter) {
     const [appsRemoteData] = useService(async () => {
         let clientType = matchCurrentUserRole<string>({
             [Role.Patient]: () => 'smart-on-fhir-patient',
-            [Role.Admin]: () => 'smart-on-fhir',
-            [Role.Practitioner]: () => 'smart-on-fhir-practitioner',
+            [Role.Administrator]: () => 'smart-on-fhir',
+            [Role.Clinician]: () => 'smart-on-fhir-practitioner',
             [Role.Receptionist]: () => 'smart-on-fhir-practitioner',
+            [Role.TriageNurse]: () => 'smart-on-fhir-practitioner',
+            [Role.LabTechnician]: () => 'smart-on-fhir-practitioner',
+            [Role.Pharmacist]: () => 'smart-on-fhir-practitioner',
+            [Role.Cashier]: () => 'smart-on-fhir-practitioner',
         });
         if (encounter) {
             if (clientType === 'smart-on-fhir-practitioner') {

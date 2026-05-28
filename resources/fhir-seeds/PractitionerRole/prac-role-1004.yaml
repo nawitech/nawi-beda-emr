@@ -1,0 +1,10 @@
+id: prac-role-1004
+resourceType: PractitionerRole
+active: true
+practitioner:
+  reference: Practitioner/prac-1004
+code:
+  - coding:
+      - system: http://terminology.hl7.org/CodeSystem/practitioner-role
+        code: pharmacist
+        display: Pharmacist

@@ -4,8 +4,9 @@ import { Encounter, Patient } from 'fhir/r4b';
 import { RenderRemoteData } from 'aidbox-react/lib/components/RenderRemoteData';
 
 import { Client } from '@beda.software/aidbox-types';
-import { selectCurrentUserRoleResource } from '@beda.software/emr/dist/utils/role';
 import { mapSuccess } from '@beda.software/remote-data';
+
+import { selectCurrentUserRoleResource } from 'src/utils/role';
 
 import { getLaunchURI, LaunchProps, useSmartApps } from './hooks';
 import { S } from './PatientApps.styles';
