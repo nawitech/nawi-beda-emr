@@ -1,0 +1,22 @@
+id: prac-1000
+resourceType: Practitioner
+identifier:
+  - system: http://hl7.org/fhir/sid/us-npi
+    value: "1234567890"
+active: true
+name:
+  - use: official
+    family: Daktari
+    given:
+      - Joyce
+    prefix:
+      - Dr
+telecom:
+  - system: phone
+    value: +61-2-1234-5678
+    use: work
+  - system: email
+    value: joyce.daktari@example.org
+    use: work
+search:
+mode: match

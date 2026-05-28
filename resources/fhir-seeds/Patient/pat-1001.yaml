@@ -1,0 +1,15 @@
+id: pat-1001
+resourceType: Patient
+identifier:
+  - system: http://hospital.smarthealthit.org
+    value: MRN-1001
+active: true
+name:
+  - use: official
+    family: Otala
+    given:
+      - Charity
+gender: female
+birthDate: "1980-01-01"
+search:
+mode: match
