@@ -1,0 +1,111 @@
+{
+    "realm": "beda-emr",
+    "enabled": true,
+    "sslRequired": "none",
+    "resetPasswordAllowed": false,
+    "bruteForceProtected": false,
+    "accessTokenLifespan": 900,
+    "ssoSessionIdleTimeout": 1800,
+    "ssoSessionMaxLifespan": 36000,
+    "users": [
+        {
+            "username": "practitioner",
+            "email": "practitioner@nawi-emr.com",
+            "firstName": "Joyce",
+            "lastName": "Daktari",
+            "enabled": true,
+            "emailVerified": true,
+            "credentials": [
+                {
+                    "type": "password",
+                    "value": "password",
+                    "temporary": false
+                }
+            ],
+            "attributes": {
+                "fhirUser": ["Practitioner/prac-1000"],
+                "patient_list": ["list-patient-1"]
+            }
+        },
+        {
+            "username": "patient",
+            "email": "patient@nawi-emr.com",
+            "firstName": "Charity",
+            "lastName": "Otala",
+            "enabled": true,
+            "emailVerified": true,
+            "credentials": [
+                {
+                    "type": "password",
+                    "value": "password",
+                    "temporary": false
+                }
+            ],
+            "attributes": {
+                "fhirUser": ["Patient/pat-1001"]
+            }
+        }
+    ],
+    "clients": [
+        {
+            "clientId": "beda-frontend",
+            "protocol": "openid-connect",
+            "publicClient": true,
+            "standardFlowEnabled": true,
+            "frontchannelLogout": true,
+            "fullScopeAllowed": true,
+            "redirectUris": ["http://localhost:5000/*", "http://localhost:3000/*"],
+            "webOrigins": ["+"],
+            "attributes": {
+                "backchannel.logout.session.required": "true",
+                "frontchannel.logout.session.required": "true",
+                "post.logout.redirect.uris": "+"
+            },
+            "protocolMappers": [
+                {
+                    "name": "fhirUser",
+                    "protocol": "openid-connect",
+                    "protocolMapper": "oidc-usermodel-attribute-mapper",
+                    "config": {
+                        "user.attribute": "fhirUser",
+                        "claim.name": "fhirUser",
+                        "jsonType.label": "String",
+                        "id.token.claim": "true",
+                        "access.token.claim": "true",
+                        "userinfo.token.claim": "true",
+                        "introspection.token.claim": "true",
+                        "lightweight.claim": "false"
+                    }
+                },
+                {
+                    "name": "patient_list",
+                    "protocol": "openid-connect",
+                    "protocolMapper": "oidc-usermodel-attribute-mapper",
+                    "config": {
+                        "user.attribute": "patient_list",
+                        "claim.name": "patient_list",
+                        "jsonType.label": "String",
+                        "id.token.claim": "true",
+                        "access.token.claim": "true",
+                        "userinfo.token.claim": "true",
+                        "introspection.token.claim": "true",
+                        "lightweight.claim": "false"
+                    }
+                }
+            ]
+        }
+    ],
+    "components": {
+        "org.keycloak.userprofile.UserProfileProvider": [
+            {
+                "providerId": "declarative-user-profile",
+                "subComponents": {},
+                "config": {
+                    "kc.user.profile.config": [
+                        "{\"attributes\":[{\"name\":\"username\",\"displayName\":\"${username}\",\"validations\":{\"length\":{\"min\":3,\"max\":255},\"username-prohibited-characters\":{},\"up-username-not-idn-homograph\":{}},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\",\"user\"]},\"multivalued\":false},{\"name\":\"email\",\"displayName\":\"${email}\",\"validations\":{\"email\":{},\"length\":{\"max\":255}},\"required\":{\"roles\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\",\"user\"]},\"multivalued\":false},{\"name\":\"firstName\",\"displayName\":\"${firstName}\",\"validations\":{\"length\":{\"max\":255},\"person-name-prohibited-characters\":{}},\"required\":{\"roles\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\",\"user\"]},\"multivalued\":false},{\"name\":\"lastName\",\"displayName\":\"${lastName}\",\"validations\":{\"length\":{\"max\":255},\"person-name-prohibited-characters\":{}},\"required\":{\"roles\":[\"user\"]},\"permissions\":{\"view\":[\"admin\",\"user\"],\"edit\":[\"admin\",\"user\"]},\"multivalued\":false}],\"groups\":[{\"name\":\"user-metadata\",\"displayHeader\":\"User metadata\",\"displayDescription\":\"Attributes, which refer to user metadata\"}],\"unmanagedAttributePolicy\":\"ENABLED\"}"
+                    ]
+                }
+            }
+        ]
+    }
+}
