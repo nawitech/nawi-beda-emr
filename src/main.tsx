@@ -19,6 +19,9 @@ import config from '@beda.software/emr-config';
 
 import { App } from './containers/App';
 import { expandValueSet } from './services/expand';
+import { setupTokenRefreshInterceptor } from './services/tokenRefresh';
+
+setupTokenRefreshInterceptor();
 
 export const AppWithContext = () => {
     useEffect(() => {
