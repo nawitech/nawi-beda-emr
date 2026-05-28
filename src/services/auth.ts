@@ -481,6 +481,33 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
     },
 };
 
+export async function doLogout() {
+    const authProvider = getAuthProviderFromStorage();
+    const isKeycloakProvider =
+        authProvider === AuthProvider.OHSKeycloak || authProvider === AuthProvider.OHSKeycloakLocal;
+
+    if (isKeycloakProvider) {
+        const idToken = window.localStorage.getItem('id_token');
+        if (idToken) {
+            try {
+                const payload = JSON.parse(atob(idToken.split('.')[1])) as { iss: string };
+                const logoutUrl = new URL(`${payload.iss}/protocol/openid-connect/logout`);
+                logoutUrl.searchParams.set('id_token_hint', idToken);
+                logoutUrl.searchParams.set('post_logout_redirect_uri', `${window.location.origin}/`);
+                logoutUrl.searchParams.set('client_id', authClientConfigMap[authProvider].clientId);
+                window.localStorage.clear();
+                window.location.href = logoutUrl.toString();
+                return;
+            } catch {
+                // fall through to default
+            }
+        }
+    }
+
+    window.localStorage.clear();
+    window.location.href = '/';
+}
+
 export function saveAuthProviderToStorage(value: AuthProvider) {
     window.localStorage.setItem('auth_provider', value);
 }
@@ -494,4 +521,3 @@ export function getAuthProviderFromStorage() {
 
     return null;
 }
-

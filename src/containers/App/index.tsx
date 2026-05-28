@@ -8,11 +8,13 @@ import {
     PractitionerDetails,
     PractitionerList,
 } from '@beda.software/emr/containers';
+import { BottomMenuLayout } from '@beda.software/emr/dist/components/BaseLayout/Sidebar/SidebarBottom/context';
 import { MenuLayout } from '@beda.software/emr/dist/components/BaseLayout/Sidebar/SidebarTop/context';
 import config from '@beda.software/emr-config';
 
 import { AuthProvider, tierConfigMap } from 'src/services/auth.ts';
 
+import { keycloakBottomMenuLayout } from './bottomMenuLayout';
 import { useApp } from './hooks';
 import { digitalHealthMenuLayout, menuLayout } from './layout';
 import { LocationResourceList } from '../LocationResourceList';
@@ -75,18 +77,20 @@ export function App() {
 
     return (
         <MenuLayout.Provider value={getMenuLayout()}>
-            <EMR
-                authenticatedRoutes={renderRoutes()}
-                anonymousRoutes={
-                    <>
-                        <Route path="/signin" element={<SignIn onSwitchService={setAuthProvider} />} />
-                        <Route path="/auth" element={<CodeGrantAuth />} />
-                        <Route path="/auth-aidbox" element={<ImplicitGrantAuth />} />
-                    </>
-                }
-                populateUserInfoSharedState={sharedUserInitService}
-                menuLayout={getMenuLayout()}
-            />
+            <BottomMenuLayout.Provider value={keycloakBottomMenuLayout}>
+                <EMR
+                    authenticatedRoutes={renderRoutes()}
+                    anonymousRoutes={
+                        <>
+                            <Route path="/signin" element={<SignIn onSwitchService={setAuthProvider} />} />
+                            <Route path="/auth" element={<CodeGrantAuth />} />
+                            <Route path="/auth-aidbox" element={<ImplicitGrantAuth />} />
+                        </>
+                    }
+                    populateUserInfoSharedState={sharedUserInitService}
+                    menuLayout={getMenuLayout()}
+                />
+            </BottomMenuLayout.Provider>
         </MenuLayout.Provider>
     );
 }
