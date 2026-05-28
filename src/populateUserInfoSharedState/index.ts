@@ -102,4 +102,5 @@ export const clientSharedUserInitService: { [key in AuthProvider]: SharedUserIni
     [AuthProvider.Epic]: mockUserInfoSharedState('e-.Lo31-.yLLfMmz0ylcV7A3'),
     [AuthProvider.OrionHealth]: mockUserInfoSharedState('orion-health'),
     [AuthProvider.OHSKeycloak]: smileUserInfoSharedState,
+    [AuthProvider.OHSKeycloakLocal]: smileUserInfoSharedState,
 };

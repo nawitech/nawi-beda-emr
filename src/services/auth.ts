@@ -17,6 +17,7 @@ export enum AuthProvider {
     Epic = 'epic',
     OrionHealth = 'orion-health',
     OHSKeycloak = 'ohs-keycloak',
+    OHSKeycloakLocal = 'ohs-keycloak-local',
 }
 
 export type Tier = 'develop' | 'production';
@@ -217,6 +218,16 @@ export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
         develop: {
             baseUrl: 'http://35.202.40.190:8080',
             fhirBaseUrl: 'http://35.202.40.190:8084/fhir',
+        },
+        production: {
+            baseUrl: 'http://35.202.40.190:8080',
+            fhirBaseUrl: 'http://35.202.40.190:8084/fhir',
+        },
+    },
+    [AuthProvider.OHSKeycloakLocal]: {
+        develop: {
+            baseUrl: 'http://host.docker.internal:8080',
+            fhirBaseUrl: 'http://localhost:8084/fhir',
         },
         production: {
             baseUrl: 'http://35.202.40.190:8080',
@@ -446,6 +457,26 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
                 },
             ],
             commonPassword: 'password1',
+        },
+    },
+    [AuthProvider.OHSKeycloakLocal]: {
+        clientId: 'beda-frontend',
+        authPath: 'realms/beda-emr/protocol/openid-connect/auth',
+        tokenPath: 'realms/beda-emr/protocol/openid-connect/token',
+        responseType: 'code',
+        redirectURL: `${window.location.origin}/auth`,
+        grantType: 'authorization_code',
+        scope: ['openid', 'profile'],
+        tabTitle: 'OHS FHIR Gateway (HAPI + Keycloak) - Local',
+        message: 'Sign in with your institutional Keycloak account',
+        sharedCredentials: {
+            accountDetails: [
+                {
+                    login: 'practitioner',
+                    accountDescription: 'Test practitioner account',
+                },
+            ],
+            commonPassword: 'password',
         },
     },
 };
