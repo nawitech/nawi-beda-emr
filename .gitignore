@@ -35,3 +35,5 @@ contrib/emr-config/config.js
 storybook-static
 .env
 .gitnexus
+
+resources/fhir-bundles
