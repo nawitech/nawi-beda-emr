@@ -10,11 +10,10 @@ import {
     sharedAuthorizedPatient,
     sharedAuthorizedUser,
 } from '@beda.software/emr/sharedState';
-import config from '@beda.software/emr-config';
 import { extractBundleResources } from '@beda.software/fhir-react';
 import { failure, isSuccess, RemoteDataResult, success } from '@beda.software/remote-data';
 
-import { AuthProvider, tierConfigMap } from 'src/services/auth';
+import { AuthProvider } from 'src/services/auth';
 import { Role, selectUserRole } from 'src/utils/role';
 
 export interface SmileIdTokenData extends JWTPayload {
@@ -103,35 +102,6 @@ export async function projectPopulateUserInfoSharedState(): Promise<RemoteDataRe
     return userResponse;
 }
 
-const mockUserInfoSharedState = (practitionerId: string) => async (): Promise<RemoteDataResult<User>> => {
-    const user: User = {
-        resourceType: 'User',
-        id: 'user',
-        fhirUser: {
-            resourceType: 'Practitioner',
-            id: practitionerId,
-        },
-        role: [
-            {
-                resourceType: 'Role',
-                name: Role.Clinician,
-                user: { resourceType: 'User', id: 'user' },
-                links: { practitioner: { resourceType: 'Practitioner', id: practitionerId } },
-            },
-        ],
-    };
-    sharedAuthorizedUser.setSharedState(user);
-
-    if (config.baseURL === tierConfigMap[AuthProvider.OrionHealth].develop.baseUrl) {
-        sharedAuthorizedPractitioner.setSharedState({ resourceType: 'Practitioner', id: practitionerId });
-        sharedAuthorizedPractitionerRoles.setSharedState([]);
-    } else {
-        await fetchUserRoleDetails(user);
-    }
-
-    return success(user);
-};
-
 export async function smileUserInfoSharedState(): Promise<RemoteDataResult<User>> {
     const idToken = getIdToken();
 
@@ -190,21 +160,6 @@ export async function smileUserInfoSharedState(): Promise<RemoteDataResult<User>
 
 export type SharedUserInitCallback = () => Promise<RemoteDataResult<User>>;
 export const clientSharedUserInitService: { [key in AuthProvider]: SharedUserInitCallback | undefined } = {
-    [AuthProvider.AuCoreAidbox]: projectPopulateUserInfoSharedState,
-    [AuthProvider.ErequestingAidbox]: projectPopulateUserInfoSharedState,
-    [AuthProvider.ErequestingSparked]: smileUserInfoSharedState,
-    [AuthProvider.SmartOnFhirAidbox]: projectPopulateUserInfoSharedState,
-    [AuthProvider.SparkedHAPI]: smileUserInfoSharedState,
-    [AuthProvider.BP]: mockUserInfoSharedState('15000000-0020-0000-0000-98a3489d6ffc'),
-    [AuthProvider.IRIS]: mockUserInfoSharedState('cardy-igist'),
-    [AuthProvider.MediRecords]: mockUserInfoSharedState('b82b3842-ba16-4b01-8c24-7b0deee9b660'),
-    [AuthProvider.ErequestingCallistemon]: mockUserInfoSharedState('1153'),
-    [AuthProvider.HaloConnect]: mockUserInfoSharedState('pr-1'),
-    [AuthProvider.MedtechGlobal]: mockUserInfoSharedState('pr-1'),
-    [AuthProvider.Sparked]: mockUserInfoSharedState('leishman-leesa'),
-    [AuthProvider.DigitalHealth]: mockUserInfoSharedState('example-healthconnect-practitioner-1'),
-    [AuthProvider.Epic]: mockUserInfoSharedState('e-.Lo31-.yLLfMmz0ylcV7A3'),
-    [AuthProvider.OrionHealth]: mockUserInfoSharedState('orion-health'),
     [AuthProvider.OHSKeycloak]: smileUserInfoSharedState,
     [AuthProvider.OHSKeycloakLocal]: smileUserInfoSharedState,
 };

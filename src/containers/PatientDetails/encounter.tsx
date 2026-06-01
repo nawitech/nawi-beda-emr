@@ -1,11 +1,7 @@
 import { Bundle, Encounter, Patient } from 'fhir/r4b';
 
-import { PatientApps } from '@beda.software/emr/dist/containers/PatientDetails/PatientApps/index';
 import { ResourceDetailPage, Tab } from '@beda.software/emr/dist/uberComponents/ResourceDetailPage/index';
 import { compileAsFirst, formatPeriodDateTime } from '@beda.software/emr/dist/utils/index';
-import config from '@beda.software/emr-config';
-
-import { AuthProvider, tierConfigMap } from 'src/services/auth.ts';
 
 import { EncounterOverview } from './EncounterOverview';
 
@@ -21,14 +17,6 @@ const tabs: Array<Tab<Encounter>> = [
         component: ({ resource }) => <EncounterOverview encounter={resource} />,
     },
 ];
-
-if (config.baseURL === tierConfigMap[AuthProvider.SmartOnFhirAidbox].develop.baseUrl) {
-    tabs.push({
-        path: 'smart',
-        label: 'Smart Apps',
-        component: ({ resource, bundle }) => <PatientApps patient={getPatient(bundle)!} encounter={resource} />,
-    });
-}
 
 function getName(resource: Encounter, bundle: Bundle) {
     const patient = getPatient(bundle);

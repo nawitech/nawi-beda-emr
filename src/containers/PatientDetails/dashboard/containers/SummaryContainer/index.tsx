@@ -7,10 +7,7 @@ import { DashboardCard, Spinner } from '@beda.software/emr/components';
 import type { ContainerProps } from '@beda.software/emr/dist/components/Dashboard/types';
 import { S } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/PatientOverview.styles';
 import { service } from '@beda.software/emr/services';
-import config from '@beda.software/emr-config';
 import { RenderRemoteData, useService } from '@beda.software/fhir-react';
-
-import { AuthProvider, tierConfigMap } from 'src/services/auth.ts';
 
 import { S as DocRefStyles } from '../DocRefContainer/DocRefContainer.styles';
 import { parsePatientSummary, ResourcFetchInfo } from '../DocRefContainer/utils';
@@ -21,9 +18,6 @@ function RelatedResourceInfoContainer({ resourceInfo }: { resourceInfo: ResourcF
             <DocRefStyles.PatientSummaryItemText>
                 {`Resource: ${resourceInfo.resourceType}`}
             </DocRefStyles.PatientSummaryItemText>
-            {/* <DocRefStyles.PatientSummaryItemText>
-                {`ID: ${resourceInfo.resourceId}`}
-            </DocRefStyles.PatientSummaryItemText> */}
             {resourceInfo.main ? (
                 <DocRefStyles.PatientSummaryItemText>
                     {`Main info: ${resourceInfo.main}`}
@@ -40,23 +34,12 @@ function RelatedResourceInfoContainer({ resourceInfo }: { resourceInfo: ResourcF
 
 export function SummaryContainer(props: ContainerProps) {
     const { patient } = props;
-    let url = `Patient/${patient.id!}/$summary`;
-
-    if (config.baseURL === tierConfigMap[AuthProvider.HaloConnect].develop.baseUrl) {
-        const identifiers = patient.identifier ?? [];
-        const identifierValue =
-            identifiers.find((i) => i.system === 'http://ns.electronichealth.net.au/id/medicare-number')?.value ??
-            identifiers[0]?.value;
-
-        url = `Patient/$summary?identifier=${identifierValue}`;
-    }
+    const url = `Patient/${patient.id!}/$summary`;
 
     const [response] = useService<Bundle>(() =>
         service({
             url,
-            ...(config.baseURL === tierConfigMap[AuthProvider.OrionHealth].develop.baseUrl
-                ? { headers: { 'Cache-Control': null } }
-                : {}),
+            headers: { 'Cache-Control': null },
         }),
     );
 
