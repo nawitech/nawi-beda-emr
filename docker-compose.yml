@@ -114,6 +114,8 @@ services:
       - export
       - --output
       - /app/fhir-bundles/fhirBundle.json
+      - --external-questionnaire-fce-fhir-converter-url
+      - http://questionnaire-fce-fhir-converter:3000/to-fhir
     volumes:
       - ./resources/fhir-seeds:/app/resources
       - ./resources/fhir-bundles:/app/fhir-bundles
@@ -124,6 +126,8 @@ services:
       - watch
       - --external-fhir-server-url
       - http://hapi-fhir:8080/fhir
+      - --external-questionnaire-fce-fhir-converter-url
+      - http://questionnaire-fce-fhir-converter:3000/to-fhir
     volumes:
       - ./resources/fhir-seeds:/app/resources
 
@@ -139,8 +143,18 @@ services:
       - "sh"
       - "-c"
       - "curl -X POST 'http://hapi-fhir:8080/fhir' -H 'Content-Type: application/json' -d @fhirBundle.json"
+      - --external-questionnaire-fce-fhir-converter-url
+      - http://questionnaire-fce-fhir-converter:3000/to-fhir
     volumes:
       - ./resources/fhir-bundles/:/app/resources/fhir-bundles
+
+  questionnaire-fce-fhir-converter:
+    image: bedasoftware/questionnaire-fce-fhir-converter:latest
+    healthcheck:
+      test: curl --fail http://localhost:3000/health || exit 1
+      interval: 5s
+      timeout: 30s
+      retries: 50
 
 volumes:
   keycloak_data:
