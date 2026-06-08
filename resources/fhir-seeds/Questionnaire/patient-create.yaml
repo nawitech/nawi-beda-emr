@@ -1,0 +1,81 @@
+id: patient-create
+resourceType: Questionnaire
+name: patient-create
+title: Patient create
+status: active
+description: Registers a new patient in the system.
+mapping:
+  - valueReference:
+      reference: Mapping/patient-create
+item:
+  - linkId: last-name
+    type: string
+    text: Last name
+    required: true
+  - linkId: first-name
+    type: string
+    text: First name
+    required: true
+  - linkId: birth-date
+    type: date
+    text: Birth date
+    required: true
+  - linkId: gender
+    type: choice
+    text: Gender
+    required: true
+    answerOption:
+      - valueCoding:
+          code: male
+          system: http://hl7.org/fhir/administrative-gender
+          display: Male
+      - valueCoding:
+          code: female
+          system: http://hl7.org/fhir/administrative-gender
+          display: Female
+  - linkId: national-id
+    type: string
+    text: National ID
+    required: true
+  - linkId: mobile
+    type: string
+    text: Phone number
+    required: true
+    itemControl:
+      coding:
+        - code: phoneWidget
+  - linkId: email
+    type: string
+    text: Email
+  - linkId: line
+    type: string
+    text: Street address
+  - linkId: city
+    type: string
+    text: City
+  - linkId: state
+    type: string
+    text: Sub-county
+  - linkId: country
+    type: string
+    text: Country
+  - linkId: next-of-kin-group
+    type: group
+    text: Next of kin
+    item:
+      - linkId: next-of-kin-last-name
+        type: string
+        text: Last Name
+      - linkId: next-of-kin-first-name
+        type: string
+        text: First Name
+      - linkId: next-of-kin-phone
+        type: string
+        text: Phone number
+        itemControl:
+          coding:
+            - code: phoneWidget
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+url: https://emr.nawi.ke/fhir/Questionnaire/patient-create

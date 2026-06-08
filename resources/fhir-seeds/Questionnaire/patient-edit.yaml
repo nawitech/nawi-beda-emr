@@ -1,0 +1,136 @@
+id: patient-edit
+resourceType: Questionnaire
+name: patient-edit
+title: Edit patient
+status: active
+description: Edits an existing patient's demographic and contact details.
+launchContext:
+  - name:
+      code: Patient
+    type:
+      - Patient
+mapping:
+  - valueReference:
+      reference: Mapping/patient-edit
+item:
+  - linkId: patient-id
+    type: string
+    text: patientId
+    readOnly: true
+    hidden: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.id"
+  - linkId: last-name
+    type: string
+    text: Last name
+    required: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.name.family"
+  - linkId: first-name
+    type: string
+    text: First name
+    required: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.name.given[0]"
+  - linkId: birth-date
+    type: date
+    text: Birth date
+    required: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.birthDate"
+  - linkId: gender
+    type: choice
+    text: Gender
+    required: true
+    answerOption:
+      - valueCoding:
+          code: male
+          system: http://hl7.org/fhir/administrative-gender
+          display: Male
+      - valueCoding:
+          code: female
+          system: http://hl7.org/fhir/administrative-gender
+          display: Female
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Questionnaire.repeat(item).where(linkId='gender').answerOption.valueCoding.where(code=%Patient.gender)"
+  - linkId: national-id
+    type: string
+    text: National ID
+    required: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.identifier.where(system='http://identity.go.ke/national-id').value"
+  - linkId: mobile
+    type: string
+    text: Phone number
+    required: true
+    itemControl:
+      coding:
+        - code: phoneWidget
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.telecom.where(system='phone' and use='mobile').value"
+  - linkId: email
+    type: string
+    text: Email
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.telecom.where(system='email').value"
+  - linkId: line
+    type: string
+    text: Street address
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.address.where(use='home').line[0]"
+  - linkId: city
+    type: string
+    text: City
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.address.where(use='home').city"
+  - linkId: state
+    type: string
+    text: Sub-county
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.address.where(use='home').state"
+  - linkId: country
+    type: string
+    text: Country
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.address.where(use='home').country"
+  - linkId: next-of-kin-group
+    type: group
+    text: Next of kin
+    item:
+      - linkId: next-of-kin-last-name
+        type: string
+        text: Last Name
+        initialExpression:
+          language: text/fhirpath
+          expression: "%Patient.contact.where(relationship.coding.where(code='N').exists()).name.family"
+      - linkId: next-of-kin-first-name
+        type: string
+        text: First Name
+        initialExpression:
+          language: text/fhirpath
+          expression: "%Patient.contact.where(relationship.coding.where(code='N').exists()).name.given[0]"
+      - linkId: next-of-kin-phone
+        type: string
+        text: Phone number
+        itemControl:
+          coding:
+            - code: phoneWidget
+        initialExpression:
+          language: text/fhirpath
+          expression: "%Patient.contact.where(relationship.coding.where(code='N').exists()).telecom.where(system='phone').value"
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+url: https://emr.nawi.ke/fhir/Questionnaire/patient-edit

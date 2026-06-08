@@ -1,0 +1,93 @@
+id: patient-create
+resourceType: Mapping
+type: FHIRPath
+body:
+  "{% assign %}":
+    - nationalId: "{{ %QuestionnaireResponse.answers('national-id') }}"
+    - gender: "{{ %QuestionnaireResponse.answers('gender').code }}"
+    - mobile: "{{ %QuestionnaireResponse.answers('mobile') }}"
+    - email: "{{ %QuestionnaireResponse.answers('email') }}"
+    - lastName: "{{ %QuestionnaireResponse.answers('last-name') }}"
+    - birthDate: "{{ %QuestionnaireResponse.answers('birth-date') }}"
+    - firstName: "{{ %QuestionnaireResponse.answers('first-name') }}"
+    - line: "{{ %QuestionnaireResponse.answers('line') }}"
+    - city: "{{ %QuestionnaireResponse.answers('city') }}"
+    - state: "{{ %QuestionnaireResponse.answers('state') }}"
+    - country: "{{ %QuestionnaireResponse.answers('country') }}"
+    - nextOfKinLastName: "{{ %QuestionnaireResponse.answers('next-of-kin-last-name') }}"
+    - nextOfKinFirstName: "{{ %QuestionnaireResponse.answers('next-of-kin-first-name') }}"
+    - nextOfKinPhone: "{{ %QuestionnaireResponse.answers('next-of-kin-phone') }}"
+
+  resourceType: Bundle
+  type: transaction
+  entry:
+    - fullUrl: "urn:uuid:new-patient"
+      request:
+        url: /Patient
+        method: POST
+      resource:
+        resourceType: Patient
+        active: true
+        name:
+          - given:
+              - "{{ %firstName }}"
+            family: "{{ %lastName }}"
+            use: official
+        gender: "{{ %gender }}"
+        telecom:
+          - value: "{{ %mobile }}"
+            system: phone
+            use: mobile
+          - value: "{{ %email }}"
+            system: email
+        birthDate: "{{ %birthDate }}"
+        identifier:
+          - value: "{{ %nationalId }}"
+            system: http://identity.go.ke/national-id
+            use: official
+            type:
+              coding:
+                - system: "http://terminology.hl7.org/CodeSystem/v2-0203"
+                  code: "NNKEN"
+                  display: "National Person Identifier"
+        address:
+          - line:
+              - "{{ %line }}"
+            city: "{{ %city }}"
+            state: "{{ %state }}"
+            country: "{{ %country }}"
+            use: home
+        contact:
+          - relationship:
+              - coding:
+                  - system: "http://terminology.hl7.org/CodeSystem/v2-0131"
+                    code: "N"
+                    display: "Next-of-Kin"
+            name:
+              use: official
+              family: "{{ %nextOfKinLastName }}"
+              given:
+                - "{{ %nextOfKinFirstName }}"
+            telecom:
+              - value: "{{ %nextOfKinPhone }}"
+                system: phone
+                use: mobile
+    - request:
+        url: /List/list-patient-1
+        method: PATCH
+      resource:
+        resourceType: Parameters
+        parameter:
+          - name: operation
+            part:
+              - name: type
+                valueCode: add
+              - name: path
+                valueString: List
+              - name: name
+                valueString: entry
+              - name: value
+                part:
+                  - name: item
+                    valueReference:
+                      reference: "urn:uuid:new-patient"
