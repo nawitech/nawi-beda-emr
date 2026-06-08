@@ -18,5 +18,3 @@ telecom:
   - system: email
     value: joyce.daktari@example.org
     use: work
-search:
-mode: match

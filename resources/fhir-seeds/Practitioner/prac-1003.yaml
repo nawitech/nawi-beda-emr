@@ -13,5 +13,3 @@ telecom:
   - system: email
     value: samuel.waweru@example.org
     use: work
-search:
-  mode: match

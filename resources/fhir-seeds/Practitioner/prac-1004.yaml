@@ -15,5 +15,3 @@ telecom:
   - system: email
     value: esther.muthoni@example.org
     use: work
-search:
-  mode: match

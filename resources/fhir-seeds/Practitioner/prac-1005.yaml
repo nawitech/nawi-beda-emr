@@ -13,5 +13,3 @@ telecom:
   - system: email
     value: peter.njoroge@example.org
     use: work
-search:
-  mode: match

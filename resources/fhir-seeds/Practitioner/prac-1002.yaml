@@ -15,5 +15,3 @@ telecom:
   - system: email
     value: aisha.omondi@example.org
     use: work
-search:
-  mode: match

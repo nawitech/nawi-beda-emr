@@ -13,5 +13,3 @@ telecom:
   - system: email
     value: grace.kamau@example.org
     use: work
-search:
-  mode: match
