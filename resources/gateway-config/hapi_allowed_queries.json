@@ -76,6 +76,20 @@
       "queryParams": {},
       "allowExtraParams": true,
       "allParamsRequired": false
+    },
+    {
+      "_comment": "QuestionnaireResponse — GET/PUT by ID (SDC extract saves QR)",
+      "path": "QuestionnaireResponse/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "QuestionnaireResponse — POST (create) and search",
+      "path": "QuestionnaireResponse",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
     }
   ]
 }

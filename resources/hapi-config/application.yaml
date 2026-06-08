@@ -1,0 +1,22 @@
+hapi:
+  fhir:
+    fhir_version: R4
+    server_id_strategy: UUID
+    cors:
+      allowed_origin:
+        - "*"
+    reuse_cached_search_results_millis: 1000
+    validation:
+      enabled: true
+      requests_enabled: false
+
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres-hapi:5432/hapi
+    username: hapi
+    password: ${POSTGRES_HAPI_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgresDialect

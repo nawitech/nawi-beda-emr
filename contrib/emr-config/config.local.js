@@ -12,7 +12,7 @@ const config = {
     fhirBaseURL: window.localStorage.getItem('fhirBaseURL') || 'http://localhost:8080/fhir',
     sdcIdeUrl: 'http://localhost:3001',
     aiQuestionnaireBuilderUrl: 'http://localhost:3002',
-    sdcBackendUrl: null,
+    sdcBackendUrl: 'http://localhost:8083',
 
     webSentryDSN: null,
     mobileSentryDSN: null,

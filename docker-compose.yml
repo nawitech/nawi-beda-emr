@@ -31,13 +31,31 @@ services:
     volumes:
       - ./resources/keycloak-seeds:/opt/keycloak/data/import:ro
 
+  postgres-hapi:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: hapi
+      POSTGRES_USER: hapi
+      POSTGRES_PASSWORD: ${POSTGRES_HAPI_PASSWORD}
+    volumes:
+      - hapi_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hapi"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   hapi-fhir:
     image: hapiproject/hapi:latest
     ports:
       - "8082:8080"
     environment:
-      - hapi.fhir.fhir_version=R4
-      - hapi.fhir.cors.allowed_origin=*
+      - POSTGRES_HAPI_PASSWORD=${POSTGRES_HAPI_PASSWORD}
+    volumes:
+      - ./resources/hapi-config/application.yaml:/app/config/application.yaml:ro
+    depends_on:
+      postgres-hapi:
+        condition: service_healthy
 
   keycloak-ready:
     image: curlimages/curl
@@ -81,7 +99,7 @@ services:
       - ALLOW_CORS=true
       - ALLOWED_QUERIES_FILE=/app/config/hapi_allowed_queries.json
     volumes:
-      - ./gateway-config/hapi_allowed_queries.json:/app/config/hapi_allowed_queries.json:ro
+      - ./resources/gateway-config/hapi_allowed_queries.json:/app/config/hapi_allowed_queries.json:ro
     depends_on:
       hapi-fhir-ready:
         condition: service_completed_successfully
@@ -97,16 +115,23 @@ services:
     depends_on:
       - fhir-gateway
 
+  fhirpath_mapping:
+    image: bedasoftware/fhirpath-extract:0.2.0
+    ports:
+      - "8091:8090"
+
   fhir-sdc:
-    image: bedasoftware/fhir-sdc:2.1.0a1
+    image: bedasoftware/fhir-sdc:2.1.0a3
     ports:
       - "8083:8081"
     environment:
       - BASE_URL=http://hapi-fhir:8080/fhir
       - CONSTRAINT_LEGACY_BEHAVIOR=False
       - CREATE_MANIFEST_ATTRS=False
+      - FHIRPATH_MAPPING_SERVICE=http://fhirpath_mapping:8090/parse-template
     depends_on:
       - hapi-fhir
+      - fhirpath_mapping
 
   build-fhir-bundle:
     image: bedasoftware/fhirsnake:latest
@@ -116,20 +141,13 @@ services:
       - /app/fhir-bundles/fhirBundle.json
       - --external-questionnaire-fce-fhir-converter-url
       - http://questionnaire-fce-fhir-converter:3000/to-fhir
+      - --embed-mapping
+    depends_on:
+      questionnaire-fce-fhir-converter:
+        condition: service_healthy
     volumes:
       - ./resources/fhir-seeds:/app/resources
       - ./resources/fhir-bundles:/app/fhir-bundles
-
-  watch-fhir-seeds:
-    image: bedasoftware/fhirsnake:latest
-    command:
-      - watch
-      - --external-fhir-server-url
-      - http://hapi-fhir:8080/fhir
-      - --external-questionnaire-fce-fhir-converter-url
-      - http://questionnaire-fce-fhir-converter:3000/to-fhir
-    volumes:
-      - ./resources/fhir-seeds:/app/resources
 
   upload-fhir-bundle:
     image: curlimages/curl
@@ -158,3 +176,4 @@ services:
 
 volumes:
   keycloak_data:
+  hapi_data:

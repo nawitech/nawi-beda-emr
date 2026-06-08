@@ -1,0 +1,30 @@
+include:
+  - path: docker-compose.yml
+
+services:
+  pgweb:
+    image: sosedoff/pgweb
+    ports:
+      - "8085:8081"
+    environment:
+      - DATABASE_URL=postgres://hapi:${POSTGRES_HAPI_PASSWORD}@postgres-hapi:5432/hapi?sslmode=disable
+    depends_on:
+      postgres-hapi:
+        condition: service_healthy
+
+  watch-fhir-seeds:
+    image: bedasoftware/fhirsnake:latest
+    command:
+      - watch
+      - --external-fhir-server-url
+      - http://hapi-fhir:8080/fhir
+      - --external-questionnaire-fce-fhir-converter-url
+      - http://questionnaire-fce-fhir-converter:3000/to-fhir
+      - --embed-mapping
+    depends_on:
+      hapi-fhir-ready:
+        condition: service_completed_successfully
+      questionnaire-fce-fhir-converter:
+        condition: service_healthy
+    volumes:
+      - ./resources/fhir-seeds:/app/resources
