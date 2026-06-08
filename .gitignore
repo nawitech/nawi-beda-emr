@@ -37,3 +37,4 @@ storybook-static
 .gitnexus
 
 resources/fhir-bundles
+resources/fhir-bundles-demo
