@@ -1,15 +1,48 @@
 id: pat-1001
 resourceType: Patient
-identifier:
-  - system: http://hospital.smarthealthit.org
-    value: MRN-1001
 active: true
 name:
   - use: official
     family: Otala
     given:
       - Charity
+identifier:
+  - use: official
+    type:
+      coding:
+        - system: http://terminology.hl7.org/CodeSystem/v2-0203
+          code: NNKEN
+          display: National Person Identifier
+    system: http://identity.go.ke/national-id
+    value: "12345678901234"
+telecom:
+  - system: phone
+    value: "+254712345678"
+    use: mobile
+  - system: email
+    value: patient@nawi-emr.com
 gender: female
 birthDate: "1980-01-01"
-search:
-mode: match
+address:
+  - use: home
+    line:
+      - Kenyatta Avenue
+      - Bazaar Plaza, 3rd Floor
+    city: Nairobi
+    state: Nairobi
+    country: KE
+contact:
+  - relationship:
+      - coding:
+          - system: "http://terminology.hl7.org/CodeSystem/v2-0131"
+            code: "N"
+            display: "Next-of-Kin"
+    name:
+      use: official
+      family: "Wanjiku"
+      given:
+        - "Jane"
+    telecom:
+      - system: phone
+        value: "+254722123456"
+        use: mobile
