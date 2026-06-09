@@ -87,16 +87,16 @@ Open http://localhost:3000 and select **OHS FHIR Gateway (HAPI + Keycloak) - Loc
 
 ## Seed accounts
 
-| Role           | Username         | Email                          | Password   | FHIR resource            |
-| -------------- | ---------------- | ------------------------------ | ---------- | ------------------------ |
-| Administrator  | `administrator`  | administrator@nawi-emr.com     | `password` | `Organization/org-1001`  |
-| Clinician      | `clinician`      | clinician@nawi-emr.com         | `password` | `Practitioner/prac-1000` |
-| Receptionist   | `receptionist`   | receptionist@nawi-emr.com      | `password` | `Practitioner/prac-1001` |
-| Triage Nurse   | `triage-nurse`   | triage.nurse@nawi-emr.com      | `password` | `Practitioner/prac-1002` |
-| Lab Technician | `lab-technician` | lab.technician@nawi-emr.com    | `password` | `Practitioner/prac-1003` |
-| Pharmacist     | `pharmacist`     | pharmacist@nawi-emr.com        | `password` | `Practitioner/prac-1004` |
-| Cashier        | `cashier`        | cashier@nawi-emr.com           | `password` | `Practitioner/prac-1005` |
-| Patient        | `patient`        | patient@nawi-emr.com           | `password` | `Patient/pat-1001`       |
+| Role           | Username         | Email                       | Password   | FHIR resource            |
+| -------------- | ---------------- | --------------------------- | ---------- | ------------------------ |
+| Administrator  | `administrator`  | administrator@nawi-emr.com  | `password` | `Organization/org-1001`  |
+| Clinician      | `clinician`      | clinician@nawi-emr.com      | `password` | `Practitioner/prac-1000` |
+| Receptionist   | `receptionist`   | receptionist@nawi-emr.com   | `password` | `Practitioner/prac-1001` |
+| Triage Nurse   | `triage-nurse`   | triage.nurse@nawi-emr.com   | `password` | `Practitioner/prac-1002` |
+| Lab Technician | `lab-technician` | lab.technician@nawi-emr.com | `password` | `Practitioner/prac-1003` |
+| Pharmacist     | `pharmacist`     | pharmacist@nawi-emr.com     | `password` | `Practitioner/prac-1004` |
+| Cashier        | `cashier`        | cashier@nawi-emr.com        | `password` | `Practitioner/prac-1005` |
+| Patient        | `patient`        | patient@nawi-emr.com        | `password` | `Patient/pat-1001`       |
 
 > **Reseeding after seed changes:** Keycloak persists realm data in a Docker volume. To force a clean reimport of the realm and all seed users, run:
 >
@@ -104,6 +104,77 @@ Open http://localhost:3000 and select **OHS FHIR Gateway (HAPI + Keycloak) - Loc
 > docker compose down -v
 > docker compose up -d
 > ```
+
+## Role-based navigation
+
+Each Keycloak user is assigned exactly one role. After login, `matchCurrentUserRole` (in `src/utils/role.ts`) reads the first entry of `user.role[]` and dispatches to the matching branch.
+
+Two files together control what a user can see and visit:
+
+| File                            | Purpose                                   |
+| ------------------------------- | ----------------------------------------- |
+| `src/containers/App/layout.tsx` | Sidebar menu items shown to each role     |
+| `src/containers/App/routes.tsx` | React Router routes mounted for each role |
+
+The default redirect after login is the first path in the role's `menuLayout` array.
+
+### Menu and route matrix
+
+```
+Receptionist
+├── Patients          /patients
+└── Scheduling        /scheduling
+
+Triage Nurse
+└── Patients          /patients
+
+Clinician
+└── Patients          /patients
+
+Lab Technician
+└── Patients          /patients
+
+Pharmacist
+└── Patients          /patients
+
+Cashier
+└── Patients          /patients
+
+Administrator
+├── Patients          /patients
+├── Scheduling        /scheduling
+├── Organizations     /organizations
+└── Locations         /locations
+
+Patient
+└── Patient (own record)  /patients/:id/*
+```
+
+All roles with `/patients` also get sub-route `/patients/:id/*`.
+
+### Changing menu items for a role
+
+Edit `src/containers/App/layout.tsx`. Add, remove, or reorder entries in the array returned for the target role. Each entry is:
+
+```ts
+{ label: t`Label`, path: '/route-path', icon: <SomeIcon /> }
+```
+
+`t\`...\``marks the label as translatable — run`yarn extract && yarn compile` after adding new strings.
+
+### Changing routes for a role
+
+Edit the matching `Authenticated<Role>Routes` component in `src/containers/App/routes.tsx`. Add or remove `<Route>` elements to match what you set in the menu layout.
+
+Keep the menu items and routes in sync: a menu entry without a matching route silently redirects to the default page; a route without a menu entry is unreachable via the sidebar but still accessible by direct URL.
+
+### Adding a new role
+
+1. Add the role string to the `Role` enum in `src/utils/role.ts`.
+2. Add the role's menu items to `menuLayout` in `src/containers/App/layout.tsx`.
+3. Add a new `Authenticated<NewRole>Routes` component in `src/containers/App/routes.tsx` and register it in `AuthenticatedRoutesContent`.
+4. Add the role to the Keycloak realm configuration and create a seed user (see [Seed accounts](#seed-accounts)).
+5. Add FHIR gateway access rules for the role in `resources/gateway-config/`.
 
 ## Auth flow
 
