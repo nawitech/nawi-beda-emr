@@ -22,6 +22,13 @@
       "allParamsRequired": true
     },
     {
+      "_comment": "Practitioner — general search (PractitionerList)",
+      "path": "Practitioner",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
       "_comment": "PractitionerRole — search by practitioner (fetchUserRoleDetails)",
       "path": "PractitionerRole",
       "queryParams": { "practitioner": "ANY_VALUE" },
@@ -29,8 +36,22 @@
       "allParamsRequired": true
     },
     {
+      "_comment": "PractitionerRole — general search (OrganizationScheduling, InvoiceList includes)",
+      "path": "PractitionerRole",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
       "_comment": "Organization — GET by ID (fetchUserRoleDetails admin role)",
       "path": "Organization/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Organization — search (OrganizationResourceList)",
+      "path": "Organization",
       "queryParams": {},
       "allowExtraParams": true,
       "allParamsRequired": false
@@ -90,7 +111,153 @@
       "queryParams": {},
       "allowExtraParams": true,
       "allParamsRequired": false
+    },
+    {
+      "_comment": "MedicationRequest — GET by ID",
+      "path": "MedicationRequest/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "MedicationRequest — search (PatientDetails dashboard)",
+      "path": "MedicationRequest",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "HealthcareService — search (OrganizationScheduling)",
+      "path": "HealthcareService",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Appointment — GET by ID",
+      "path": "Appointment/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Appointment — search (OrganizationScheduling)",
+      "path": "Appointment",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Location — GET by ID",
+      "path": "Location/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Location — search (LocationResourceList)",
+      "path": "Location",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "AllergyIntolerance — GET by ID",
+      "path": "AllergyIntolerance/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "AllergyIntolerance — search",
+      "path": "AllergyIntolerance",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Condition — GET by ID",
+      "path": "Condition/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Condition — search",
+      "path": "Condition",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Immunization — GET by ID",
+      "path": "Immunization/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Immunization — search",
+      "path": "Immunization",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "MedicationStatement — GET by ID",
+      "path": "MedicationStatement/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "MedicationStatement — search",
+      "path": "MedicationStatement",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Observation — GET by ID",
+      "path": "Observation/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Observation — search",
+      "path": "Observation",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Procedure — GET by ID",
+      "path": "Procedure/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Procedure — search",
+      "path": "Procedure",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "RelatedPerson — GET by ID",
+      "path": "RelatedPerson/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "RelatedPerson — search",
+      "path": "RelatedPerson",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
     }
   ]
 }
-
