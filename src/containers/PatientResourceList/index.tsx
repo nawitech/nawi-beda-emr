@@ -3,13 +3,10 @@ import { t, Trans } from '@lingui/macro';
 import { Patient } from 'fhir/r4b';
 
 import { SearchBarColumnType } from '@beda.software/emr/dist/components/SearchBar/types';
-import {
-    ResourceListPage,
-    navigationAction,
-    questionnaireAction,
-} from '@beda.software/emr/uberComponents';
+import { ResourceListPage, navigationAction, questionnaireAction } from '@beda.software/emr/uberComponents';
 import { renderHumanName, formatHumanDate } from '@beda.software/emr/utils';
 
+import { sdcServiceProvider } from 'src/services/sdc';
 import { renderIdentifier } from 'src/utils';
 
 export function PatientResourceList() {
@@ -40,13 +37,17 @@ export function PatientResourceList() {
                     width: 150,
                 },
                 {
-                    title: "Ids",
+                    title: 'Ids',
                     dataIndex: 'identifier',
                     key: 'identifier',
-                    render: (_text, { resource }) =>{
-                        return <ul>{resource.identifier?.map(identifier => (
-                            <li key={identifier.value}>{renderIdentifier(identifier)}</li>
-                            ))}</ul>
+                    render: (_text, { resource }) => {
+                        return (
+                            <ul>
+                                {resource.identifier?.map((identifier) => (
+                                    <li key={identifier.value}>{renderIdentifier(identifier)}</li>
+                                ))}
+                            </ul>
+                        );
                     },
                     width: 250,
                 },
@@ -101,18 +102,39 @@ export function PatientResourceList() {
             ]}
             getRecordActions={(record) => [
                 navigationAction('Open', `/patients/${record.resource.id}`),
-                questionnaireAction('Edit', 'patient-edit'),
+                questionnaireAction('Edit', 'patient-edit', {
+                    extra: {
+                        qrfProps: {
+                            sdcServiceProvider,
+                        },
+                    },
+                }),
             ]}
             getHeaderActions={() => [
-                questionnaireAction(<Trans>Add patient</Trans>, 'patient-create', { icon: <PlusOutlined /> }),
+                questionnaireAction(<Trans>Add patient</Trans>, 'patient-create', {
+                    icon: <PlusOutlined />,
+                    extra: {
+                        qrfProps: {
+                            sdcServiceProvider,
+                        },
+                    },
+                }),
             ]}
-            getBatchActions={() => [questionnaireAction(<Trans>Delete patients</Trans>, 'patients-batch-delete')]}
+            getBatchActions={() => [
+                questionnaireAction(<Trans>Delete patients</Trans>, 'patients-batch-delete', {
+                    extra: {
+                        qrfProps: {
+                            sdcServiceProvider,
+                        },
+                    },
+                }),
+            ]}
             getReportColumns={(bundle) => [
                 {
                     title: t`Number of Patients`,
                     value: bundle.total,
                 },
             ]}
-        ></ResourceListPage>
+        />
     );
 }
