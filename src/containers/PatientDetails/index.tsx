@@ -7,7 +7,6 @@ import { compileAsFirst } from '@beda.software/emr/dist/utils/index';
 import { WithId } from '@beda.software/fhir-react';
 
 import { dashboard } from './dashboard';
-import { PatientEncounter } from './encounters';
 import { ResourcesTabRoutes } from './ResourcesTabRoutes';
 
 const getName = compileAsFirst<Patient, string>("Patient.name.given.first() + ' ' + Patient.name.family");
@@ -17,11 +16,6 @@ const tabs: Array<Tab<WithId<Patient>>> = [
         path: '',
         label: 'Overview',
         component: ({ resource }) => <PatientOverview patient={resource} />,
-    },
-    {
-        path: 'encounter',
-        label: 'Encounters',
-        component: ({ resource }) => <PatientEncounter patient={resource} />,
     },
     {
         path: 'resources',
