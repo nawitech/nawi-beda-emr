@@ -15,7 +15,9 @@ import '@beda.software/emr/dist/style.css';
 import { ValueSetExpandProvider } from '@beda.software/emr/contexts';
 import { dynamicActivate, getCurrentLocale } from '@beda.software/emr/services';
 import { ThemeProvider } from '@beda.software/emr/theme';
-import config from '@beda.software/emr-config';
+import { SdcServiceProviderContext } from '@beda.software/fhir-questionnaire/contexts';
+
+import { sdcServiceProvider } from 'src/services/sdc';
 
 import { App } from './containers/App';
 import { expandValueSet } from './services/expand';
@@ -31,28 +33,18 @@ export const AppWithContext = () => {
     return (
         <I18nProvider i18n={i18n}>
             <ThemeProvider>
-                <ValueSetExpandProvider.Provider value={expandValueSet}>
-                    <App />
-                </ValueSetExpandProvider.Provider>
+                <SdcServiceProviderContext.Provider value={sdcServiceProvider}>
+                    <ValueSetExpandProvider.Provider value={expandValueSet}>
+                        <App />
+                    </ValueSetExpandProvider.Provider>
+                </SdcServiceProviderContext.Provider>
             </ThemeProvider>
         </I18nProvider>
     );
 };
 
-const authProviderStyle: React.CSSProperties = {
-    width: '100%',
-    backgroundColor: '#ddd',
-    display: 'flex',
-    justifyContent: 'center',
-};
-
 createRoot(document.getElementById('root')!).render(
-    <>
-        <div id="auth-provider-info" style={authProviderStyle}>
-            <span style={{ color: '#3366ff' }}>{config.baseURL}</span>
-        </div>
-        <React.StrictMode>
-            <AppWithContext />
-        </React.StrictMode>
-    </>,
+    <React.StrictMode>
+        <AppWithContext />
+    </React.StrictMode>,
 );

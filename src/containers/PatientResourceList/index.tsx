@@ -6,7 +6,6 @@ import { SearchBarColumnType } from '@beda.software/emr/dist/components/SearchBa
 import { ResourceListPage, navigationAction, questionnaireAction } from '@beda.software/emr/uberComponents';
 import { renderHumanName, formatHumanDate } from '@beda.software/emr/utils';
 
-import { sdcServiceProvider } from 'src/services/sdc';
 import { renderIdentifier } from 'src/utils';
 
 export function PatientResourceList() {
@@ -102,33 +101,14 @@ export function PatientResourceList() {
             ]}
             getRecordActions={(record) => [
                 navigationAction('Open', `/patients/${record.resource.id}`),
-                questionnaireAction('Edit', 'patient-edit', {
-                    extra: {
-                        qrfProps: {
-                            sdcServiceProvider,
-                        },
-                    },
-                }),
+                questionnaireAction('Edit', 'patient-edit'),
             ]}
             getHeaderActions={() => [
                 questionnaireAction(<Trans>Add patient</Trans>, 'patient-create', {
                     icon: <PlusOutlined />,
-                    extra: {
-                        qrfProps: {
-                            sdcServiceProvider,
-                        },
-                    },
                 }),
             ]}
-            getBatchActions={() => [
-                questionnaireAction(<Trans>Delete patients</Trans>, 'patients-batch-delete', {
-                    extra: {
-                        qrfProps: {
-                            sdcServiceProvider,
-                        },
-                    },
-                }),
-            ]}
+            getBatchActions={() => [questionnaireAction(<Trans>Delete patients</Trans>, 'patients-batch-delete')]}
             getReportColumns={(bundle) => [
                 {
                     title: t`Number of Patients`,
