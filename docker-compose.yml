@@ -168,6 +168,37 @@ services:
     volumes:
       - ./resources/fhir-bundles/:/app/resources/fhir-bundles
 
+  build-fhir-bundle-demo:
+    image: bedasoftware/fhirsnake:latest
+    command:
+      - export
+      - --output
+      - /app/fhir-bundles/fhirBundle.json
+      - --external-questionnaire-fce-fhir-converter-url
+      - http://questionnaire-fce-fhir-converter:3000/to-fhir
+      - --embed-mapping
+    depends_on:
+      questionnaire-fce-fhir-converter:
+        condition: service_healthy
+    volumes:
+      - ./resources/fhir-seeds-demo:/app/resources
+      - ./resources/fhir-bundles-demo:/app/fhir-bundles
+
+  upload-fhir-bundle-demo:
+    image: curlimages/curl
+    depends_on:
+      hapi-fhir-ready:
+        condition: service_completed_successfully
+      build-fhir-bundle-demo:
+        condition: service_completed_successfully
+    working_dir: /app/resources/fhir-bundles
+    command:
+      - "sh"
+      - "-c"
+      - "curl -X POST 'http://hapi-fhir:8080/fhir' -H 'Content-Type: application/json' -d @fhirBundle.json"
+    volumes:
+      - ./resources/fhir-bundles-demo/:/app/resources/fhir-bundles
+
   questionnaire-fce-fhir-converter:
     image: bedasoftware/questionnaire-fce-fhir-converter:latest
     healthcheck:
