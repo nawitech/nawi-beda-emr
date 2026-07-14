@@ -30,7 +30,18 @@ git clone --recurse-submodules <repo-url>
 git submodule update --init
 ```
 
-### 2. Configure environment
+### 2. Bring up the stack
+
+```sh
+docker compose -f docker-compose.dev.yml up -d
+```
+
+This starts the services **and seeds the FHIR server** — the one-shot `*-fhir-bundle`
+services export `resources/fhir-seeds*` and POST them to HAPI once it is healthy. There
+is no separate seed step. `beda-frontend` is behind a `frontend` profile and does not
+start by default; run the app with `corepack yarn start`.
+
+### 3. Configure environment
 
 ```sh
 cp .env.tpl .env

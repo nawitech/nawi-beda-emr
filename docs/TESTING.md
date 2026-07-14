@@ -23,17 +23,25 @@ git submodule update --init
 corepack yarn install
 cp contrib/emr-config/config.local.js contrib/emr-config/config.js   # gitignored; the build refuses to run without it
 
-docker compose -f docker-compose.dev.yml up -d \
-  postgres-keycloak keycloak postgres-hapi hapi-fhir \
-  fhir-gateway fhir-sdc fhirpath_mapping questionnaire-fce-fhir-converter
-
-./scripts/reset-demo-data.sh    # builds and loads every seed, then prints the baseline
-corepack yarn start             # http://localhost:3000
+docker compose -f docker-compose.dev.yml up -d   # starts the stack AND seeds it
+corepack yarn start                              # http://localhost:3000
 ```
 
-`beda-frontend` is deliberately excluded from that compose list. Its Dockerfile copies a
-prebuilt `build/` directory rather than building the app, so it cannot serve a dev
-build. Use the Vite server.
+That is the whole thing — **`up -d` seeds the data itself**. The compose file declares
+four one-shot services (`build-fhir-bundle`, `build-fhir-bundle-demo`,
+`upload-fhir-bundle`, `upload-fhir-bundle-demo`) that export `resources/fhir-seeds*` to
+a transaction bundle and POST it to HAPI once the server is healthy. They run, exit 0,
+and stay exited. No separate seed step.
+
+Give it a minute or two on a cold start: HAPI has to come up before the uploaders will
+run. When it settles you should have 20 patients, 60 encounters, 8 questionnaires and
+8 claims.
+
+`beda-frontend` sits behind a `frontend` profile, so it does **not** start by default.
+Its Dockerfile copies a prebuilt `build/` directory rather than building the app, so it
+would abort the whole `up` on a fresh clone. For a dev run use the Vite server; to run
+the built app in a container, `corepack yarn build` first and then
+`docker compose --profile frontend up -d beda-frontend`.
 
 | Service | Port | |
 |---|---|---|

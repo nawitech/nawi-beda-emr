@@ -114,6 +114,8 @@ services:
       - "5000:5000"
     depends_on:
       - fhir-gateway
+    profiles:
+      - frontend
 
   fhirpath_mapping:
     image: bedasoftware/fhirpath-extract:0.2.0
