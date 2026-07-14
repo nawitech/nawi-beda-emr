@@ -4,12 +4,20 @@
 # #-#-#-#-#  1.po  #-#-#-#-#
 # #-#-#-#-#  1.po  #-#-#-#-#
 # #-#-#-#-#  1.po  #-#-#-#-#
+# #-#-#-#-#  1.po  #-#-#-#-#
 # , fuzzy
 # , fuzzy
 # #-#-#-#-#  2.po  #-#-#-#-#
 # , fuzzy
 # , fuzzy
 # #-#-#-#-#  2.po  #-#-#-#-#
+# , fuzzy
+# , fuzzy
+# #-#-#-#-#  2.po  #-#-#-#-#
+# #-#-#-#-#  1.po  #-#-#-#-#
+# #-#-#-#-#  1.po  #-#-#-#-#
+# , fuzzy
+# , fuzzy
 # , fuzzy
 # , fuzzy
 # #-#-#-#-#  2.po  #-#-#-#-#
@@ -35,6 +43,7 @@
 # , fuzzy
 msgid ""
 msgstr ""
+"#-#-#-#-#  1.po  #-#-#-#-#: \n"
 "#-#-#-#-#  1.po  #-#-#-#-#: \n"
 "#-#-#-#-#  1.po  #-#-#-#-#: \n"
 "#-#-#-#-#  1.po  #-#-#-#-#: \n"
@@ -162,6 +171,102 @@ msgstr ""
 "Last-Translator: \n"
 "Language-Team: \n"
 "Plural-Forms: \n"
+"#-#-#-#-#  2.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: es\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  3.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: es\n"
+"#-#-#-#-#  3.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: es\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  4.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: es\n"
+"#-#-#-#-#  2.po  #-#-#-#-#: \n"
+"#-#-#-#-#  1.po  #-#-#-#-#: \n"
+"#-#-#-#-#  1.po  #-#-#-#-#: \n"
+"#-#-#-#-#  1.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: es\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  2.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: es\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  3.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: es\n"
+"#-#-#-#-#  2.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: es\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  3.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: es\n"
 "#-#-#-#-#  2.po  #-#-#-#-#: \n"
 "POT-Creation-Date: 2026-05-01 12:37+0400\n"
 "MIME-Version: 1.0\n"
@@ -2077,7 +2182,7 @@ msgstr ""
 #~ msgstr "Guardado"
 
 #: src/containers/SignIn/index.tsx:NaN
-#: src/containers/SignIn/index.tsx:104
+#: src/containers/SignIn/index.tsx:52
 #~ msgid "On the next page, please, use one of the following credentials"
 #~ msgstr "En la siguiente página, por favor, utilice una de las siguientes credenciales"
 
@@ -2571,7 +2676,7 @@ msgstr ""
 #: src/components/BaseQuestionnaireResponseForm/widgets/choice/index.tsx:26
 #: src/components/BaseQuestionnaireResponseForm/widgets/choice/index.tsx:56
 #: src/controls/Choice/index.tsx:NaN
-#: src/controls/Choice/index.tsx:25
+#: src/controls/Choice/index.tsx:55
 #~ msgid "Select..."
 #~ msgstr "Seleccionar..."
 
@@ -2804,12 +2909,12 @@ msgstr ""
 #~ msgstr "Texto con macro"
 
 #: src/containers/App/index.tsx:NaN
-#: src/containers/App/index.tsx:123
+#: src/containers/App/index.tsx:100
 #~ msgid "Thank you for filling out the questionnaire. Now you can close this page."
 #~ msgstr "Gracias por completar el cuestionario. Ahora puedes cerrar esta página."
 
 #: src/containers/App/index.tsx:NaN
-#: src/containers/App/index.tsx:122
+#: src/containers/App/index.tsx:99
 #~ msgid "Thank you!"
 #~ msgstr "¡Gracias!"
 
