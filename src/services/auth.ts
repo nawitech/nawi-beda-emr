@@ -36,42 +36,35 @@ export interface AuthClientConfigParams {
 
 type TierConfig = { [key in Tier]: TierBaseConfig };
 
+const OHS_HOSTED: TierBaseConfig = {
+    baseUrl: 'http://35.202.40.190:8080',
+    fhirBaseUrl: 'http://35.202.40.190:8084/fhir',
+};
+
+// Keycloak must be addressed by the same hostname from the browser and from the
+// gateway container, because the gateway rejects any token whose `iss` differs from
+// its TOKEN_ISSUER. `localhost` cannot do that: inside the container it resolves to
+// the gateway itself. `host.docker.internal` resolves for both — via extra_hosts in
+// the container, and via /etc/hosts on Linux.
+const OHS_LOCAL: TierBaseConfig = {
+    baseUrl: 'http://host.docker.internal:8080',
+    fhirBaseUrl: 'http://localhost:8084/fhir',
+};
+
 export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
-    // OHS FHIR Gateway (HAPI FHIR + Keycloak)
-    // baseUrl  → Keycloak host: used by getAuthorizeUrl() to build the browser auth redirect URL.
-    // fhirBaseUrl → OHS Gateway: used for all FHIR API calls (Bearer token enforced by gateway).
     [AuthProvider.OHSKeycloak]: {
-        develop: {
-            baseUrl: 'http://35.202.40.190:8080',
-            fhirBaseUrl: 'http://35.202.40.190:8084/fhir',
-        },
-        production: {
-            baseUrl: 'http://35.202.40.190:8080',
-            fhirBaseUrl: 'http://35.202.40.190:8084/fhir',
-        },
+        develop: OHS_HOSTED,
+        production: OHS_HOSTED,
     },
+    // Never falls back to the hosted server: a provider named "local" that quietly
+    // authenticates against a remote Keycloak is the worst kind of surprise.
     [AuthProvider.OHSKeycloakLocal]: {
-        develop: {
-            baseUrl: 'http://host.docker.internal:8080',
-            fhirBaseUrl: 'http://localhost:8084/fhir',
-        },
-        production: {
-            baseUrl: 'http://35.202.40.190:8080',
-            fhirBaseUrl: 'http://35.202.40.190:8084/fhir',
-        },
+        develop: OHS_LOCAL,
+        production: OHS_LOCAL,
     },
 };
 
 export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParams } = {
-    // OHS FHIR Gateway — Keycloak OIDC (authorization_code flow).
-    // Auth endpoint strategy (Option A — baseUrl split):
-    //   baseUrl is the Keycloak host, so getAuthorizeUrl() builds:
-    //     http://35.202.40.190:8080/realms/beda-emr/protocol/openid-connect/auth?...
-    //   All FHIR API calls use fhirBaseUrl (the gateway at :8084), not baseUrl.
-    //
-    // Keycloak client 'fhir-emr' must have http://35.202.40.190:5000/* as a valid redirect URI.
-    // Each Keycloak user needs a `patient_list` claim → FHIR List resource ID in HAPI
-    // (required by ACCESS_CHECKER=list in docker-compose.yml).
     [AuthProvider.OHSKeycloak]: {
         clientId: 'beda-frontend',
         authPath: 'realms/beda-emr/protocol/openid-connect/auth',
@@ -80,17 +73,8 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         redirectURL: `${window.location.origin}/auth`,
         grantType: 'authorization_code',
         scope: ['openid', 'profile'],
-        tabTitle: 'OHS FHIR Gateway (HAPI + Keycloak)',
+        tabTitle: 'OHS FHIR Gateway — hosted',
         message: 'Sign in with your institutional Keycloak account',
-        sharedCredentials: {
-            accountDetails: [
-                {
-                    login: 'practitioner@nawi-emr.com',
-                    accountDescription: 'Test practitioner account',
-                },
-            ],
-            commonPassword: 'password1',
-        },
     },
     [AuthProvider.OHSKeycloakLocal]: {
         clientId: 'beda-frontend',
@@ -100,14 +84,14 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         redirectURL: `${window.location.origin}/auth`,
         grantType: 'authorization_code',
         scope: ['openid', 'profile'],
-        tabTitle: 'OHS FHIR Gateway (HAPI + Keycloak) - Local',
-        message: 'Sign in with your institutional Keycloak account',
+        tabTitle: 'OHS FHIR Gateway — local docker stack',
+        message: 'Sign in with the seeded Keycloak realm running in docker',
         sharedCredentials: {
             accountDetails: [
-                {
-                    login: 'practitioner',
-                    accountDescription: 'Test practitioner account',
-                },
+                { login: 'clinician', accountDescription: 'Dr. Amara Okafor — workflow 1' },
+                { login: 'triage-nurse', accountDescription: 'Lena Torres, RN — workflow 2' },
+                { login: 'administrator', accountDescription: 'Joan Rivera — workflow 3' },
+                { login: 'cashier', accountDescription: 'Marcus Webb — workflow 4' },
             ],
             commonPassword: 'password',
         },
