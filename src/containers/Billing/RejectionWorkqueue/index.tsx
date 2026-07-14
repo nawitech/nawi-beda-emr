@@ -1,4 +1,4 @@
-import { Trans } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import { Tag, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table/interface';
 import { Claim, ParametersParameter } from 'fhir/r4b';
@@ -103,21 +103,21 @@ export function RejectionWorkqueue() {
 
     return (
         <ResourceListPage<Claim>
-            headerTitle="Clearinghouse rejections"
+            headerTitle={t`Clearinghouse rejections`}
             resourceType="Claim"
             searchParams={REJECTION_WORKQUEUE_SEARCH_PARAMS}
             getTableColumns={getTableColumns}
             getClinicalContext={getClinicalContext}
             getRecordActions={(record) => [
                 navigationAction(
-                    'Open patient record',
+                    t`Open patient record`,
                     `/patients/${findClaimPatient(record.bundle, record.resource)?.id}`,
                 ),
-                questionnaireAction('Correct and resubmit', 'correct-and-resubmit-claim'),
+                questionnaireAction(t`Correct and resubmit`, 'correct-and-resubmit-claim'),
             ]}
             getReportColumns={(bundle) => [
                 {
-                    title: 'Rejections awaiting rework',
+                    title: t`Rejections awaiting rework`,
                     value: bundle.total ?? '—',
                 },
             ]}

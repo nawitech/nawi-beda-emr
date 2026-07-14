@@ -1,4 +1,4 @@
-import { Trans } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import { Badge, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/es/table/interface';
 import { MedicationDispense, MedicationRequest, Patient, Task } from 'fhir/r4b';
@@ -24,7 +24,7 @@ export function MedicationsDue() {
             id: 'subject',
             searchParam: 'subject',
             type: SearchBarColumnType.REFERENCE,
-            placeholder: 'Filter by patient',
+            placeholder: t`Filter by patient`,
             expression: 'Patient',
             path: "name.given.first() + ' ' + name.family",
         },
@@ -87,18 +87,18 @@ export function MedicationsDue() {
 
     return (
         <ResourceListPage<MedicationRequest>
-            headerTitle="Medications due"
+            headerTitle={t`Medications due`}
             resourceType="MedicationRequest"
             searchParams={MEDICATIONS_DUE_SEARCH_PARAMS}
             getFilters={getFilters}
             getTableColumns={getTableColumns}
             getRecordActions={(record) => [
                 navigationAction(
-                    'Open patient record',
+                    t`Open patient record`,
                     `/patients/${record.resource.subject?.reference?.split('/')[1]}`,
                 ),
             ]}
-            getReportColumns={(bundle) => [{ title: 'Active medication orders', value: bundle.total ?? '—' }]}
+            getReportColumns={(bundle) => [{ title: t`Active medication orders`, value: bundle.total ?? '—' }]}
         />
     );
 }

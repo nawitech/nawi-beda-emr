@@ -1,16 +1,43 @@
 # #-#-#-#-#  1.po  #-#-#-#-#
 # #-#-#-#-#  1.po  #-#-#-#-#
 # #-#-#-#-#  1.po  #-#-#-#-#
+# #-#-#-#-#  1.po  #-#-#-#-#
+# #-#-#-#-#  1.po  #-#-#-#-#
+# #-#-#-#-#  1.po  #-#-#-#-#
 # , fuzzy
 # , fuzzy
 # #-#-#-#-#  2.po  #-#-#-#-#
 # , fuzzy
 # , fuzzy
 # #-#-#-#-#  2.po  #-#-#-#-#
+# , fuzzy
+# , fuzzy
+# #-#-#-#-#  2.po  #-#-#-#-#
+# #-#-#-#-#  1.po  #-#-#-#-#
+# #-#-#-#-#  1.po  #-#-#-#-#
+# , fuzzy
+# , fuzzy
+# , fuzzy
+# , fuzzy
+# #-#-#-#-#  2.po  #-#-#-#-#
+# #-#-#-#-#  1.po  #-#-#-#-#
+# #-#-#-#-#  1.po  #-#-#-#-#
+# , fuzzy
+# , fuzzy
+# , fuzzy
+# , fuzzy
+# #-#-#-#-#  2.po  #-#-#-#-#
+# #-#-#-#-#  1.po  #-#-#-#-#
+# #-#-#-#-#  1.po  #-#-#-#-#
+# , fuzzy
+# , fuzzy
 # , fuzzy
 # , fuzzy
 msgid ""
 msgstr ""
+"#-#-#-#-#  1.po  #-#-#-#-#: \n"
+"#-#-#-#-#  1.po  #-#-#-#-#: \n"
+"#-#-#-#-#  1.po  #-#-#-#-#: \n"
 "#-#-#-#-#  1.po  #-#-#-#-#: \n"
 "#-#-#-#-#  1.po  #-#-#-#-#: \n"
 "#-#-#-#-#  1.po  #-#-#-#-#: \n"
@@ -135,6 +162,294 @@ msgstr ""
 "Last-Translator: \n"
 "Language-Team: \n"
 "Plural-Forms: \n"
+"#-#-#-#-#  2.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  3.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"#-#-#-#-#  3.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  4.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"#-#-#-#-#  2.po  #-#-#-#-#: \n"
+"#-#-#-#-#  1.po  #-#-#-#-#: \n"
+"#-#-#-#-#  1.po  #-#-#-#-#: \n"
+"#-#-#-#-#  1.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  2.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  3.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"#-#-#-#-#  2.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  3.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"#-#-#-#-#  2.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  3.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"#-#-#-#-#  3.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  4.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"#-#-#-#-#  2.po  #-#-#-#-#: \n"
+"#-#-#-#-#  1.po  #-#-#-#-#: \n"
+"#-#-#-#-#  1.po  #-#-#-#-#: \n"
+"#-#-#-#-#  1.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  2.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  3.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"#-#-#-#-#  2.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  3.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"#-#-#-#-#  2.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  3.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"#-#-#-#-#  3.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  4.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"#-#-#-#-#  2.po  #-#-#-#-#: \n"
+"#-#-#-#-#  1.po  #-#-#-#-#: \n"
+"#-#-#-#-#  1.po  #-#-#-#-#: \n"
+"#-#-#-#-#  1.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  2.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  3.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"#-#-#-#-#  2.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+"#-#-#-#-#  3.po  #-#-#-#-#: \n"
+"POT-Creation-Date: 2026-05-01 12:37+0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
 "#-#-#-#-#  2.po  #-#-#-#-#: \n"
 "POT-Creation-Date: 2026-05-01 12:37+0400\n"
 "MIME-Version: 1.0\n"
@@ -183,6 +498,10 @@ msgstr ""
 #: src/containers/SignIn/index.tsx:31
 #: src/containers/SignIn/index.tsx:114
 msgid "{0}"
+msgstr ""
+
+#: src/containers/Billing/index.tsx:110
+msgid "{0} billed"
 msgstr ""
 
 #: src/components/QuestionnairesWizard/hooks.tsx:102
@@ -354,7 +673,7 @@ msgstr ""
 #~ msgstr ""
 
 #: src/containers/DocumentsList/index.tsx:69
-#: src/uberComponents/ResourceListPage/index.tsx:272
+#: src/uberComponents/ResourceListPage/index.tsx:291
 #~ msgid "Actions"
 #~ msgstr ""
 
@@ -364,6 +683,10 @@ msgstr ""
 
 #: src/containers/OrganizationResourceList/index.tsx:21
 msgid "Active"
+msgstr ""
+
+#: src/containers/Medications/index.tsx:101
+msgid "Active medication orders"
 msgstr ""
 
 #: src/containers/PatientDetails/PatientResources/utils.tsx:39
@@ -377,6 +700,10 @@ msgstr ""
 #: src/containers/PatientDetails/PatientWearables/index.tsx:23
 #~ msgid "Activity"
 #~ msgstr ""
+
+#: src/containers/Reports/index.tsx:37
+msgid "Ad Hoc Report Builder"
+msgstr ""
 
 #: src/controls/Group/RepeatableGroups/index.tsx:87
 #~ msgid "Add {text}"
@@ -402,7 +729,7 @@ msgstr ""
 #~ msgid "Add healthcare service"
 #~ msgstr ""
 
-#: src/containers/MedicationManagement/index.tsx:66
+#: src/containers/MedicationManagement/index.tsx:55
 #~ msgid "Add Medication"
 #~ msgstr ""
 
@@ -410,11 +737,11 @@ msgstr ""
 #~ msgid "Add new practitioner"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientOverviewDynamic/components/PatientNoteListCard/ModalNoteCreate/index.tsx:29
+#: src/containers/PatientDetails/PatientOverviewDynamic/components/PatientNoteListCard/ModalNoteCreate/index.tsx:25
 #~ msgid "Add note"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientOverviewDynamic/components/PatientNoteListCard/ModalNoteCreate/index.tsx:25
+#: src/containers/PatientDetails/PatientOverviewDynamic/components/PatientNoteListCard/ModalNoteCreate/index.tsx:21
 #~ msgid "Add Note"
 #~ msgstr ""
 
@@ -422,12 +749,12 @@ msgstr ""
 #~ msgid "Add option"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientOrders/index.tsx:192
-#: src/containers/PatientDetails/PatientOrders/index.tsx:200
+#: src/containers/PatientDetails/PatientOrders/index.tsx:188
+#: src/containers/PatientDetails/PatientOrders/index.tsx:196
 #~ msgid "Add Order"
 #~ msgstr ""
 
-#: src/containers/PatientResourceList/index.tsx:114
+#: src/containers/PatientResourceList/index.tsx:136
 msgid "Add patient"
 msgstr ""
 
@@ -447,6 +774,10 @@ msgstr ""
 #: src/containers/QuestionnaireBuilder/QuestionnaireItemSettings/controls.tsx:86
 #~ msgid "Adjust Last Option Right"
 #~ msgstr ""
+
+#: src/containers/PatientResourceList/index.tsx:43
+msgid "Age"
+msgstr ""
 
 #: src/containers/FormList/index.tsx:37
 #: src/containers/QuestionnaireList/index.tsx:38
@@ -475,7 +806,7 @@ msgstr ""
 #~ msgid "Allergy & Intolerance"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:223
+#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:224
 #~ msgid "Amend"
 #~ msgstr ""
 
@@ -507,11 +838,11 @@ msgstr ""
 #~ msgid "Appointment successfully rescheduled"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:218
+#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:219
 #~ msgid "Are you sure you want to amend the document?"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:246
+#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:247
 #~ msgid "Are you sure you want to delete the document?"
 #~ msgstr ""
 
@@ -519,6 +850,10 @@ msgstr ""
 #: src/controls/GroupTable/hooks.tsx:615
 #~ msgid "Are you sure you want to delete this item?"
 #~ msgstr ""
+
+#: src/containers/Reports/AdHocReport/index.tsx:28
+msgid "As selected"
+msgstr ""
 
 #: src/components/Assistant/index.tsx:128
 #: src/components/Assistant/index.tsx:139
@@ -562,8 +897,17 @@ msgstr ""
 #~ msgid "Batch Number"
 #~ msgstr ""
 
-#: src/containers/PatientResourceList/index.tsx:26
-#: src/containers/PatientResourceList/index.tsx:74
+#: src/containers/Billing/RejectionWorkqueue/index.tsx:45
+msgid "Billed"
+msgstr ""
+
+#: src/containers/App/layout.tsx:25
+#: src/containers/Billing/index.tsx:94
+msgid "Billing"
+msgstr ""
+
+#: src/containers/PatientResourceList/index.tsx:36
+#: src/containers/PatientResourceList/index.tsx:102
 msgid "Birth date"
 msgstr ""
 
@@ -579,17 +923,21 @@ msgstr ""
 #~ msgid "Build your form"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/utils.tsx:402
+#: src/containers/PatientDetails/utils.tsx:513
 msgid "Bundle is copied to clipboard"
 msgstr ""
 
-#: src/containers/PatientDetails/utils.tsx:412
+#: src/containers/PatientDetails/utils.tsx:523
 msgid "Bundle saved as DocumentReference"
 msgstr ""
 
 #: src/components/BaseLayout/Footer/index.tsx:16
 #~ msgid "by"
 #~ msgstr ""
+
+#: src/containers/Reports/ActivityReport.tsx:167
+msgid "By clinician"
+msgstr ""
 
 #: src/containers/PatientDetails/PatientWearables/index.tsx:48
 #~ msgid "Calories"
@@ -618,22 +966,29 @@ msgstr ""
 #~ msgstr ""
 
 #: src/containers/PatientDetails/PatientDetailsTabs/index.tsx:18
-#: src/containers/PatientList/index.tsx:93
-#: src/containers/PatientList/index.tsx:122
+#: src/containers/PatientList/index.tsx:94
+#: src/containers/PatientList/index.tsx:131
 #~ msgid "Chart"
 #~ msgstr ""
 
-#: src/containers/PatientResourceList/index.tsx:81
+#: src/containers/PatientResourceList/index.tsx:109
 msgid "Choose gender"
 msgstr ""
 
-#: src/containers/PatientDetails/encounters.tsx:56
 #: src/containers/PatientDetails/new.tsx:56
 #~ msgid "Choose status"
 #~ msgstr ""
 
+#: src/containers/PatientResourceList/index.tsx:66
+msgid "City"
+msgstr ""
+
+#: src/containers/Billing/RejectionWorkqueue/index.tsx:34
+msgid "Claim"
+msgstr ""
+
 #: src/components/QuestionnaireResponseFormDraft/index.tsx:75
-#: src/containers/PatientDetails/PatientDocument/index.tsx:90
+#: src/containers/PatientDetails/PatientDocument/index.tsx:91
 #~ msgid "Clear draft from local storage and reset form"
 #~ msgstr ""
 
@@ -642,9 +997,28 @@ msgstr ""
 #~ msgid "Clear filters"
 #~ msgstr "Filter zurücksetzen"
 
+#: src/containers/Billing/index.tsx:31
+#: src/containers/Billing/RejectionWorkqueue/index.tsx:106
+msgid "Clearinghouse rejections"
+msgstr ""
+
 #: src/controls/UploadFileControl/index.tsx:32
 #~ msgid "Click or drag file to this area to upload"
 #~ msgstr ""
+
+#: src/containers/Reports/ClinicActivityReport/index.tsx:13
+#: src/containers/Reports/index.tsx:18
+msgid "Clinic Activity — Current Month"
+msgstr ""
+
+#: src/containers/Reports/AdHocReport/index.tsx:27
+msgid "Clinical Staff Productivity — Ad Hoc"
+msgstr ""
+
+#: src/containers/Reports/ActivityReport.tsx:31
+#: src/containers/Reports/ActivityReport.tsx:173
+msgid "Clinician"
+msgstr ""
 
 #: src/containers/PractitionerDetails/PractitionerOverview/index.tsx:123
 #~ msgid "Clinician successfully updated"
@@ -731,6 +1105,10 @@ msgstr ""
 #~ msgid "Copy link"
 #~ msgstr ""
 
+#: src/containers/Billing/RejectionWorkqueue/index.tsx:116
+msgid "Correct and resubmit"
+msgstr ""
+
 #: src/containers/MedicationManagement/index.tsx:38
 #: src/containers/MedicationManagementDetail/index.tsx:66
 #~ msgid "Cost"
@@ -739,6 +1117,10 @@ msgstr ""
 #: src/controls/MDEditorControl/MarkDownEditor/hooks.tsx:604
 #~ msgid "Could not find image source in markdown"
 #~ msgstr ""
+
+#: src/containers/Reports/ActivityReport.tsx:131
+msgid "counted from the first {0} of {1} encounters"
+msgstr ""
 
 #: src/containers/DocumentsList/ChooseDocumentToCreateModal/index.tsx:121
 #~ msgid "Create"
@@ -750,7 +1132,6 @@ msgstr ""
 #~ msgid "Create document"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/encounters.tsx:80
 #: src/containers/PatientDetails/new.tsx:80
 #~ msgid "Create encounter"
 #~ msgstr ""
@@ -774,15 +1155,24 @@ msgstr ""
 #~ msgid "Creation date"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientOrders/index.tsx:166
+#: src/containers/PatientDetails/PatientOrders/index.tsx:162
 #~ msgid "CRP"
 #~ msgstr ""
+
+#: src/containers/Reports/ActivityReport.tsx:211
+msgid "CSV"
+msgstr ""
+
+#: src/containers/Reports/index.tsx:39
+msgid "Custom"
+msgstr ""
 
 #: src/utils/relative-date.ts:25
 #~ msgid "d.o."
 #~ msgstr ""
 
-#: src/containers/PatientDetails/utils.tsx:387
+#: src/containers/PatientDetails/utils.tsx:498
+#: src/containers/Reports/ActivityReport.tsx:46
 msgid "Date"
 msgstr ""
 
@@ -790,17 +1180,21 @@ msgstr ""
 #~ msgid "Date & time slot"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientOrders/index.tsx:44
+#: src/containers/PatientDetails/PatientOrders/index.tsx:42
 #~ msgid "Date added"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientOrders/index.tsx:55
+#: src/containers/PatientDetails/PatientOrders/index.tsx:53
 #~ msgid "Date collected"
 #~ msgstr ""
 
 #: src/containers/PatientDetails/PatientResources/utils.tsx:398
 #~ msgid "Date created"
 #~ msgstr ""
+
+#: src/containers/Billing/RejectionWorkqueue/index.tsx:39
+msgid "Date of service"
+msgstr ""
 
 #: src/components/Calendar/index.tsx:32
 #~ msgid "Day"
@@ -814,15 +1208,11 @@ msgstr ""
 #~ msgid "Default"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:251
+#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:252
 #: src/containers/QuestionnaireBuilder/QuestionnaireItemSettings/index.tsx:140
 #: src/controls/GroupTable/hooks.tsx:618
 #~ msgid "Delete"
 #~ msgstr ""
-
-#: src/containers/PatientResourceList/index.tsx:124
-msgid "Delete patients"
-msgstr ""
 
 #: src/containers/QuestionnaireBuilder/QuestionnaireItemSettings/index.tsx:133
 #~ msgid "Delete Questionnaire Item"
@@ -853,10 +1243,9 @@ msgstr ""
 #~ msgid "Documents have been successfully extracted"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientOverviewDynamic/components/StandardCard/prepare.tsx:310
-#: src/containers/PatientDetails/PatientResources/utils.tsx:65
-#~ msgid "Dosage"
-#~ msgstr ""
+#: src/containers/Medications/index.tsx:52
+msgid "Dosage"
+msgstr ""
 
 #: src/containers/MedicationManagementDetail/index.tsx:64
 #~ msgid "Dose form"
@@ -880,7 +1269,7 @@ msgstr ""
 #~ msgid "Draft key not provided"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:57
+#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:58
 #~ msgid "Draft successfully deleted"
 #~ msgstr ""
 
@@ -902,10 +1291,10 @@ msgstr ""
 
 #: src/containers/EncounterDetails/AIScribe/index.tsx:218
 #: src/containers/HealthcareServiceList/index.tsx:66
-#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:261
-#: src/containers/PatientDetails/PatientOverviewDynamic/components/EditPatient/index.tsx:27
-#: src/containers/PatientList/index.tsx:95
-#: src/containers/PatientList/index.tsx:124
+#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:262
+#: src/containers/PatientDetails/PatientOverviewDynamic/components/EditPatient/index.tsx:22
+#: src/containers/PatientList/index.tsx:96
+#: src/containers/PatientList/index.tsx:133
 #: src/containers/PractitionerDetails/PractitionerOverview/index.tsx:70
 #: src/containers/Scheduling/ScheduleCalendar/components/AppointmentDetailsModal/index.tsx:87
 #: src/controls/GroupTable/hooks.tsx:613
@@ -916,7 +1305,7 @@ msgstr ""
 #~ msgid "Edit Appointment"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientOverviewDynamic/components/EditPatient/index.tsx:24
+#: src/containers/PatientDetails/PatientOverviewDynamic/components/EditPatient/index.tsx:19
 #~ msgid "Edit patient"
 #~ msgstr ""
 
@@ -924,10 +1313,9 @@ msgstr ""
 #~ msgid "Edit practitioner data"
 #~ msgstr ""
 
-#: src/containers/App/DefaultUserWithNoRoles.tsx:26
-#: src/containers/PatientDetails/PatientOverviewDynamic/containers/GeneralIInformationDashboardContainer/hooks.ts:49
-#~ msgid "Email"
-#~ msgstr ""
+#: src/containers/Reports/ActivityReport.tsx:220
+msgid "Email"
+msgstr ""
 
 #: src/containers/QuestionnaireBuilder/QuestionnaireSaveForm/index.tsx:66
 #~ msgid "Encounter"
@@ -967,7 +1355,7 @@ msgstr ""
 #~ msgid "Entered in error"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:63
+#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:64
 #~ msgid "Error deleting a draft"
 #~ msgstr ""
 
@@ -975,7 +1363,7 @@ msgstr ""
 #~ msgid "Error saving a draft:"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:87
+#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:88
 #~ msgid "Error while amending the document"
 #~ msgstr ""
 
@@ -983,9 +1371,13 @@ msgstr ""
 #~ msgid "Expand all"
 #~ msgstr ""
 
-#: src/containers/MedicationManagementDetail/index.tsx:86
+#: src/containers/MedicationManagementDetail/index.tsx:85
 #~ msgid "Expiration date"
 #~ msgstr ""
+
+#: src/containers/Reports/ActivityReport.tsx:72
+msgid "Export"
+msgstr ""
 
 #: src/containers/EncounterDetails/AIScribe/index.tsx:323
 #~ msgid "Extract"
@@ -1008,11 +1400,18 @@ msgstr ""
 #~ msgid "Fill"
 #~ msgstr ""
 
+#: src/containers/Reports/AdHocReport/index.tsx:19
+msgid "Filter by clinician"
+msgstr ""
+
+#: src/containers/Medications/index.tsx:27
+msgid "Filter by patient"
+msgstr ""
+
 #: src/components/SearchBar/SearchBarMobile/index.tsx:34
 #~ msgid "Filters"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/encounters.tsx:49
 #: src/containers/PatientDetails/new.tsx:49
 #~ msgid "Find encounter"
 #~ msgstr ""
@@ -1021,7 +1420,7 @@ msgstr ""
 #~ msgid "Find form"
 #~ msgstr ""
 
-#: src/containers/PatientResourceList/index.tsx:67
+#: src/containers/PatientResourceList/index.tsx:95
 msgid "Find patient"
 msgstr ""
 
@@ -1051,8 +1450,8 @@ msgstr ""
 #~ msgstr ""
 
 #: src/containers/PatientDetails/PatientDetailsTabs/index.tsx:21
-#: src/containers/PatientList/index.tsx:94
-#: src/containers/PatientList/index.tsx:123
+#: src/containers/PatientList/index.tsx:95
+#: src/containers/PatientList/index.tsx:132
 #~ msgid "Forms"
 #~ msgstr ""
 
@@ -1066,17 +1465,20 @@ msgstr ""
 #~ msgid "Friday"
 #~ msgstr ""
 
-#: src/containers/PatientResourceList/index.tsx:33
+#: src/containers/Billing/index.tsx:131
+msgid "Front-end rejections never reach the payer. They are lost revenue until someone works them, and they are usually caused by inaccurate demographic data rather than by coding."
+msgstr ""
+
+#: src/containers/PatientResourceList/index.tsx:49
 msgid "Gender"
 msgstr ""
 
-#: src/containers/PatientDetails/EncounterOverview/index.tsx:20
 #: src/containers/PatientDetails/PatientOverviewDynamic/components/GeneralInformationDashboard/index.tsx:22
 #: src/containers/PractitionerDetails/PractitionerOverview/index.tsx:64
 #~ msgid "General Information"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientOrders/index.tsx:150
+#: src/containers/PatientDetails/PatientOrders/index.tsx:146
 #~ msgid "Glucose"
 #~ msgstr ""
 
@@ -1124,7 +1526,7 @@ msgstr ""
 #~ msgid "Here will be your questionnaire"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:234
+#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:235
 #~ msgid "History"
 #~ msgstr ""
 
@@ -1140,7 +1542,7 @@ msgstr ""
 #~ msgid "HMB Diagnostic"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientOrders/index.tsx:158
+#: src/containers/PatientDetails/PatientOrders/index.tsx:154
 #~ msgid "IL-6"
 #~ msgstr ""
 
@@ -1221,6 +1623,10 @@ msgstr ""
 #~ msgid "Label"
 #~ msgstr ""
 
+#: src/containers/PatientResourceList/index.tsx:76
+msgid "Language"
+msgstr ""
+
 #: src/containers/PractitionerDetails/PractitionerOverview/index.tsx:35
 #~ msgid "Last name"
 #~ msgstr ""
@@ -1241,7 +1647,6 @@ msgstr ""
 #~ msgid "Loading..."
 #~ msgstr ""
 
-#: src/containers/App/layout.tsx:25
 #: src/containers/LocationResourceList/index.tsx:10
 msgid "Locations"
 msgstr ""
@@ -1258,7 +1663,7 @@ msgstr ""
 msgid "Log out"
 msgstr ""
 
-#: src/containers/MedicationManagementDetail/index.tsx:81
+#: src/containers/MedicationManagementDetail/index.tsx:80
 #~ msgid "Lot number"
 #~ msgstr ""
 
@@ -1286,15 +1691,18 @@ msgstr ""
 #~ msgid "Medical Services Invoice"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientOverviewDynamic/components/StandardCard/prepare.tsx:288
-#: src/containers/Prescriptions/index.tsx:102
-#~ msgid "Medication"
-#~ msgstr ""
+#: src/containers/Medications/index.tsx:47
+msgid "Medication"
+msgstr ""
 
-#: src/components/BaseLayout/Sidebar/SidebarTop/context.tsx:50
-#: src/containers/MedicationManagement/index.tsx:71
-#~ msgid "Medications"
-#~ msgstr ""
+#: src/containers/App/layout.tsx:15
+#: src/containers/App/layout.tsx:21
+msgid "Medications"
+msgstr ""
+
+#: src/containers/Medications/index.tsx:90
+msgid "Medications due"
+msgstr ""
 
 #: src/containers/DocumentsList/ChooseDocumentToCreateModal/categories.ts:14
 #~ msgid "Mental Health"
@@ -1321,8 +1729,12 @@ msgstr ""
 #~ msgid "Monday"
 #~ msgstr ""
 
-#: src/containers/PatientResourceList/index.tsx:60
+#: src/containers/PatientResourceList/index.tsx:88
 msgid "MPI identifier"
+msgstr ""
+
+#: src/containers/PatientResourceList/index.tsx:56
+msgid "MRN"
 msgstr ""
 
 #: src/utils/questionnaire.ts:179
@@ -1332,7 +1744,7 @@ msgstr ""
 
 #: src/containers/LocationResourceList/index.tsx:14
 #: src/containers/OrganizationResourceList/index.tsx:14
-#: src/containers/PatientResourceList/index.tsx:19
+#: src/containers/PatientResourceList/index.tsx:29
 msgid "Name"
 msgstr ""
 
@@ -1341,18 +1753,18 @@ msgstr ""
 #~ msgid "New Appointment"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:220
-#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:248
+#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:221
+#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:249
 #: src/containers/QuestionnaireBuilder/QuestionnaireItemSettings/index.tsx:137
-#: src/utils/questionnaire.ts:63
+#: src/utils/questionnaire.ts:NaN
 #~ msgid "No"
 #~ msgstr ""
 
 #: src/components/ResourceTable/index.tsx:65
 #: src/containers/PatientDetails/PatientWearables/index.tsx:87
 #: src/containers/QuestionnaireBuilder/QuestionnaireItemSettings/controls.tsx:497
-#: src/uberComponents/ResourceListPage/index.tsx:212
-#: src/uberComponents/ResourceListPageContent/index.tsx:193
+#: src/uberComponents/ResourceListPage/index.tsx:228
+#: src/uberComponents/ResourceListPageContent/index.tsx:194
 #~ msgid "No data"
 #~ msgstr ""
 
@@ -1377,7 +1789,7 @@ msgstr ""
 #~ msgid "Note"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientOverviewDynamic/components/PatientNoteListCard/ModalNoteCreate/index.tsx:68
+#: src/containers/PatientDetails/PatientOverviewDynamic/components/PatientNoteListCard/ModalNoteCreate/index.tsx:48
 #~ msgid "Note successfully created"
 #~ msgstr ""
 
@@ -1389,14 +1801,9 @@ msgstr ""
 #~ msgid "Number (default)"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/encounters.tsx:84
 #: src/containers/PatientDetails/new.tsx:85
 #~ msgid "Number of Encounters"
 #~ msgstr ""
-
-#: src/containers/PatientResourceList/index.tsx:134
-msgid "Number of Patients"
-msgstr ""
 
 #: src/containers/PatientDetails/requests.tsx:86
 msgid "Number of Service Requests"
@@ -1425,6 +1832,11 @@ msgstr ""
 #~ msgid "Open"
 #~ msgstr ""
 
+#: src/containers/Billing/RejectionWorkqueue/index.tsx:113
+#: src/containers/Medications/index.tsx:97
+msgid "Open patient record"
+msgstr ""
+
 #: src/containers/QuestionnaireBuilder/QuestionnaireItemSettings/controls.tsx:165
 #~ msgid "Option {0}"
 #~ msgstr ""
@@ -1440,15 +1852,19 @@ msgstr ""
 #~ msgid "or"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientOrders/index.tsx:114
+#: src/containers/PatientDetails/PatientOrders/index.tsx:111
 #~ msgid "Order added"
 #~ msgstr ""
+
+#: src/containers/Medications/index.tsx:81
+msgid "Ordered"
+msgstr ""
 
 #: src/containers/PatientDetails/PatientOverviewDynamic/components/StandardCard/prepare.tsx:364
 #~ msgid "Orders"
 #~ msgstr ""
 
-#: src/containers/App/layout.tsx:24
+#: src/containers/App/layout.tsx:31
 #: src/containers/OrganizationResourceList/index.tsx:10
 msgid "Organizations"
 msgstr ""
@@ -1457,7 +1873,11 @@ msgstr ""
 #~ msgid "Others"
 #~ msgstr ""
 
-#: src/containers/MedicationManagementDetail/index.tsx:100
+#: src/containers/Billing/RejectionWorkqueue/index.tsx:75
+msgid "our record"
+msgstr ""
+
+#: src/containers/MedicationManagementDetail/index.tsx:103
 #: src/containers/PatientDetails/PatientHeader/index.tsx:49
 #: src/containers/PatientDetails/PatientHeader/index.tsx:92
 #: src/containers/PractitionerDetails/PractitionerDetailsTabs/index.tsx:24
@@ -1491,7 +1911,10 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: src/containers/App/layout.tsx:28
+#: src/containers/App/layout.tsx:34
+#: src/containers/Billing/RejectionWorkqueue/index.tsx:25
+#: src/containers/Medications/index.tsx:35
+#: src/containers/Reports/ActivityReport.tsx:26
 msgid "Patient"
 msgstr ""
 
@@ -1499,7 +1922,7 @@ msgstr ""
 #~ msgid "Patient consent is required"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientOverviewDynamic/components/EditPatient/index.tsx:49
+#: src/containers/PatientDetails/PatientOverviewDynamic/components/EditPatient/index.tsx:43
 #~ msgid "Patient saved"
 #~ msgstr ""
 
@@ -1510,13 +1933,17 @@ msgstr ""
 
 #: src/containers/App/layout.tsx:13
 #: src/containers/App/layout.tsx:16
-#: src/containers/App/layout.tsx:17
 #: src/containers/App/layout.tsx:18
 #: src/containers/App/layout.tsx:19
-#: src/containers/App/layout.tsx:20
 #: src/containers/App/layout.tsx:22
-#: src/containers/PatientResourceList/index.tsx:15
+#: src/containers/App/layout.tsx:26
+#: src/containers/App/layout.tsx:30
+#: src/containers/PatientResourceList/index.tsx:24
 msgid "Patients"
+msgstr ""
+
+#: src/containers/PatientResourceList/index.tsx:142
+msgid "Patients in panel"
 msgstr ""
 
 #: src/components/Assistant/index.tsx:108
@@ -1533,13 +1960,21 @@ msgstr ""
 #~ msgid "Pay"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientOrders/index.tsx:174
+#: src/containers/Billing/RejectionWorkqueue/index.tsx:78
+msgid "payer record"
+msgstr ""
+
+#: src/containers/PatientDetails/PatientOrders/index.tsx:170
 #~ msgid "PCT"
 #~ msgstr ""
 
 #: src/containers/PatientDetails/HMBDiagnostic/config.tsx:112
 #~ msgid "Period Pain Score"
 #~ msgstr ""
+
+#: src/containers/Medications/index.tsx:57
+msgid "Pharmacy status"
+msgstr ""
 
 #: src/containers/App/DefaultUserWithNoRoles.tsx:32
 #: src/containers/PatientDetails/PatientOverviewDynamic/containers/GeneralIInformationDashboardContainer/hooks.ts:45
@@ -1563,14 +1998,13 @@ msgstr ""
 #~ msgid "Practitioner"
 #~ msgstr ""
 
-#: src/containers/App/layout.tsx:NaN
 #: src/components/BaseLayout/Sidebar/SidebarTop/context.tsx:31
 #: src/containers/PractitionerDetails/PractitionerHeader/index.tsx:40
 #: src/containers/PractitionerList/index.tsx:65
 #~ msgid "Practitioners"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:210
+#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:211
 #~ msgid "Prepare for print"
 #~ msgstr ""
 
@@ -1610,7 +2044,7 @@ msgstr ""
 #~ msgstr ""
 
 #: src/containers/DocumentsList/index.tsx:46
-#: src/containers/PatientQuestionnaire/index.tsx:72
+#: src/containers/PatientQuestionnaire/index.tsx:89
 #~ msgid "Questionnaire"
 #~ msgstr ""
 
@@ -1644,6 +2078,18 @@ msgstr ""
 #~ msgid "Reaction"
 #~ msgstr ""
 
+#: src/containers/Billing/index.tsx:21
+msgid "Ready to submit"
+msgstr ""
+
+#: src/containers/Billing/RejectionWorkqueue/index.tsx:50
+msgid "Rejection"
+msgstr ""
+
+#: src/containers/Billing/RejectionWorkqueue/index.tsx:120
+msgid "Rejections awaiting rework"
+msgstr ""
+
 #: src/controls/Group/GroupCard/index.tsx:85
 #~ msgid "Remove"
 #~ msgstr ""
@@ -1651,6 +2097,11 @@ msgstr ""
 #: src/containers/QuestionnaireBuilder/QuestionnaireItemSettings/index.tsx:54
 #~ msgid "Repeats"
 #~ msgstr ""
+
+#: src/containers/App/layout.tsx:29
+#: src/containers/Reports/index.tsx:10
+msgid "Reports"
+msgstr ""
 
 #: src/components/PatientEncounter/index.tsx:116
 #~ msgid "Request Appointment"
@@ -1701,7 +2152,7 @@ msgstr ""
 #: src/containers/QuestionnaireBuilder/QuestionnaireItemSettings/index.tsx:130
 #: src/containers/QuestionnaireBuilder/QuestionnaireSaveForm/index.tsx:98
 #: src/containers/Scheduling/Availability/index.tsx:73
-#: src/containers/SetPassword/index.tsx:25
+#: src/containers/SetPassword/index.tsx:24
 #~ msgid "Save"
 #~ msgstr ""
 
@@ -1718,10 +2169,13 @@ msgstr ""
 #~ msgid "Schedule calendar"
 #~ msgstr ""
 
-#: src/containers/App/layout.tsx:14
-#: src/containers/App/layout.tsx:23
-msgid "Scheduling"
-msgstr ""
+#: src/components/BaseLayout/Sidebar/SidebarTop/context.tsx:48
+#: src/containers/OrganizationScheduling/index.tsx:69
+#: src/containers/PractitionerDetails/PractitionerDetailsTabs/index.tsx:25
+#: src/containers/PractitionerDetails/PractitionerHeader/index.tsx:42
+#: src/containers/PractitionerDetails/PractitionerHeader/index.tsx:82
+#~ msgid "Scheduling"
+#~ msgstr ""
 
 #: src/containers/EncounterDetails/AIScribe/index.tsx:191
 #~ msgid "Scribe results"
@@ -1759,7 +2213,7 @@ msgstr ""
 #~ msgid "Search by status"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientOrders/index.tsx:187
+#: src/containers/PatientDetails/PatientOrders/index.tsx:183
 #~ msgid "Search orders"
 #~ msgstr ""
 
@@ -1799,7 +2253,7 @@ msgstr ""
 #~ msgid "Select..."
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientOrders/index.tsx:142
+#: src/containers/PatientDetails/PatientOrders/index.tsx:138
 #~ msgid "Serum creatinin"
 #~ msgstr ""
 
@@ -1807,12 +2261,11 @@ msgstr ""
 #~ msgid "Service Requests"
 #~ msgstr ""
 
-#: src/containers/App/layout.tsx:NaN
 #: src/components/BaseLayout/Sidebar/SidebarTop/context.tsx:28
 #~ msgid "Services"
 #~ msgstr ""
 
-#: src/containers/SetPassword/index.tsx:33
+#: src/containers/SetPassword/index.tsx:32
 #~ msgid "Set password"
 #~ msgstr ""
 
@@ -1854,9 +2307,13 @@ msgstr ""
 #~ msgid "Specialty"
 #~ msgstr ""
 
-#: src/containers/PatientList/index.tsx:69
+#: src/containers/PatientList/index.tsx:70
 #~ msgid "SSN"
 #~ msgstr ""
+
+#: src/containers/Reports/index.tsx:20
+msgid "Standard report"
+msgstr ""
 
 #: src/containers/PatientDetails/PatientWearables/index.tsx:36
 #~ msgid "Start"
@@ -1945,6 +2402,14 @@ msgstr ""
 #~ msgid "Submit and Go Forward"
 #~ msgstr ""
 
+#: src/containers/Billing/index.tsx:26
+msgid "Submitted to clearinghouse"
+msgstr ""
+
+#: src/containers/Billing/RejectionWorkqueue/index.tsx:63
+msgid "Subscriber DOB"
+msgstr ""
+
 #: src/uberComponents/ResourceListPage/actions.tsx:62
 #: src/uberComponents/ResourceListPage/actions.tsx:98
 #: src/uberComponents/ResourceListPage/actions.tsx:148
@@ -1992,11 +2457,11 @@ msgstr ""
 #~ msgid "Thank you!"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:109
+#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:110
 #~ msgid "The document does not exist"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:81
+#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:82
 #~ msgid "The document successfully amended"
 #~ msgstr ""
 
@@ -2013,6 +2478,10 @@ msgstr ""
 #: src/containers/QuestionnaireBuilder/hooks.ts:75
 #~ msgid "The questionnaire is saved"
 #~ msgstr ""
+
+#: src/containers/Reports/index.tsx:43
+msgid "The same measures, but you choose the period and the clinicians when you run it. Export to CSV or send by email."
+msgstr ""
 
 #: src/containers/DocumentsList/index.tsx:108
 #~ msgid "There are no documents yet"
@@ -2049,7 +2518,7 @@ msgstr ""
 #~ msgid "Time with no seconds"
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientOrders/index.tsx:32
+#: src/containers/PatientDetails/PatientOrders/index.tsx:30
 #: src/containers/PatientDetails/PatientOverviewDynamic/components/PatientNoteListCard/NoteList/index.tsx:33
 #: src/containers/PatientDetails/PatientOverviewDynamic/components/StandardCard/prepare.tsx:255
 #: src/containers/PatientDetails/PatientResources/utils.tsx:207
@@ -2071,6 +2540,10 @@ msgstr ""
 #~ msgid "Total"
 #~ msgstr ""
 
+#: src/containers/Reports/ActivityReport.tsx:64
+msgid "Total visits completed by clinical staff"
+msgstr ""
+
 #: src/readonly-controls/Boolean/index.tsx:21
 #~ msgid "True"
 #~ msgstr ""
@@ -2081,6 +2554,18 @@ msgstr ""
 
 #: src/containers/LocationResourceList/index.tsx:23
 msgid "Type"
+msgstr ""
+
+#: src/components/RenderBundleResourceContext/index.tsx:45
+#~ msgid "Unable to resolve Bundle context for {resourceType}"
+#~ msgstr ""
+
+#: src/containers/Reports/ActivityReport.tsx:175
+msgid "Unique patients"
+msgstr ""
+
+#: src/containers/Reports/ActivityReport.tsx:68
+msgid "Unique patients seen by clinical staff"
 msgstr ""
 
 #: src/containers/DocumentsList/hooks.ts:44
@@ -2131,7 +2616,7 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: src/containers/PatientDetails/PatientOrders/index.tsx:65
+#: src/containers/PatientDetails/PatientOrders/index.tsx:63
 #: src/containers/PatientDetails/PatientResources/utils.tsx:325
 #~ msgid "Value"
 #~ msgstr ""
@@ -2162,6 +2647,26 @@ msgstr ""
 #~ msgid "Video call"
 #~ msgstr ""
 
+#: src/containers/Reports/ActivityReport.tsx:40
+msgid "Visit type"
+msgstr ""
+
+#: src/containers/Reports/ActivityReport.tsx:182
+msgid "Visits"
+msgstr ""
+
+#: src/containers/Reports/index.tsx:24
+msgid "Visits and unique patients seen by clinical staff, month to date. The period is fixed by the report definition."
+msgstr ""
+
+#: src/containers/Reports/AdHocReport/index.tsx:13
+msgid "Visits from"
+msgstr ""
+
+#: src/containers/Reports/AdHocReport/index.tsx:13
+msgid "Visits to"
+msgstr ""
+
 #: src/containers/Scheduling/available-time.ts:15
 #~ msgid "Wednesday"
 #~ msgstr ""
@@ -2178,10 +2683,10 @@ msgstr ""
 #~ msgid "y.o."
 #~ msgstr ""
 
-#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:219
-#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:247
+#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:220
+#: src/containers/PatientDetails/PatientDocumentDetails/index.tsx:248
 #: src/containers/QuestionnaireBuilder/QuestionnaireItemSettings/index.tsx:136
-#: src/utils/questionnaire.ts:63
+#: src/utils/questionnaire.ts:NaN
 #~ msgid "Yes"
 #~ msgstr ""
 
