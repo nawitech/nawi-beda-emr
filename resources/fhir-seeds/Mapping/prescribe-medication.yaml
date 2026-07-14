@@ -1,0 +1,43 @@
+id: prescribe-medication
+resourceType: Mapping
+type: FHIRPath
+body:
+  "{% assign %}":
+    - patientId: "{{ %QuestionnaireResponse.answers('patientId') }}"
+    - authorId: "{{ %QuestionnaireResponse.answers('authorId') }}"
+    - medication: "{{ %QuestionnaireResponse.answers('medication') }}"
+    - dosage: "{{ %QuestionnaireResponse.answers('dosage') }}"
+    - quantity: "{{ %QuestionnaireResponse.answers('quantity') }}"
+    - notes: "{{ %QuestionnaireResponse.answers('notes') }}"
+
+  resourceType: Bundle
+  type: transaction
+  entry:
+    # R4 uses medicationCodeableConcept. (Upstream beda mappings emit the Aidbox
+    # union form `medication: {Reference: ...}`, which HAPI rejects.)
+    - request:
+        method: POST
+        url: /MedicationRequest
+      resource:
+        resourceType: MedicationRequest
+        status: active
+        intent: order
+        medicationCodeableConcept:
+          coding:
+            - system: "{{ %medication.system }}"
+              code: "{{ %medication.code }}"
+              display: "{{ %medication.display }}"
+          text: "{{ %medication.display }}"
+        subject:
+          reference: "Patient/{{ %patientId }}"
+        requester:
+          reference: "Practitioner/{{ %authorId }}"
+        authoredOn: "{{ now() }}"
+        dosageInstruction:
+          - text: "{{ %dosage }}"
+        dispenseRequest:
+          "{% if %quantity.exists() %}":
+            quantity:
+              value: "{{ %quantity }}"
+        note:
+          - text: "{{ %notes }}"

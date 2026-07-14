@@ -16,8 +16,11 @@ export interface SignInProps {
     onSwitchService?: (authProvider: AuthProvider) => void;
 }
 
+const defaultAuthProvider =
+    (config.tier as Tier) === 'develop' ? AuthProvider.OHSKeycloakLocal : AuthProvider.OHSKeycloak;
+
 export function useSignIn(props: SignInProps) {
-    const [activeAuthProvider, setAuthProvider] = useState<AuthProvider>(AuthProvider.OHSKeycloak);
+    const [activeAuthProvider, setAuthProvider] = useState<AuthProvider>(defaultAuthProvider);
     const tierConfig = useMemo(() => tierConfigMap[activeAuthProvider], [activeAuthProvider]);
     const authClientConfig = useMemo(() => authClientConfigMap[activeAuthProvider], [activeAuthProvider]);
     const tier = config.tier as Tier;
@@ -35,9 +38,6 @@ export function useSignIn(props: SignInProps) {
     }, [props, authClientConfig, tierConfig, tier, activeAuthProvider]);
 
     const authorize = useCallback(() => {
-        // Explicitly persist all config to localStorage right before any redirect.
-        // This guarantees CodeGrantAuth and the FHIR client have correct values
-        // regardless of whether the useEffect has already run.
         setBaseUrl(tierConfig[tier].baseUrl);
         setFhirBaseUrl(tierConfig[tier].fhirBaseUrl);
         setClientId(authClientConfig.clientId);

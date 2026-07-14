@@ -1,0 +1,19 @@
+id: mr-denise-metformin-inpatient
+resourceType: MedicationRequest
+status: active
+intent: order
+medicationCodeableConcept:
+  coding:
+    - system: http://www.nlm.nih.gov/research/umls/rxnorm
+      code: "861007"
+      display: Metformin hydrochloride 1000 MG Oral Tablet
+  text: Metformin hydrochloride 1000 MG Oral Tablet
+subject:
+  reference: Patient/pt-denise-carroll
+encounter:
+  reference: Encounter/enc-denise-inpatient
+requester:
+  reference: Practitioner/prac-okafor
+authoredOn: "2026-07-14T12:55:00Z"
+dosageInstruction:
+  - text: 1000 mg by mouth twice daily

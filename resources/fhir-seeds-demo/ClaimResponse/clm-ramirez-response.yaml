@@ -1,0 +1,30 @@
+id: clm-ramirez-response
+resourceType: ClaimResponse
+status: active
+type:
+  coding:
+    - system: http://terminology.hl7.org/CodeSystem/claim-type
+      code: professional
+      display: Professional
+use: claim
+patient:
+  reference: Patient/pt-ramirez
+created: "2026-07-13"
+insurer:
+  reference: Organization/payer-chc
+  display: Chesapeake Health Choice
+request:
+  reference: Claim/clm-ramirez
+outcome: error
+disposition: >-
+  Rejected by clearinghouse front-end edit. The claim was not forwarded to the payer.
+error:
+  - code:
+      coding:
+        - system: https://x12.org/codes/claim-status-category-codes
+          code: A7
+        - system: https://x12.org/codes/claim-status-codes
+          code: "500"
+        - system: https://x12.org/codes/entity-identifier-codes
+          code: IL
+      text: A7:500:IL — Subscriber/insured member number is missing or invalid.

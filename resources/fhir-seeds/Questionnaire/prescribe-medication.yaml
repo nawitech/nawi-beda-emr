@@ -1,0 +1,70 @@
+id: prescribe-medication
+resourceType: Questionnaire
+name: prescribe-medication
+title: Prescribe medication
+status: active
+description: Prescribes a medication for the patient.
+subjectType:
+  - Patient
+mapping:
+  - valueReference:
+      reference: Mapping/prescribe-medication
+launchContext:
+  - name:
+      code: Patient
+    type:
+      - Patient
+  - name:
+      code: Author
+    type:
+      - Practitioner
+item:
+  - linkId: patientId
+    type: string
+    text: PatientId
+    hidden: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.id"
+  - linkId: authorId
+    type: string
+    text: AuthorId
+    hidden: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Author.id"
+  - linkId: medication
+    type: open-choice
+    text: Medication
+    required: true
+    answerOption:
+      - valueCoding:
+          system: http://www.nlm.nih.gov/research/umls/rxnorm
+          code: "861007"
+          display: Metformin hydrochloride 1000 MG Oral Tablet
+      - valueCoding:
+          system: http://www.nlm.nih.gov/research/umls/rxnorm
+          code: "314076"
+          display: Lisinopril 20 MG Oral Tablet
+      - valueCoding:
+          system: http://www.nlm.nih.gov/research/umls/rxnorm
+          code: "1596450"
+          display: Insulin glargine 100 UNT/ML Injectable Solution
+      - valueCoding:
+          system: http://www.nlm.nih.gov/research/umls/rxnorm
+          code: "1665005"
+          display: Ceftriaxone 1000 MG Injection
+  - linkId: dosage
+    type: string
+    text: Dosage instructions
+    required: true
+  - linkId: quantity
+    type: integer
+    text: Quantity
+  - linkId: notes
+    type: text
+    text: Notes to pharmacy
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+url: https://emr.nawi.ke/fhir/Questionnaire/prescribe-medication

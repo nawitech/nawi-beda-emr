@@ -1,0 +1,35 @@
+id: cond-denise-cellulitis
+resourceType: Condition
+meta:
+  source: https://crisphealth.org/hie
+  tag:
+    - system: https://crisphealth.org/CodeSystem/data-source
+      code: HIE
+      display: Received via CRISP HIE
+clinicalStatus:
+  coding:
+    - system: http://terminology.hl7.org/CodeSystem/condition-clinical
+      code: active
+      display: Active
+verificationStatus:
+  coding:
+    - system: http://terminology.hl7.org/CodeSystem/condition-ver-status
+      code: confirmed
+      display: Confirmed
+category:
+  - coding:
+      - system: http://terminology.hl7.org/CodeSystem/condition-category
+        code: encounter-diagnosis
+        display: Encounter Diagnosis
+code:
+  coding:
+    - system: http://hl7.org/fhir/sid/icd-10-cm
+      code: L03.115
+      display: Cellulitis of right lower limb
+  text: Cellulitis of right lower limb
+subject:
+  reference: Patient/pt-denise-carroll
+encounter:
+  reference: Encounter/enc-harborview-ed
+onsetDateTime: "2026-06-19"
+recordedDate: "2026-06-21"

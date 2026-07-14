@@ -258,6 +258,132 @@
       "queryParams": {},
       "allowExtraParams": true,
       "allParamsRequired": false
+    },
+    {
+      "_comment": "Encounter — GET by ID",
+      "path": "Encounter/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Encounter — search. Patient-scoped for the chart card; NOT patient-scoped for the activity report, which counts across all patients",
+      "path": "Encounter",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "ServiceRequest — GET by ID",
+      "path": "ServiceRequest/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "ServiceRequest — search (specialist referrals)",
+      "path": "ServiceRequest",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Consent — GET by ID",
+      "path": "Consent/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Consent — search (record-sharing consent)",
+      "path": "Consent",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Task — GET by ID",
+      "path": "Task/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Task — search. Pharmacy fulfilment state for a medication order",
+      "path": "Task",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "MedicationDispense — GET by ID",
+      "path": "MedicationDispense/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "MedicationDispense — search. Whether a medication order has been filled and handed over",
+      "path": "MedicationDispense",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Coverage — GET by ID",
+      "path": "Coverage/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Coverage — search (payer record; the source of truth for the claim rejection)",
+      "path": "Coverage",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Claim — GET by ID",
+      "path": "Claim/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Claim — search (billing workqueues)",
+      "path": "Claim",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "ClaimResponse — GET by ID",
+      "path": "ClaimResponse/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "ClaimResponse — search (clearinghouse rejection report)",
+      "path": "ClaimResponse",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Provenance — GET by ID",
+      "path": "Provenance/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Provenance — search (who changed a record, and why)",
+      "path": "Provenance",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
     }
   ]
 }

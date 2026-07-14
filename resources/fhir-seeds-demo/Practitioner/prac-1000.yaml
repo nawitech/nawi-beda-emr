@@ -1,20 +1,17 @@
 id: prac-1000
 resourceType: Practitioner
+active: true
 identifier:
   - system: http://hl7.org/fhir/sid/us-npi
-    value: "1234567890"
-active: true
+    value: "1000137000"
 name:
   - use: official
-    family: Daktari
+    family: Rosenthal
     given:
-      - Joyce
+      - Miriam
     prefix:
       - Dr
 telecom:
-  - system: phone
-    value: +61-2-1234-5678
-    use: work
   - system: email
-    value: joyce.daktari@example.org
+    value: miriam.rosenthal@patapscohealth.example.org
     use: work

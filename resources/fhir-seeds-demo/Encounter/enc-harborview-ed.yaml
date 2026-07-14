@@ -1,0 +1,33 @@
+id: enc-harborview-ed
+resourceType: Encounter
+meta:
+  source: https://crisphealth.org/hie
+  tag:
+    - system: https://crisphealth.org/CodeSystem/data-source
+      code: HIE
+      display: Received via CRISP HIE
+status: finished
+class:
+  system: http://terminology.hl7.org/CodeSystem/v3-ActCode
+  code: EMER
+  display: emergency
+type:
+  - coding:
+      - system: http://snomed.info/sct
+        code: "50849002"
+        display: Emergency room admission
+    text: Emergency department visit
+subject:
+  reference: Patient/pt-denise-carroll
+period:
+  start: "2026-06-21T18:12:00Z"
+  end: "2026-06-21T23:40:00Z"
+reasonCode:
+  - coding:
+      - system: http://snomed.info/sct
+        code: "128045006"
+        display: Cellulitis
+    text: Painful, swollen right foot
+serviceProvider:
+  reference: Organization/org-harbor-view
+  display: Harbor View Medical Center

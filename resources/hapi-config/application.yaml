@@ -2,6 +2,11 @@ hapi:
   fhir:
     fhir_version: R4
     server_id_strategy: UUID
+    # Persist meta.source so externally-sourced records (e.g. HIE-delivered
+    # resources) keep their provenance. Without this HAPI silently drops the
+    # field on write. SOURCE_URI keeps the URI without appending a request id,
+    # which keeps the value stable and matchable.
+    store_meta_source_information: SOURCE_URI
     cors:
       allowed_origin:
         - "*"

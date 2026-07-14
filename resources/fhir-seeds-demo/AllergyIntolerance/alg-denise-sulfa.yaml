@@ -1,0 +1,33 @@
+id: alg-denise-sulfa
+resourceType: AllergyIntolerance
+clinicalStatus:
+  coding:
+    - system: http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical
+      code: active
+      display: Active
+verificationStatus:
+  coding:
+    - system: http://terminology.hl7.org/CodeSystem/allergyintolerance-verification
+      code: confirmed
+      display: Confirmed
+type: allergy
+category:
+  - medication
+criticality: high
+code:
+  coding:
+    - system: http://snomed.info/sct
+      code: "764146007"
+      display: Sulfonamide
+  text: Sulfa drugs
+patient:
+  reference: Patient/pt-denise-carroll
+recordedDate: "2024-02-11"
+reaction:
+  - manifestation:
+      - coding:
+          - system: http://snomed.info/sct
+            code: "247472004"
+            display: Urticaria
+        text: Hives
+    severity: moderate

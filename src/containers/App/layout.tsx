@@ -1,3 +1,4 @@
+import { BarChartOutlined, DollarOutlined, MedicineBoxOutlined } from '@ant-design/icons';
 import { t } from '@lingui/macro';
 import { Patient } from 'fhir/r4b';
 
@@ -10,12 +11,22 @@ export const menuLayout: MenuLayoutValue = () => {
     try {
         return matchCurrentUserRole({
             [Role.Receptionist]: () => [{ label: t`Patients`, path: '/patients', icon: <PatientsIcon /> }],
-            [Role.TriageNurse]: () => [{ label: t`Patients`, path: '/patients', icon: <PatientsIcon /> }],
+            [Role.TriageNurse]: () => [
+                { label: t`Medications`, path: '/medications', icon: <MedicineBoxOutlined /> },
+                { label: t`Patients`, path: '/patients', icon: <PatientsIcon /> },
+            ],
             [Role.Clinician]: () => [{ label: t`Patients`, path: '/patients', icon: <PatientsIcon /> }],
             [Role.LabTechnician]: () => [{ label: t`Patients`, path: '/patients', icon: <PatientsIcon /> }],
-            [Role.Pharmacist]: () => [{ label: t`Patients`, path: '/patients', icon: <PatientsIcon /> }],
-            [Role.Cashier]: () => [{ label: t`Patients`, path: '/patients', icon: <PatientsIcon /> }],
+            [Role.Pharmacist]: () => [
+                { label: t`Medications`, path: '/medications', icon: <MedicineBoxOutlined /> },
+                { label: t`Patients`, path: '/patients', icon: <PatientsIcon /> },
+            ],
+            [Role.Cashier]: () => [
+                { label: t`Billing`, path: '/billing', icon: <DollarOutlined /> },
+                { label: t`Patients`, path: '/patients', icon: <PatientsIcon /> },
+            ],
             [Role.Administrator]: () => [
+                { label: t`Reports`, path: '/reports', icon: <BarChartOutlined /> },
                 { label: t`Patients`, path: '/patients', icon: <PatientsIcon /> },
                 { label: t`Organizations`, path: '/organizations', icon: <OrganizationsIcon /> },
             ],

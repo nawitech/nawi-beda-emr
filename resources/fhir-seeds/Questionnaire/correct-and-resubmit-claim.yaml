@@ -1,0 +1,77 @@
+id: correct-and-resubmit-claim
+resourceType: Questionnaire
+name: correct-and-resubmit-claim
+title: Correct patient record and resubmit claim
+status: active
+description: >-
+  Corrects the demographic on the patient master file that caused a claim to be
+  rejected, then resubmits the claim.
+subjectType:
+  - Patient
+mapping:
+  - valueReference:
+      reference: Mapping/correct-and-resubmit-claim
+launchContext:
+  - name:
+      code: Patient
+    type:
+      - Patient
+  - name:
+      code: Claim
+    type:
+      - Claim
+  - name:
+      code: ClaimResponse
+    type:
+      - ClaimResponse
+  - name:
+      code: Author
+    type:
+      - Practitioner
+item:
+  - linkId: patientId
+    type: string
+    text: PatientId
+    hidden: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.id"
+  - linkId: claimId
+    type: string
+    text: ClaimId
+    hidden: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Claim.id"
+  - linkId: responseId
+    type: string
+    text: ResponseId
+    hidden: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%ClaimResponse.id"
+  - linkId: authorId
+    type: string
+    text: AuthorId
+    hidden: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Author.id"
+  - linkId: rejection
+    type: display
+    text: The payer rejected this claim because the subscriber date of birth did not match their eligibility record.
+  - linkId: birth-date
+    type: date
+    text: Date of birth on the patient master file
+    required: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.birthDate"
+  - linkId: reason
+    type: string
+    text: Reason for the correction
+    required: true
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+url: https://emr.nawi.ke/fhir/Questionnaire/correct-and-resubmit-claim

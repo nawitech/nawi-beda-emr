@@ -1,17 +1,17 @@
 id: prac-1004
 resourceType: Practitioner
 active: true
+identifier:
+  - system: http://hl7.org/fhir/sid/us-npi
+    value: "1000137548"
 name:
   - use: official
-    family: Muthoni
+    family: Cho
     given:
-      - Esther
+      - David
     prefix:
-      - B.Pharm
+      - PharmD
 telecom:
-  - system: phone
-    value: +254-20-1234-5682
-    use: work
   - system: email
-    value: esther.muthoni@example.org
+    value: david.cho@patapscohealth.example.org
     use: work

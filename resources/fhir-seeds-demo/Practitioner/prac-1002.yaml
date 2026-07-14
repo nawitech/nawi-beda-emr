@@ -1,17 +1,17 @@
 id: prac-1002
 resourceType: Practitioner
 active: true
+identifier:
+  - system: http://hl7.org/fhir/sid/us-npi
+    value: "1000137274"
 name:
   - use: official
-    family: Omondi
+    family: Torres
     given:
-      - Aisha
+      - Lena
     prefix:
       - RN
 telecom:
-  - system: phone
-    value: +254-20-1234-5680
-    use: work
   - system: email
-    value: aisha.omondi@example.org
+    value: lena.torres@patapscohealth.example.org
     use: work

@@ -1,0 +1,27 @@
+id: cond-denise-ckd
+resourceType: Condition
+clinicalStatus:
+  coding:
+    - system: http://terminology.hl7.org/CodeSystem/condition-clinical
+      code: active
+      display: Active
+verificationStatus:
+  coding:
+    - system: http://terminology.hl7.org/CodeSystem/condition-ver-status
+      code: confirmed
+      display: Confirmed
+category:
+  - coding:
+      - system: http://terminology.hl7.org/CodeSystem/condition-category
+        code: problem-list-item
+        display: Problem List Item
+code:
+  coding:
+    - system: http://hl7.org/fhir/sid/icd-10-cm
+      code: N18.31
+      display: Chronic kidney disease, stage 3a
+  text: Chronic kidney disease, stage 3a
+subject:
+  reference: Patient/pt-denise-carroll
+onsetDateTime: "2023-08-14"
+recordedDate: "2023-08-14"

@@ -1,0 +1,19 @@
+id: task-mr-denise-metformin-inpatient
+resourceType: Task
+status: requested
+intent: order
+code:
+  coding:
+    - system: http://hl7.org/fhir/CodeSystem/task-code
+      code: fulfill
+      display: Fulfill the focal request
+focus:
+  reference: MedicationRequest/mr-denise-metformin-inpatient
+for:
+  reference: Patient/pt-denise-carroll
+encounter:
+  reference: Encounter/enc-denise-inpatient
+authoredOn: "2026-07-14T12:58:00Z"
+owner:
+  reference: Practitioner/prac-1004
+description: Order received by pharmacy — awaiting verification

@@ -1,15 +1,15 @@
 id: prac-1001
 resourceType: Practitioner
 active: true
+identifier:
+  - system: http://hl7.org/fhir/sid/us-npi
+    value: "1000137137"
 name:
   - use: official
-    family: Kamau
+    family: Brooks
     given:
-      - Grace
+      - Tanya
 telecom:
-  - system: phone
-    value: +254-20-1234-5679
-    use: work
   - system: email
-    value: grace.kamau@example.org
+    value: tanya.brooks@patapscohealth.example.org
     use: work

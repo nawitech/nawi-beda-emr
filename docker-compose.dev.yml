@@ -25,7 +25,7 @@ services:
       questionnaire-fce-fhir-converter:
         condition: service_healthy
     volumes:
-      - ./resources/fhir-seeds-de:/app/resources
+      - ./resources/fhir-seeds-demo:/app/resources
       - ./resources/fhir-bundles-demo:/app/fhir-bundles
 
   upload-fhir-bundle-demo:

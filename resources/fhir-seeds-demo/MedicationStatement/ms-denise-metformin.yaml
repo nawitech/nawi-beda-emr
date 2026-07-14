@@ -1,0 +1,14 @@
+id: ms-denise-metformin
+resourceType: MedicationStatement
+status: active
+medicationCodeableConcept:
+  coding:
+    - system: http://www.nlm.nih.gov/research/umls/rxnorm
+      code: "860975"
+      display: Metformin hydrochloride 500 MG Oral Tablet
+  text: Metformin hydrochloride 500 MG Oral Tablet
+subject:
+  reference: Patient/pt-denise-carroll
+dateAsserted: "2026-07-09"
+dosage:
+  - text: Metformin 500 mg by mouth twice daily

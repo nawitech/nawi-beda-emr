@@ -1,0 +1,41 @@
+id: administer-immunization
+resourceType: Mapping
+type: FHIRPath
+body:
+  "{% assign %}":
+    - patientId: "{{ %QuestionnaireResponse.answers('patientId') }}"
+    - authorId: "{{ %QuestionnaireResponse.answers('authorId') }}"
+    - vaccine: "{{ %QuestionnaireResponse.answers('vaccine') }}"
+    - occurrence: "{{ %QuestionnaireResponse.answers('occurrence') }}"
+    - site: "{{ %QuestionnaireResponse.answers('site') }}"
+    - lot: "{{ %QuestionnaireResponse.answers('lot') }}"
+
+  resourceType: Bundle
+  type: transaction
+  entry:
+    - request:
+        method: POST
+        url: /Immunization
+      resource:
+        resourceType: Immunization
+        status: completed
+        vaccineCode:
+          coding:
+            - system: "{{ %vaccine.system }}"
+              code: "{{ %vaccine.code }}"
+              display: "{{ %vaccine.display }}"
+          text: "{{ %vaccine.display }}"
+        patient:
+          reference: "Patient/{{ %patientId }}"
+        occurrenceDateTime: "{{ %occurrence }}"
+        primarySource: true
+        lotNumber: "{{ %lot }}"
+        site:
+          "{% if %site.exists() %}":
+            coding:
+              - system: "{{ %site.system }}"
+                code: "{{ %site.code }}"
+                display: "{{ %site.display }}"
+        performer:
+          - actor:
+              reference: "Practitioner/{{ %authorId }}"

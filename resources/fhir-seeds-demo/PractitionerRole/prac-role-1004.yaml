@@ -3,8 +3,15 @@ resourceType: PractitionerRole
 active: true
 practitioner:
   reference: Practitioner/prac-1004
+organization:
+  reference: Organization/org-1001
 code:
   - coding:
       - system: http://terminology.hl7.org/CodeSystem/practitioner-role
         code: pharmacist
+        display: Pharmacist
+specialty:
+  - coding:
+      - system: http://snomed.info/sct
+        code: "46255001"
         display: Pharmacist

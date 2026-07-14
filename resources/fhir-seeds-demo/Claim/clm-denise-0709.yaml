@@ -1,0 +1,80 @@
+id: clm-denise-0709
+resourceType: Claim
+status: active
+type:
+  coding:
+    - system: http://terminology.hl7.org/CodeSystem/claim-type
+      code: professional
+      display: Professional
+use: claim
+patient:
+  reference: Patient/pt-denise-carroll
+created: "2026-07-10"
+provider:
+  reference: Organization/org-1001
+  display: Patapsco County Health Department
+priority:
+  coding:
+    - system: http://terminology.hl7.org/CodeSystem/processpriority
+      code: normal
+insurance:
+  - sequence: 1
+    focal: true
+    coverage:
+      reference: Coverage/cov-denise
+billablePeriod:
+  start: "2026-07-09"
+  end: "2026-07-09"
+# The subscriber demographic as transmitted. It agrees with the patient master file:
+# the claim was assembled correctly, from bad data.
+supportingInfo:
+  - sequence: 1
+    category:
+      coding:
+        - system: http://terminology.hl7.org/CodeSystem/claiminformationcategory
+          code: info
+    valueString: "Subscriber date of birth as submitted: 1967-03-14"
+item:
+  - sequence: 1
+    productOrService:
+      coding:
+        - system: http://www.ama-assn.org/go/cpt
+          code: "99211"
+          display: Office/outpatient visit, established patient
+    servicedDate: "2026-07-09"
+    net:
+      value: 28.0
+      currency: USD
+  - sequence: 2
+    productOrService:
+      coding:
+        - system: http://www.ama-assn.org/go/cpt
+          code: "83036"
+          display: Hemoglobin A1c
+    servicedDate: "2026-07-09"
+    net:
+      value: 42.0
+      currency: USD
+  - sequence: 3
+    productOrService:
+      coding:
+        - system: http://www.ama-assn.org/go/cpt
+          code: "80053"
+          display: Comprehensive metabolic panel
+    servicedDate: "2026-07-09"
+    net:
+      value: 71.0
+      currency: USD
+  - sequence: 4
+    productOrService:
+      coding:
+        - system: http://www.ama-assn.org/go/cpt
+          code: "82043"
+          display: Microalbumin, urine
+    servicedDate: "2026-07-09"
+    net:
+      value: 45.0
+      currency: USD
+total:
+  value: 186.00
+  currency: USD

@@ -1,0 +1,19 @@
+id: mr-denise-ceftriaxone
+resourceType: MedicationRequest
+status: active
+intent: order
+medicationCodeableConcept:
+  coding:
+    - system: http://www.nlm.nih.gov/research/umls/rxnorm
+      code: "1665005"
+      display: Ceftriaxone 1000 MG Injection
+  text: Ceftriaxone 1000 MG Injection
+subject:
+  reference: Patient/pt-denise-carroll
+encounter:
+  reference: Encounter/enc-denise-inpatient
+requester:
+  reference: Practitioner/prac-okafor
+authoredOn: "2026-07-14T12:55:00Z"
+dosageInstruction:
+  - text: 1 g IV every 24 hours, infuse over 30 minutes

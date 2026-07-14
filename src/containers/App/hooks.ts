@@ -5,7 +5,6 @@ import { getToken } from '@beda.software/emr/services';
 import { clientSharedUserInitService } from 'src/populateUserInfoSharedState';
 import { AuthProvider, getAuthProviderFromStorage } from 'src/services/auth';
 
-
 export function useApp() {
     const [authProvider, setAuthProvider] = useState<AuthProvider | null>(getAuthProviderFromStorage());
     const sharedUserInitService = useMemo(

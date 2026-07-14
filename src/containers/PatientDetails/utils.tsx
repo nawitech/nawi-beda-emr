@@ -1,11 +1,14 @@
 import {
     AlertOutlined,
+    AuditOutlined,
     CheckOutlined,
     ExceptionOutlined,
     ExperimentOutlined,
     HeartOutlined,
     MedicineBoxOutlined,
+    SafetyCertificateOutlined,
     SnippetsOutlined,
+    SolutionOutlined,
     SubnodeOutlined,
     UsergroupAddOutlined,
 } from '@ant-design/icons';
@@ -16,7 +19,9 @@ import {
     Bundle,
     Composition,
     Condition,
+    Consent,
     DocumentReference,
+    Encounter,
     Immunization,
     MedicationRequest,
     MedicationStatement,
@@ -26,6 +31,7 @@ import {
     Procedure,
     RelatedPerson,
     Resource,
+    ServiceRequest,
 } from 'fhir/r4b';
 import { v4 as uuid4 } from 'uuid';
 
@@ -39,6 +45,14 @@ import {
     allergyName,
     conditionDate,
     conditionName,
+    consentDecision,
+    consentPeriod,
+    consentRecipient,
+    consentStatus,
+    encounterDate,
+    encounterProvider,
+    encounterStatus,
+    encounterType,
     immunizationDate,
     immunizationVaccine,
     makeRenderer,
@@ -56,6 +70,11 @@ import {
     procedureTitle,
     rpName,
     rpRelationShip,
+    srDate,
+    srName,
+    srPerformer,
+    srPriority,
+    withHIEBadge,
 } from './resourceDataGetters';
 import { AvailableResourceTypesStr, DashboardRT, MapResourceConfigType, UberListRT } from './types';
 
@@ -91,7 +110,7 @@ export function getResourceConfigData<T extends Resource, RCM extends 'uberList'
                 {
                     title: `Name`,
                     key: 'name',
-                    render: makeRenderer(conditionName, renderColumnMode),
+                    render: makeRenderer(withHIEBadge(conditionName), renderColumnMode),
                 },
                 {
                     title: `Date`,
@@ -108,7 +127,7 @@ export function getResourceConfigData<T extends Resource, RCM extends 'uberList'
                 {
                     title: `Name`,
                     key: 'name',
-                    render: makeRenderer(observationName, renderColumnMode),
+                    render: makeRenderer(withHIEBadge(observationName), renderColumnMode),
                     width: 200,
                 },
                 {
@@ -169,7 +188,7 @@ export function getResourceConfigData<T extends Resource, RCM extends 'uberList'
                 {
                     title: `Title`,
                     key: 'title',
-                    render: makeRenderer(procedureTitle, renderColumnMode),
+                    render: makeRenderer(withHIEBadge(procedureTitle), renderColumnMode),
                 },
                 {
                     title: `Date`,
@@ -196,6 +215,90 @@ export function getResourceConfigData<T extends Resource, RCM extends 'uberList'
                 },
             ],
         },
+        Encounter: {
+            title: 'Encounters',
+            icon: <AuditOutlined />,
+            columns: [
+                {
+                    title: 'Type',
+                    key: 'type',
+                    render: makeRenderer(withHIEBadge(encounterType), renderColumnMode),
+                },
+                {
+                    title: 'Provider',
+                    key: 'provider',
+                    render: makeRenderer(encounterProvider, renderColumnMode),
+                },
+                {
+                    title: 'Date',
+                    key: 'date',
+                    render: makeRenderer(encounterDate, renderColumnMode),
+                    width: 160,
+                },
+                {
+                    title: 'Status',
+                    key: 'status',
+                    render: makeRenderer(encounterStatus, renderColumnMode),
+                    width: 100,
+                },
+            ],
+        },
+        ServiceRequest: {
+            title: 'Referrals',
+            icon: <SolutionOutlined />,
+            columns: [
+                {
+                    title: 'Referral',
+                    key: 'name',
+                    render: makeRenderer(srName, renderColumnMode),
+                },
+                {
+                    title: 'Referred to',
+                    key: 'performer',
+                    render: makeRenderer(srPerformer, renderColumnMode),
+                },
+                {
+                    title: 'Priority',
+                    key: 'priority',
+                    render: makeRenderer(srPriority, renderColumnMode),
+                    width: 100,
+                },
+                {
+                    title: 'Date',
+                    key: 'date',
+                    render: makeRenderer(srDate, renderColumnMode),
+                    width: 120,
+                },
+            ],
+        },
+        Consent: {
+            title: 'Consents',
+            icon: <SafetyCertificateOutlined />,
+            columns: [
+                {
+                    title: 'Shared with',
+                    key: 'recipient',
+                    render: makeRenderer(consentRecipient, renderColumnMode),
+                },
+                {
+                    title: 'Decision',
+                    key: 'decision',
+                    render: makeRenderer(consentDecision, renderColumnMode),
+                    width: 110,
+                },
+                {
+                    title: 'Valid',
+                    key: 'period',
+                    render: makeRenderer(consentPeriod, renderColumnMode),
+                },
+                {
+                    title: 'Status',
+                    key: 'status',
+                    render: makeRenderer(consentStatus, renderColumnMode),
+                    width: 100,
+                },
+            ],
+        },
         MedicationRequest: {
             title: 'Medication Requests',
             icon: <ExceptionOutlined />,
@@ -203,7 +306,7 @@ export function getResourceConfigData<T extends Resource, RCM extends 'uberList'
                 {
                     title: 'Name',
                     key: 'name',
-                    render: makeRenderer(mrName, renderColumnMode),
+                    render: makeRenderer(withHIEBadge(mrName), renderColumnMode),
                 },
                 {
                     title: 'Reason',
@@ -268,6 +371,14 @@ export const prepareMedicationRequests = (
     r: MedicationRequest[],
     bundle: Bundle<MedicationRequest>,
 ): OverviewCard<MedicationRequest> => prepareResource(r, bundle, 'MedicationRequest');
+export const prepareEncounters = (r: Encounter[], bundle: Bundle<Encounter>): OverviewCard<Encounter> =>
+    prepareResource(r, bundle, 'Encounter');
+export const prepareServiceRequests = (
+    r: ServiceRequest[],
+    bundle: Bundle<ServiceRequest>,
+): OverviewCard<ServiceRequest> => prepareResource(r, bundle, 'ServiceRequest');
+export const prepareConsents = (r: Consent[], bundle: Bundle<Consent>): OverviewCard<Consent> =>
+    prepareResource(r, bundle, 'Consent');
 
 function getUuid(map: Map<string, string>, key: string) {
     if (!map.has(key)) {

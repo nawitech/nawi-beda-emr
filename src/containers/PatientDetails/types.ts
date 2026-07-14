@@ -4,32 +4,41 @@ import {
     Bundle,
     AllergyIntolerance,
     Condition,
+    Consent,
+    Encounter,
     Observation,
     Immunization,
     MedicationStatement,
     MedicationRequest,
     Procedure,
     RelatedPerson,
+    ServiceRequest,
 } from 'fhir/r4b';
 
 export type AvailableResourceTypesStr =
     | 'AllergyIntolerance'
     | 'Condition'
+    | 'Consent'
+    | 'Encounter'
     | 'Observation'
     | 'Immunization'
     | 'MedicationStatement'
     | 'MedicationRequest'
     | 'Procedure'
-    | 'RelatedPerson';
+    | 'RelatedPerson'
+    | 'ServiceRequest';
 export type AvailableResourceTypes =
     | AllergyIntolerance
     | Condition
+    | Consent
+    | Encounter
     | Observation
     | Immunization
     | MedicationStatement
     | MedicationRequest
     | Procedure
-    | RelatedPerson;
+    | RelatedPerson
+    | ServiceRequest;
 
 type RecordType<R extends Resource> = { resource: R; bundle: Bundle };
 
@@ -53,10 +62,13 @@ export interface DashboardRT<T extends Resource> {
 export type MapResourceConfigType = {
     AllergyIntolerance: UberListRT<AllergyIntolerance> | DashboardRT<AllergyIntolerance>;
     Condition: UberListRT<Condition> | DashboardRT<Condition>;
+    Consent: UberListRT<Consent> | DashboardRT<Consent>;
+    Encounter: UberListRT<Encounter> | DashboardRT<Encounter>;
     Observation: UberListRT<Observation> | DashboardRT<Observation>;
     Immunization: UberListRT<Immunization> | DashboardRT<Immunization>;
     MedicationStatement: UberListRT<MedicationStatement> | DashboardRT<MedicationStatement>;
     MedicationRequest: UberListRT<MedicationRequest> | DashboardRT<MedicationRequest>;
     Procedure: UberListRT<Procedure> | DashboardRT<Procedure>;
     RelatedPerson: UberListRT<RelatedPerson> | DashboardRT<RelatedPerson>;
+    ServiceRequest: UberListRT<ServiceRequest> | DashboardRT<ServiceRequest>;
 };

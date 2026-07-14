@@ -1,0 +1,23 @@
+id: cov-denise
+resourceType: Coverage
+status: active
+type:
+  coding:
+    - system: http://terminology.hl7.org/CodeSystem/v3-ActCode
+      code: PUBLICPOL
+      display: public healthcare
+subscriber:
+  reference: Patient/pt-denise-carroll
+subscriberId: MDMA-8830-114-02
+beneficiary:
+  reference: Patient/pt-denise-carroll
+relationship:
+  coding:
+    - system: http://terminology.hl7.org/CodeSystem/subscriber-relationship
+      code: self
+      display: Self
+period:
+  start: "2025-01-01"
+payor:
+  - reference: Organization/payer-chc
+    display: Chesapeake Health Choice

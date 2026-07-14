@@ -1,0 +1,78 @@
+id: administer-immunization
+resourceType: Questionnaire
+name: administer-immunization
+title: Administer vaccine
+status: active
+description: Records a vaccine administered in clinic.
+subjectType:
+  - Patient
+mapping:
+  - valueReference:
+      reference: Mapping/administer-immunization
+launchContext:
+  - name:
+      code: Patient
+    type:
+      - Patient
+  - name:
+      code: Author
+    type:
+      - Practitioner
+item:
+  - linkId: patientId
+    type: string
+    text: PatientId
+    hidden: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.id"
+  - linkId: authorId
+    type: string
+    text: AuthorId
+    hidden: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Author.id"
+  - linkId: vaccine
+    type: choice
+    text: Vaccine
+    required: true
+    answerOption:
+      - valueCoding:
+          system: http://hl7.org/fhir/sid/cvx
+          code: "216"
+          display: Pneumococcal conjugate PCV20
+      - valueCoding:
+          system: http://hl7.org/fhir/sid/cvx
+          code: "158"
+          display: Influenza, injectable, quadrivalent
+      - valueCoding:
+          system: http://hl7.org/fhir/sid/cvx
+          code: "115"
+          display: Tdap
+  - linkId: occurrence
+    type: dateTime
+    text: Date administered
+    required: true
+    initialExpression:
+      language: text/fhirpath
+      expression: now()
+  - linkId: site
+    type: choice
+    text: Site
+    answerOption:
+      - valueCoding:
+          system: http://terminology.hl7.org/CodeSystem/v3-ActSite
+          code: LA
+          display: Left arm
+      - valueCoding:
+          system: http://terminology.hl7.org/CodeSystem/v3-ActSite
+          code: RA
+          display: Right arm
+  - linkId: lot
+    type: string
+    text: Lot number
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+url: https://emr.nawi.ke/fhir/Questionnaire/administer-immunization

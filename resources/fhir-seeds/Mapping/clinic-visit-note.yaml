@@ -1,0 +1,248 @@
+id: clinic-visit-note
+resourceType: Mapping
+type: FHIRPath
+body:
+  "{% assign %}":
+    - patientId: "{{ %QuestionnaireResponse.answers('patientId') }}"
+    - authorId: "{{ %QuestionnaireResponse.answers('authorId') }}"
+    - visitDate: "{{ %QuestionnaireResponse.answers('visit-date') }}"
+    - reason: "{{ %QuestionnaireResponse.answers('reason') }}"
+    - systolic: "{{ %QuestionnaireResponse.answers('blood-pressure-systolic') }}"
+    - diastolic: "{{ %QuestionnaireResponse.answers('blood-pressure-diastolic') }}"
+    - pulseRate: "{{ %QuestionnaireResponse.answers('pulse-rate') }}"
+    - temperature: "{{ %QuestionnaireResponse.answers('temperature') }}"
+    - weight: "{{ %QuestionnaireResponse.answers('weight') }}"
+    - glucose: "{{ %QuestionnaireResponse.answers('glucose') }}"
+    - diagnosis: "{{ %QuestionnaireResponse.answers('diagnosis') }}"
+    - plan: "{{ %QuestionnaireResponse.answers('plan') }}"
+
+  resourceType: Bundle
+  type: transaction
+  entry:
+    # status=finished and a clinical-staff participant are both load-bearing: the
+    # activity report selects on status=finished and participant:missing=false.
+    - fullUrl: "urn:uuid:visit-encounter"
+      request:
+        method: POST
+        url: /Encounter
+      resource:
+        resourceType: Encounter
+        status: finished
+        class:
+          system: http://terminology.hl7.org/CodeSystem/v3-ActCode
+          code: AMB
+          display: ambulatory
+        type:
+          - coding:
+              - system: http://snomed.info/sct
+                code: "162673000"
+                display: Chronic disease follow-up
+            text: Clinic visit
+        subject:
+          reference: "Patient/{{ %patientId }}"
+        participant:
+          - individual:
+              reference: "Practitioner/{{ %authorId }}"
+        period:
+          start: "{{ %visitDate }}"
+          end: "{{ %visitDate }}"
+        reasonCode:
+          - text: "{{ %reason }}"
+        serviceProvider:
+          reference: Organization/org-1001
+
+    - "{% if %diagnosis.exists() %}":
+        request:
+          method: POST
+          url: /Condition
+        resource:
+          resourceType: Condition
+          clinicalStatus:
+            coding:
+              - system: http://terminology.hl7.org/CodeSystem/condition-clinical
+                code: active
+                display: Active
+          verificationStatus:
+            coding:
+              - system: http://terminology.hl7.org/CodeSystem/condition-ver-status
+                code: confirmed
+                display: Confirmed
+          category:
+            - coding:
+                - system: http://terminology.hl7.org/CodeSystem/condition-category
+                  code: encounter-diagnosis
+                  display: Encounter Diagnosis
+          code:
+            coding:
+              - system: "{{ %diagnosis.system }}"
+                code: "{{ %diagnosis.code }}"
+                display: "{{ %diagnosis.display }}"
+            text: "{{ %diagnosis.display }}"
+          subject:
+            reference: "Patient/{{ %patientId }}"
+          encounter:
+            reference: "urn:uuid:visit-encounter"
+          recordedDate: "{{ %visitDate }}"
+          note:
+            - text: "{{ %plan }}"
+
+    - "{% if %systolic.exists() and %diastolic.exists() %}":
+        request:
+          method: POST
+          url: /Observation
+        resource:
+          resourceType: Observation
+          status: final
+          category:
+            - coding:
+                - system: http://terminology.hl7.org/CodeSystem/observation-category
+                  code: vital-signs
+                  display: Vital Signs
+          code:
+            coding:
+              - system: http://loinc.org
+                code: 85354-9
+                display: Blood pressure panel
+            text: Blood pressure
+          subject:
+            reference: "Patient/{{ %patientId }}"
+          encounter:
+            reference: "urn:uuid:visit-encounter"
+          effectiveDateTime: "{{ %visitDate }}"
+          component:
+            - code:
+                coding:
+                  - system: http://loinc.org
+                    code: 8480-6
+                    display: Systolic blood pressure
+              valueQuantity:
+                value: "{{ %systolic }}"
+                unit: mmHg
+                system: http://unitsofmeasure.org
+                code: mm[Hg]
+            - code:
+                coding:
+                  - system: http://loinc.org
+                    code: 8462-4
+                    display: Diastolic blood pressure
+              valueQuantity:
+                value: "{{ %diastolic }}"
+                unit: mmHg
+                system: http://unitsofmeasure.org
+                code: mm[Hg]
+
+    - "{% if %pulseRate.exists() %}":
+        request:
+          method: POST
+          url: /Observation
+        resource:
+          resourceType: Observation
+          status: final
+          category:
+            - coding:
+                - system: http://terminology.hl7.org/CodeSystem/observation-category
+                  code: vital-signs
+                  display: Vital Signs
+          code:
+            coding:
+              - system: http://loinc.org
+                code: 8867-4
+                display: Heart rate
+            text: Heart rate
+          subject:
+            reference: "Patient/{{ %patientId }}"
+          encounter:
+            reference: "urn:uuid:visit-encounter"
+          effectiveDateTime: "{{ %visitDate }}"
+          valueQuantity:
+            value: "{{ %pulseRate }}"
+            unit: /min
+            system: http://unitsofmeasure.org
+            code: /min
+
+    - "{% if %temperature.exists() %}":
+        request:
+          method: POST
+          url: /Observation
+        resource:
+          resourceType: Observation
+          status: final
+          category:
+            - coding:
+                - system: http://terminology.hl7.org/CodeSystem/observation-category
+                  code: vital-signs
+                  display: Vital Signs
+          code:
+            coding:
+              - system: http://loinc.org
+                code: 8310-5
+                display: Body temperature
+            text: Body temperature
+          subject:
+            reference: "Patient/{{ %patientId }}"
+          encounter:
+            reference: "urn:uuid:visit-encounter"
+          effectiveDateTime: "{{ %visitDate }}"
+          valueQuantity:
+            value: "{{ %temperature }}"
+            unit: Cel
+            system: http://unitsofmeasure.org
+            code: Cel
+
+    - "{% if %weight.exists() %}":
+        request:
+          method: POST
+          url: /Observation
+        resource:
+          resourceType: Observation
+          status: final
+          category:
+            - coding:
+                - system: http://terminology.hl7.org/CodeSystem/observation-category
+                  code: vital-signs
+                  display: Vital Signs
+          code:
+            coding:
+              - system: http://loinc.org
+                code: 29463-7
+                display: Body weight
+            text: Body weight
+          subject:
+            reference: "Patient/{{ %patientId }}"
+          encounter:
+            reference: "urn:uuid:visit-encounter"
+          effectiveDateTime: "{{ %visitDate }}"
+          valueQuantity:
+            value: "{{ %weight }}"
+            unit: kg
+            system: http://unitsofmeasure.org
+            code: kg
+
+    - "{% if %glucose.exists() %}":
+        request:
+          method: POST
+          url: /Observation
+        resource:
+          resourceType: Observation
+          status: final
+          category:
+            - coding:
+                - system: http://terminology.hl7.org/CodeSystem/observation-category
+                  code: laboratory
+                  display: Laboratory
+          code:
+            coding:
+              - system: http://loinc.org
+                code: 2339-0
+                display: Glucose [Mass/volume] in Blood
+            text: Point-of-care glucose
+          subject:
+            reference: "Patient/{{ %patientId }}"
+          encounter:
+            reference: "urn:uuid:visit-encounter"
+          effectiveDateTime: "{{ %visitDate }}"
+          valueQuantity:
+            value: "{{ %glucose }}"
+            unit: mg/dL
+            system: http://unitsofmeasure.org
+            code: mg/dL

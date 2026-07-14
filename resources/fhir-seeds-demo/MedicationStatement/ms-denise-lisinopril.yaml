@@ -1,0 +1,14 @@
+id: ms-denise-lisinopril
+resourceType: MedicationStatement
+status: active
+medicationCodeableConcept:
+  coding:
+    - system: http://www.nlm.nih.gov/research/umls/rxnorm
+      code: "314076"
+      display: Lisinopril 20 MG Oral Tablet
+  text: Lisinopril 20 MG Oral Tablet
+subject:
+  reference: Patient/pt-denise-carroll
+dateAsserted: "2026-07-09"
+dosage:
+  - text: Lisinopril 20 mg by mouth once daily

@@ -38,3 +38,8 @@ storybook-static
 
 resources/fhir-bundles
 resources/fhir-bundles-demo
+# Local ffmpeg used to transcode demo recordings
+.tools/
+
+# Demo recordings and exports
+demo-recordings/

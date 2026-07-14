@@ -2,9 +2,15 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { CodeGrantAuth } from '@beda.software/emr/containers';
 
+import { Billing } from 'src/containers/Billing';
+import { RejectionWorkqueue } from 'src/containers/Billing/RejectionWorkqueue';
+import { MedicationsDue } from 'src/containers/Medications';
 import { OrganizationResourceList } from 'src/containers/OrganizationResourceList';
 import { PatientDetails } from 'src/containers/PatientDetails';
 import { PatientResourceList } from 'src/containers/PatientResourceList';
+import { Reports } from 'src/containers/Reports';
+import { AdHocReport } from 'src/containers/Reports/AdHocReport';
+import { ClinicActivityReport } from 'src/containers/Reports/ClinicActivityReport';
 import { SignIn } from 'src/containers/SignIn';
 import { AuthProvider } from 'src/services/auth';
 
@@ -17,6 +23,12 @@ function AuthenticatedRoutesContent() {
             <Route path="/patients" element={<PatientResourceList />} />
             <Route path="/patients/:id/*" element={<PatientDetails />} />
             <Route path="/organizations" element={<OrganizationResourceList />} />
+            <Route path="/reports" element={<Reports />} />
+            <Route path="/reports/clinic-activity" element={<ClinicActivityReport />} />
+            <Route path="/reports/ad-hoc" element={<AdHocReport />} />
+            <Route path="/medications" element={<MedicationsDue />} />
+            <Route path="/billing" element={<Billing />} />
+            <Route path="/billing/rejections" element={<RejectionWorkqueue />} />
             <Route path="*" element={<Navigate to={defaultPath} replace />} />
         </Routes>
     );

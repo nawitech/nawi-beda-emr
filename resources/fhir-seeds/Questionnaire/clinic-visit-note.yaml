@@ -1,0 +1,98 @@
+id: clinic-visit-note
+resourceType: Questionnaire
+name: clinic-visit-note
+title: Clinic visit note
+status: active
+description: Documents a clinic encounter — vitals, assessment and plan.
+subjectType:
+  - Patient
+mapping:
+  - valueReference:
+      reference: Mapping/clinic-visit-note
+launchContext:
+  - name:
+      code: Patient
+    type:
+      - Patient
+  - name:
+      code: Author
+    type:
+      - Practitioner
+item:
+  - linkId: patientId
+    type: string
+    text: PatientId
+    hidden: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.id"
+  - linkId: authorId
+    type: string
+    text: AuthorId
+    hidden: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Author.id"
+  - linkId: visit
+    type: group
+    text: Visit
+    item:
+      - linkId: visit-date
+        type: dateTime
+        text: Visit date and time
+        required: true
+        initialExpression:
+          language: text/fhirpath
+          expression: now()
+      - linkId: reason
+        type: text
+        text: Reason for visit
+  - linkId: vitals
+    type: group
+    text: Vitals
+    item:
+      - linkId: blood-pressure-systolic
+        type: integer
+        text: Systolic BP (mmHg)
+      - linkId: blood-pressure-diastolic
+        type: integer
+        text: Diastolic BP (mmHg)
+      - linkId: pulse-rate
+        type: integer
+        text: Heart rate (bpm)
+      - linkId: temperature
+        type: decimal
+        text: Temperature (°C)
+      - linkId: weight
+        type: decimal
+        text: Weight (kg)
+      - linkId: glucose
+        type: decimal
+        text: Point-of-care glucose (mg/dL)
+  - linkId: assessment
+    type: group
+    text: Assessment and plan
+    item:
+      - linkId: diagnosis
+        type: open-choice
+        text: Assessment / diagnosis
+        answerOption:
+          - valueCoding:
+              system: http://hl7.org/fhir/sid/icd-10-cm
+              code: L03.115
+              display: Cellulitis of right lower limb
+          - valueCoding:
+              system: http://hl7.org/fhir/sid/icd-10-cm
+              code: E11.65
+              display: Type 2 diabetes mellitus with hyperglycemia
+          - valueCoding:
+              system: http://hl7.org/fhir/sid/icd-10-cm
+              code: I10
+              display: Essential (primary) hypertension
+      - linkId: plan
+        type: text
+        text: Plan
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+url: https://emr.nawi.ke/fhir/Questionnaire/clinic-visit-note

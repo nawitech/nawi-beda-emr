@@ -5,6 +5,7 @@ import { MenuLayout } from '@beda.software/emr/dist/components/BaseLayout/Sideba
 import { AnonymousRoutes, AuthenticatedRoutes } from 'src/containers/App/routes';
 
 import { keycloakBottomMenuLayout } from './bottomMenuLayout';
+import { getAuthenticatedClinicalContext } from './clinicalContext';
 import { useApp } from './hooks';
 import { menuLayout } from './layout';
 
@@ -19,6 +20,7 @@ export function App() {
                     anonymousRoutes={AnonymousRoutes({ setAuthProvider })}
                     populateUserInfoSharedState={sharedUserInitService}
                     menuLayout={menuLayout}
+                    getAuthenticatedClinicalContext={getAuthenticatedClinicalContext}
                 />
             </BottomMenuLayout.Provider>
         </MenuLayout.Provider>

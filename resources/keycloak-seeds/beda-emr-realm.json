@@ -9,22 +9,38 @@
     "ssoSessionMaxLifespan": 36000,
     "roles": {
         "realm": [
-            { "name": "receptionist" },
-            { "name": "triage-nurse" },
-            { "name": "clinician" },
-            { "name": "lab-technician" },
-            { "name": "pharmacist" },
-            { "name": "cashier" },
-            { "name": "administrator" },
-            { "name": "patient" }
+            {
+                "name": "receptionist"
+            },
+            {
+                "name": "triage-nurse"
+            },
+            {
+                "name": "clinician"
+            },
+            {
+                "name": "lab-technician"
+            },
+            {
+                "name": "pharmacist"
+            },
+            {
+                "name": "cashier"
+            },
+            {
+                "name": "administrator"
+            },
+            {
+                "name": "patient"
+            }
         ]
     },
     "users": [
         {
             "username": "clinician",
             "email": "clinician@nawi-emr.com",
-            "firstName": "Joyce",
-            "lastName": "Daktari",
+            "firstName": "Amara",
+            "lastName": "Okafor",
             "enabled": true,
             "emailVerified": true,
             "credentials": [
@@ -34,17 +50,23 @@
                     "temporary": false
                 }
             ],
-            "realmRoles": ["clinician"],
+            "realmRoles": [
+                "clinician"
+            ],
             "attributes": {
-                "fhirUser": ["Practitioner/prac-1000"],
-                "patient_list": ["list-patient-1"]
+                "fhirUser": [
+                    "Practitioner/prac-okafor"
+                ],
+                "patient_list": [
+                    "list-patient-1"
+                ]
             }
         },
         {
             "username": "receptionist",
             "email": "receptionist@nawi-emr.com",
-            "firstName": "Grace",
-            "lastName": "Kamau",
+            "firstName": "Tanya",
+            "lastName": "Brooks",
             "enabled": true,
             "emailVerified": true,
             "credentials": [
@@ -54,17 +76,23 @@
                     "temporary": false
                 }
             ],
-            "realmRoles": ["receptionist"],
+            "realmRoles": [
+                "receptionist"
+            ],
             "attributes": {
-                "fhirUser": ["Practitioner/prac-1001"],
-                "patient_list": ["list-patient-1"]
+                "fhirUser": [
+                    "Practitioner/prac-1001"
+                ],
+                "patient_list": [
+                    "list-patient-1"
+                ]
             }
         },
         {
             "username": "triage-nurse",
             "email": "triage.nurse@nawi-emr.com",
-            "firstName": "Aisha",
-            "lastName": "Omondi",
+            "firstName": "Lena",
+            "lastName": "Torres",
             "enabled": true,
             "emailVerified": true,
             "credentials": [
@@ -74,17 +102,23 @@
                     "temporary": false
                 }
             ],
-            "realmRoles": ["triage-nurse"],
+            "realmRoles": [
+                "triage-nurse"
+            ],
             "attributes": {
-                "fhirUser": ["Practitioner/prac-1002"],
-                "patient_list": ["list-patient-1"]
+                "fhirUser": [
+                    "Practitioner/prac-1002"
+                ],
+                "patient_list": [
+                    "list-patient-1"
+                ]
             }
         },
         {
             "username": "lab-technician",
             "email": "lab.technician@nawi-emr.com",
-            "firstName": "Samuel",
-            "lastName": "Waweru",
+            "firstName": "Darnell",
+            "lastName": "Price",
             "enabled": true,
             "emailVerified": true,
             "credentials": [
@@ -94,17 +128,23 @@
                     "temporary": false
                 }
             ],
-            "realmRoles": ["lab-technician"],
+            "realmRoles": [
+                "lab-technician"
+            ],
             "attributes": {
-                "fhirUser": ["Practitioner/prac-1003"],
-                "patient_list": ["list-patient-1"]
+                "fhirUser": [
+                    "Practitioner/prac-1003"
+                ],
+                "patient_list": [
+                    "list-patient-1"
+                ]
             }
         },
         {
             "username": "pharmacist",
             "email": "pharmacist@nawi-emr.com",
-            "firstName": "Esther",
-            "lastName": "Muthoni",
+            "firstName": "David",
+            "lastName": "Cho",
             "enabled": true,
             "emailVerified": true,
             "credentials": [
@@ -114,17 +154,23 @@
                     "temporary": false
                 }
             ],
-            "realmRoles": ["pharmacist"],
+            "realmRoles": [
+                "pharmacist"
+            ],
             "attributes": {
-                "fhirUser": ["Practitioner/prac-1004"],
-                "patient_list": ["list-patient-1"]
+                "fhirUser": [
+                    "Practitioner/prac-1004"
+                ],
+                "patient_list": [
+                    "list-patient-1"
+                ]
             }
         },
         {
             "username": "cashier",
             "email": "cashier@nawi-emr.com",
-            "firstName": "Peter",
-            "lastName": "Njoroge",
+            "firstName": "Marcus",
+            "lastName": "Webb",
             "enabled": true,
             "emailVerified": true,
             "credentials": [
@@ -134,16 +180,23 @@
                     "temporary": false
                 }
             ],
-            "realmRoles": ["cashier"],
+            "realmRoles": [
+                "cashier"
+            ],
             "attributes": {
-                "fhirUser": ["Practitioner/prac-1005"]
+                "fhirUser": [
+                    "Practitioner/prac-1005"
+                ],
+                "patient_list": [
+                    "list-patient-1"
+                ]
             }
         },
         {
             "username": "administrator",
             "email": "administrator@nawi-emr.com",
-            "firstName": "Admin",
-            "lastName": "User",
+            "firstName": "Joan",
+            "lastName": "Rivera",
             "enabled": true,
             "emailVerified": true,
             "credentials": [
@@ -153,16 +206,23 @@
                     "temporary": false
                 }
             ],
-            "realmRoles": ["administrator"],
+            "realmRoles": [
+                "administrator"
+            ],
             "attributes": {
-                "fhirUser": ["Organization/org-1001"]
+                "fhirUser": [
+                    "Organization/org-1001"
+                ],
+                "patient_list": [
+                    "list-patient-1"
+                ]
             }
         },
         {
             "username": "patient",
             "email": "patient@nawi-emr.com",
-            "firstName": "Charity",
-            "lastName": "Otala",
+            "firstName": "Danielle",
+            "lastName": "Coleman",
             "enabled": true,
             "emailVerified": true,
             "credentials": [
@@ -172,9 +232,13 @@
                     "temporary": false
                 }
             ],
-            "realmRoles": ["patient"],
+            "realmRoles": [
+                "patient"
+            ],
             "attributes": {
-                "fhirUser": ["Patient/pat-1001"]
+                "fhirUser": [
+                    "Patient/pt-coleman"
+                ]
             }
         }
     ],
@@ -184,10 +248,16 @@
             "protocol": "openid-connect",
             "publicClient": true,
             "standardFlowEnabled": true,
+            "directAccessGrantsEnabled": true,
             "frontchannelLogout": true,
             "fullScopeAllowed": true,
-            "redirectUris": ["http://localhost:5000/*", "http://localhost:3000/*"],
-            "webOrigins": ["+"],
+            "redirectUris": [
+                "http://localhost:5000/*",
+                "http://localhost:3000/*"
+            ],
+            "webOrigins": [
+                "+"
+            ],
             "attributes": {
                 "backchannel.logout.session.required": "true",
                 "frontchannel.logout.session.required": "true",

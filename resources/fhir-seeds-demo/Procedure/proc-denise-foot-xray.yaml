@@ -1,0 +1,30 @@
+id: proc-denise-foot-xray
+resourceType: Procedure
+meta:
+  source: https://crisphealth.org/hie
+  tag:
+    - system: https://crisphealth.org/CodeSystem/data-source
+      code: HIE
+      display: Received via CRISP HIE
+status: completed
+code:
+  coding:
+    - system: http://www.ama-assn.org/go/cpt
+      code: "73630"
+      display: Radiologic examination, foot; complete, minimum of 3 views
+  text: X-ray, right foot (3 views)
+subject:
+  reference: Patient/pt-denise-carroll
+encounter:
+  reference: Encounter/enc-harborview-ed
+performedDateTime: "2026-06-21T20:05:00Z"
+bodySite:
+  - coding:
+      - system: http://snomed.info/sct
+        code: "239728001"
+        display: Structure of right foot
+    text: Right foot
+outcome:
+  text: No radiographic evidence of osteomyelitis.
+note:
+  - text: Soft tissue swelling of the right forefoot. No cortical destruction or periosteal reaction. No osteomyelitis.

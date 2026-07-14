@@ -1,0 +1,20 @@
+id: prac-okafor
+resourceType: Practitioner
+identifier:
+  - system: http://hl7.org/fhir/sid/us-npi
+    value: "1902884719"
+active: true
+name:
+  - use: official
+    family: Okafor
+    given:
+      - Amara
+    prefix:
+      - Dr
+telecom:
+  - system: phone
+    value: +1-410-555-0142
+    use: work
+  - system: email
+    value: amara.okafor@patapscohealth.example.org
+    use: work

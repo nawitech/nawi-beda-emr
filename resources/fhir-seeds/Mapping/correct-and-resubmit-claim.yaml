@@ -1,0 +1,87 @@
+id: correct-and-resubmit-claim
+resourceType: Mapping
+type: FHIRPath
+body:
+  "{% assign %}":
+    - patientId: "{{ %QuestionnaireResponse.answers('patientId') }}"
+    - claimId: "{{ %QuestionnaireResponse.answers('claimId') }}"
+    - responseId: "{{ %QuestionnaireResponse.answers('responseId') }}"
+    - authorId: "{{ %QuestionnaireResponse.answers('authorId') }}"
+    - birthDate: "{{ %QuestionnaireResponse.answers('birth-date') }}"
+    - reason: "{{ %QuestionnaireResponse.answers('reason') }}"
+
+  resourceType: Bundle
+  type: transaction
+  entry:
+    # PATCH rather than PUT: a PUT built from this form's fields alone would carry no
+    # name, address or identifier, and would silently erase them from the master file.
+    # The patch also leaves a version behind, so the correction is attributable.
+    - request:
+        method: PATCH
+        url: "/Patient/{{ %patientId }}"
+      resource:
+        resourceType: Parameters
+        parameter:
+          - name: operation
+            part:
+              - name: type
+                valueCode: replace
+              - name: path
+                valueString: Patient.birthDate
+              - name: value
+                valueDate: "{{ %birthDate }}"
+
+    # The rejection has been worked, so it leaves the queue. The workqueue selects on
+    # status=active, not on the outcome, which stays `error` — the claim really was
+    # rejected and rewriting that would be falsifying history.
+    - request:
+        method: PATCH
+        url: "/ClaimResponse/{{ %responseId }}"
+      resource:
+        resourceType: Parameters
+        parameter:
+          - name: operation
+            part:
+              - name: type
+                valueCode: replace
+              - name: path
+                valueString: ClaimResponse.status
+              - name: value
+                valueCode: cancelled
+
+    # Resubmission is the same claim sent again once the demographic is fixed; the
+    # coding was never in dispute. Re-dating it records the new submission.
+    - request:
+        method: PATCH
+        url: "/Claim/{{ %claimId }}"
+      resource:
+        resourceType: Parameters
+        parameter:
+          - name: operation
+            part:
+              - name: type
+                valueCode: replace
+              - name: path
+                valueString: Claim.created
+              - name: value
+                valueDateTime: "{{ now() }}"
+
+    - request:
+        method: POST
+        url: /Provenance
+      resource:
+        resourceType: Provenance
+        target:
+          - reference: "Patient/{{ %patientId }}"
+          - reference: "Claim/{{ %claimId }}"
+        recorded: "{{ now() }}"
+        activity:
+          coding:
+            - system: http://terminology.hl7.org/CodeSystem/v3-DataOperation
+              code: UPDATE
+              display: update
+        reason:
+          - text: "{{ %reason }}"
+        agent:
+          - who:
+              reference: "Practitioner/{{ %authorId }}"

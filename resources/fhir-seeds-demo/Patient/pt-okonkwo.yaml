@@ -1,0 +1,63 @@
+id: pt-okonkwo
+resourceType: Patient
+active: true
+extension:
+  - url: http://hl7.org/fhir/us/core/StructureDefinition/us-core-race
+    extension:
+      - url: ombCategory
+        valueCoding:
+          system: urn:oid:2.16.840.1.113883.6.238
+          code: "2054-5"
+          display: Black or African American
+      - url: text
+        valueString: Black or African American
+  - url: http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity
+    extension:
+      - url: ombCategory
+        valueCoding:
+          system: urn:oid:2.16.840.1.113883.6.238
+          code: "2186-5"
+          display: Not Hispanic or Latino
+      - url: text
+        valueString: Not Hispanic or Latino
+  - url: http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex
+    valueCode: M
+name:
+  - use: official
+    family: Okonkwo
+    given:
+      - Emeka
+identifier:
+  - use: usual
+    type:
+      coding:
+        - system: http://terminology.hl7.org/CodeSystem/v2-0203
+          code: MR
+          display: Medical Record Number
+    system: http://patapscohealth.example.org/mrn
+    value: PLHD-007424
+telecom:
+  - system: phone
+    value: "+1-410-555-1133"
+    use: mobile
+gender: male
+birthDate: "2015-05-19"
+address:
+  - use: home
+    line:
+      - 2600 Boston St
+    city: Baltimore
+    district: Baltimore City
+    state: MD
+    postalCode: "21224"
+    country: US
+communication:
+  - language:
+      coding:
+        - system: urn:ietf:bcp:47
+          code: en
+          display: English
+    preferred: true
+managingOrganization:
+  reference: Organization/org-1001
+  display: Patapsco County Health Department

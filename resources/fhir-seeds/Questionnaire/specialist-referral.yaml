@@ -1,0 +1,74 @@
+id: specialist-referral
+resourceType: Questionnaire
+name: specialist-referral
+title: Refer to specialist
+status: active
+description: Refers the patient to a specialist clinician.
+subjectType:
+  - Patient
+mapping:
+  - valueReference:
+      reference: Mapping/specialist-referral
+launchContext:
+  - name:
+      code: Patient
+    type:
+      - Patient
+  - name:
+      code: Author
+    type:
+      - Practitioner
+item:
+  - linkId: specialist
+    type: reference
+    text: Refer to
+    required: true
+    referenceResource:
+      - Practitioner
+    # Plain Practitioner search on purpose. The upstream form uses
+    # `Practitioner?_has:PractitionerRole:practitioner:role=doctor`, which returns
+    # nothing against these seeds and leaves a required field permanently blocked.
+    answerExpression:
+      language: application/x-fhir-query
+      expression: Practitioner
+    choiceColumn:
+      - forDisplay: true
+        path: "name.given.first() + ' ' + name.family"
+  - linkId: specialty
+    type: choice
+    text: Specialty
+    required: true
+    answerOption:
+      - valueCoding:
+          system: http://snomed.info/sct
+          code: "394583002"
+          display: Endocrinology
+      - valueCoding:
+          system: http://snomed.info/sct
+          code: "394821009"
+          display: Vascular surgery
+      - valueCoding:
+          system: http://snomed.info/sct
+          code: "394914008"
+          display: Radiology
+  - linkId: priority
+    type: choice
+    text: Priority
+    required: true
+    answerOption:
+      - valueCoding:
+          system: http://hl7.org/fhir/request-priority
+          code: routine
+          display: Routine
+      - valueCoding:
+          system: http://hl7.org/fhir/request-priority
+          code: urgent
+          display: Urgent
+  - linkId: reason
+    type: text
+    text: Reason for referral
+    required: true
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+url: https://emr.nawi.ke/fhir/Questionnaire/specialist-referral

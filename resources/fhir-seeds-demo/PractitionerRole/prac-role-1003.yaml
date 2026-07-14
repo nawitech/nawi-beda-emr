@@ -3,8 +3,15 @@ resourceType: PractitionerRole
 active: true
 practitioner:
   reference: Practitioner/prac-1003
+organization:
+  reference: Organization/org-1001
 code:
   - coding:
-      - system: http://snomed.info/sct
-        code: "159016003"
+      - system: http://terminology.hl7.org/CodeSystem/practitioner-role
+        code: researcher
         display: Laboratory technician
+specialty:
+  - coding:
+      - system: http://snomed.info/sct
+        code: "159282002"
+        display: Laboratory medicine

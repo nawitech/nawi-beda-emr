@@ -1,16 +1,21 @@
 id: org-1001
 resourceType: Organization
 active: true
-name: Nawi Health Centre
+name: Patapsco County Health Department — Eastern Clinic
 type:
   - coding:
       - system: http://terminology.hl7.org/CodeSystem/organization-type
-        code: prov
-        display: Healthcare Provider
+        code: govt
+        display: Government
+address:
+  - use: work
+    line:
+      - 1200 Eastern Ave
+    city: Baltimore
+    state: MD
+    postalCode: "21202"
+    country: US
 telecom:
   - system: phone
-    value: +254-20-1234-5600
-    use: work
-  - system: email
-    value: admin@nawihealth.org
+    value: "+1-410-555-0100"
     use: work

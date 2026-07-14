@@ -1,0 +1,22 @@
+id: md-denise-insulin
+resourceType: MedicationDispense
+status: in-progress
+medicationCodeableConcept:
+  coding:
+    - system: http://www.nlm.nih.gov/research/umls/rxnorm
+      code: "1596450"
+      display: Insulin glargine 100 UNT/ML Injectable Solution
+  text: Insulin glargine 100 UNT/ML Injectable Solution
+subject:
+  reference: Patient/pt-denise-carroll
+context:
+  reference: Encounter/enc-denise-inpatient
+authorizingPrescription:
+  - reference: MedicationRequest/mr-denise-insulin
+performer:
+  - actor:
+      reference: Practitioner/prac-1004
+quantity:
+  value: 1
+  unit: pen
+whenPrepared: "2026-07-14T14:05:00Z"

@@ -1,0 +1,63 @@
+id: pt-begay
+resourceType: Patient
+active: true
+extension:
+  - url: http://hl7.org/fhir/us/core/StructureDefinition/us-core-race
+    extension:
+      - url: ombCategory
+        valueCoding:
+          system: urn:oid:2.16.840.1.113883.6.238
+          code: "1002-5"
+          display: American Indian or Alaska Native
+      - url: text
+        valueString: American Indian or Alaska Native
+  - url: http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity
+    extension:
+      - url: ombCategory
+        valueCoding:
+          system: urn:oid:2.16.840.1.113883.6.238
+          code: "2186-5"
+          display: Not Hispanic or Latino
+      - url: text
+        valueString: Not Hispanic or Latino
+  - url: http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex
+    valueCode: M
+name:
+  - use: official
+    family: Begay
+    given:
+      - Leonard
+identifier:
+  - use: usual
+    type:
+      coding:
+        - system: http://terminology.hl7.org/CodeSystem/v2-0203
+          code: MR
+          display: Medical Record Number
+    system: http://patapscohealth.example.org/mrn
+    value: PLHD-005917
+telecom:
+  - system: phone
+    value: "+1-410-555-1056"
+    use: mobile
+gender: male
+birthDate: "1961-03-27"
+address:
+  - use: home
+    line:
+      - 104 Virginia Ave
+    city: Cumberland
+    district: Allegany
+    state: MD
+    postalCode: "21502"
+    country: US
+communication:
+  - language:
+      coding:
+        - system: urn:ietf:bcp:47
+          code: en
+          display: English
+    preferred: true
+managingOrganization:
+  reference: Organization/org-1001
+  display: Patapsco County Health Department

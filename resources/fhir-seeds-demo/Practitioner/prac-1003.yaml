@@ -1,15 +1,15 @@
 id: prac-1003
 resourceType: Practitioner
 active: true
+identifier:
+  - system: http://hl7.org/fhir/sid/us-npi
+    value: "1000137411"
 name:
   - use: official
-    family: Waweru
+    family: Price
     given:
-      - Samuel
+      - Darnell
 telecom:
-  - system: phone
-    value: +254-20-1234-5681
-    use: work
   - system: email
-    value: samuel.waweru@example.org
+    value: darnell.price@patapscohealth.example.org
     use: work

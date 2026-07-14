@@ -1,0 +1,44 @@
+id: mr-denise-cephalexin
+resourceType: MedicationRequest
+meta:
+  source: https://crisphealth.org/hie
+  tag:
+    - system: https://crisphealth.org/CodeSystem/data-source
+      code: HIE
+      display: Received via CRISP HIE
+status: completed
+intent: order
+medicationCodeableConcept:
+  coding:
+    - system: http://www.nlm.nih.gov/research/umls/rxnorm
+      code: "309101"
+      display: Cephalexin 500 MG Oral Capsule
+  text: Cephalexin 500 mg oral capsule
+subject:
+  reference: Patient/pt-denise-carroll
+encounter:
+  reference: Encounter/enc-harborview-ed
+authoredOn: "2026-06-21"
+dosageInstruction:
+  - text: 500 mg by mouth four times daily for 7 days
+    timing:
+      repeat:
+        frequency: 4
+        period: 1
+        periodUnit: d
+        boundsDuration:
+          value: 7
+          unit: days
+          system: http://unitsofmeasure.org
+          code: d
+    route:
+      coding:
+        - system: http://snomed.info/sct
+          code: "26643006"
+          display: Oral route
+    doseAndRate:
+      - doseQuantity:
+          value: 500
+          unit: mg
+          system: http://unitsofmeasure.org
+          code: mg

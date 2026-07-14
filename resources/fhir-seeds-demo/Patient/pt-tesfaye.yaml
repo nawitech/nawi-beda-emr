@@ -1,0 +1,63 @@
+id: pt-tesfaye
+resourceType: Patient
+active: true
+extension:
+  - url: http://hl7.org/fhir/us/core/StructureDefinition/us-core-race
+    extension:
+      - url: ombCategory
+        valueCoding:
+          system: urn:oid:2.16.840.1.113883.6.238
+          code: "2054-5"
+          display: Black or African American
+      - url: text
+        valueString: Black or African American
+  - url: http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity
+    extension:
+      - url: ombCategory
+        valueCoding:
+          system: urn:oid:2.16.840.1.113883.6.238
+          code: "2186-5"
+          display: Not Hispanic or Latino
+      - url: text
+        valueString: Not Hispanic or Latino
+  - url: http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex
+    valueCode: F
+name:
+  - use: official
+    family: Tesfaye
+    given:
+      - Meseret
+identifier:
+  - use: usual
+    type:
+      coding:
+        - system: http://terminology.hl7.org/CodeSystem/v2-0203
+          code: MR
+          display: Medical Record Number
+    system: http://patapscohealth.example.org/mrn
+    value: PLHD-006328
+telecom:
+  - system: phone
+    value: "+1-410-555-1077"
+    use: mobile
+gender: female
+birthDate: "1979-05-21"
+address:
+  - use: home
+    line:
+      - 1201 East-West Hwy
+    city: Silver Spring
+    district: Montgomery
+    state: MD
+    postalCode: "20910"
+    country: US
+communication:
+  - language:
+      coding:
+        - system: urn:ietf:bcp:47
+          code: am
+          display: Amharic
+    preferred: true
+managingOrganization:
+  reference: Organization/org-1001
+  display: Patapsco County Health Department

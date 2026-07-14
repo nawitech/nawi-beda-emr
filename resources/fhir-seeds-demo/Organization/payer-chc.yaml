@@ -1,0 +1,9 @@
+id: payer-chc
+resourceType: Organization
+active: true
+name: Chesapeake Health Choice (Maryland Medical Assistance)
+type:
+  - coding:
+      - system: http://terminology.hl7.org/CodeSystem/organization-type
+        code: pay
+        display: Payer

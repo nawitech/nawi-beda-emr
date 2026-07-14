@@ -1,0 +1,60 @@
+id: data-sharing-consent
+resourceType: Mapping
+type: FHIRPath
+body:
+  "{% assign %}":
+    - recipient: "{{ %QuestionnaireResponse.answers('recipient') }}"
+    - provision: "{{ %QuestionnaireResponse.answers('provision') }}"
+    - dateStart: "{{ %QuestionnaireResponse.answers('date-start') }}"
+    - dateEnd: "{{ %QuestionnaireResponse.answers('date-end') }}"
+    - patientRef: "{{ 'Patient/' + %Patient.id }}"
+    - patientDisplay: "{{ %Patient.name.given.first() + ' ' + %Patient.name.family }}"
+    - authorRef: "{{ 'Practitioner/' + %Author.id }}"
+
+  resourceType: Bundle
+  type: transaction
+  entry:
+    # R4 references are plain strings ("Practitioner/x"). The upstream consent
+    # mapping emits the Aidbox object form {resourceType, id}, which HAPI rejects.
+    - request:
+        method: POST
+        url: /Consent
+      resource:
+        resourceType: Consent
+        status: "{{ iif(%provision.code = 'permit', 'active', 'inactive') }}"
+        scope:
+          coding:
+            - system: http://terminology.hl7.org/CodeSystem/consentscope
+              code: patient-privacy
+              display: Privacy Consent
+        category:
+          - coding:
+              - system: http://loinc.org
+                code: 59284-0
+                display: Patient Consent
+        patient:
+          reference: "{{ %patientRef }}"
+          display: "{{ %patientDisplay }}"
+        dateTime: "{{ now() }}"
+        performer:
+          - reference: "{{ %patientRef }}"
+        organization:
+          - reference: Organization/org-1001
+        provision:
+          type: "{{ %provision.code }}"
+          period:
+            start: "{{ %dateStart }}"
+            end: "{{ %dateEnd }}"
+          actor:
+            - role:
+                coding:
+                  - system: http://terminology.hl7.org/CodeSystem/v3-ParticipationType
+                    code: IRCP
+                    display: Information Recipient
+              reference:
+                reference: "{{ %recipient.reference }}"
+                display: "{{ %recipient.display }}"
+          purpose:
+            - system: http://terminology.hl7.org/CodeSystem/v3-ActReason
+              code: TREAT
+              display: Treatment

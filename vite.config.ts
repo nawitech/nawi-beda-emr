@@ -6,7 +6,6 @@ import { defineConfig } from 'vite';
 
 const require = createRequire(import.meta.url);
 
-// https://vitejs.dev/config/
 export default defineConfig(({ command }) => ({
     server: {
         host: '0.0.0.0',
@@ -30,9 +29,8 @@ export default defineConfig(({ command }) => ({
         }),
     ],
     resolve: {
-        alias: [
-            { find: 'src', replacement: path.resolve(__dirname, './src/') },
-        ],
+        alias: [{ find: 'src', replacement: path.resolve(__dirname, './src/') }],
+        dedupe: ['@beda.software/fhir-questionnaire', 'react', 'react-dom'],
     },
     define: {
         'process.env': {},

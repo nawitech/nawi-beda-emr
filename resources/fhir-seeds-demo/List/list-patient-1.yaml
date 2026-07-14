@@ -2,6 +2,45 @@ id: list-patient-1
 resourceType: List
 status: current
 mode: working
+title: Patient panel — Patapsco County Health Department
 entry:
   - item:
-      reference: Patient/pat-1001
+      reference: Patient/pt-denise-carroll
+  - item:
+      reference: Patient/pt-whitfield
+  - item:
+      reference: Patient/pt-delgado
+  - item:
+      reference: Patient/pt-nguyen
+  - item:
+      reference: Patient/pt-osullivan
+  - item:
+      reference: Patient/pt-achebe
+  - item:
+      reference: Patient/pt-kowalski
+  - item:
+      reference: Patient/pt-ramirez
+  - item:
+      reference: Patient/pt-begay
+  - item:
+      reference: Patient/pt-haddad
+  - item:
+      reference: Patient/pt-donnelly
+  - item:
+      reference: Patient/pt-tesfaye
+  - item:
+      reference: Patient/pt-petrov
+  - item:
+      reference: Patient/pt-coleman
+  - item:
+      reference: Patient/pt-alvarez
+  - item:
+      reference: Patient/pt-park
+  - item:
+      reference: Patient/pt-boateng
+  - item:
+      reference: Patient/pt-kaleo
+  - item:
+      reference: Patient/pt-fitzgerald
+  - item:
+      reference: Patient/pt-okonkwo

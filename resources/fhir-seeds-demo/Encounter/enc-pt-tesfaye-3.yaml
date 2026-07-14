@@ -1,0 +1,24 @@
+id: enc-pt-tesfaye-3
+resourceType: Encounter
+status: finished
+class:
+  system: http://terminology.hl7.org/CodeSystem/v3-ActCode
+  code: AMB
+  display: ambulatory
+type:
+  - coding:
+      - system: http://snomed.info/sct
+        code: "270427003"
+        display: Patient-initiated encounter
+    text: Patient-initiated encounter
+subject:
+  reference: Patient/pt-tesfaye
+participant:
+  - individual:
+      reference: Practitioner/prac-1002
+period:
+  start: "2026-06-16T09:00:00Z"
+  end: "2026-06-16T09:25:00Z"
+serviceProvider:
+  reference: Organization/org-1001
+  display: Patapsco County Health Department

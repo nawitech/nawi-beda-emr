@@ -1,0 +1,17 @@
+id: prac-igwe
+resourceType: Practitioner
+identifier:
+  - system: http://hl7.org/fhir/sid/us-npi
+    value: "1558820394"
+active: true
+name:
+  - use: official
+    family: Igwe
+    given:
+      - Samuel
+    prefix:
+      - Dr
+telecom:
+  - system: email
+    value: samuel.igwe@chesapeake-endo.example.org
+    use: work

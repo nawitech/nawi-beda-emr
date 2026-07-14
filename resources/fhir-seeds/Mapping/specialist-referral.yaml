@@ -1,0 +1,47 @@
+id: specialist-referral
+resourceType: Mapping
+type: FHIRPath
+body:
+  "{% assign %}":
+    - specialist: "{{ %QuestionnaireResponse.answers('specialist') }}"
+    - specialty: "{{ %QuestionnaireResponse.answers('specialty') }}"
+    - priority: "{{ %QuestionnaireResponse.answers('priority') }}"
+    - reason: "{{ %QuestionnaireResponse.answers('reason') }}"
+    - patientRef: "{{ 'Patient/' + %Patient.id }}"
+    - authorRef: "{{ 'Practitioner/' + %Author.id }}"
+
+  resourceType: Bundle
+  type: transaction
+  entry:
+    # ServiceRequest is the correct resource for a referral. (The upstream
+    # `place-referral` mapping emits Appointment + CommunicationRequest, which does
+    # not read as a specialist referral.)
+    - request:
+        method: POST
+        url: /ServiceRequest
+      resource:
+        resourceType: ServiceRequest
+        status: active
+        intent: order
+        priority: "{{ %priority.code }}"
+        category:
+          - coding:
+              - system: http://snomed.info/sct
+                code: "306206005"
+                display: Referral to service
+        code:
+          coding:
+            - system: "{{ %specialty.system }}"
+              code: "{{ %specialty.code }}"
+              display: "{{ %specialty.display }}"
+          text: "{{ 'Referral to ' + %specialty.display }}"
+        subject:
+          reference: "{{ %patientRef }}"
+        requester:
+          reference: "{{ %authorRef }}"
+        performer:
+          - reference: "{{ %specialist.reference }}"
+            display: "{{ %specialist.display }}"
+        authoredOn: "{{ now() }}"
+        reasonCode:
+          - text: "{{ %reason }}"

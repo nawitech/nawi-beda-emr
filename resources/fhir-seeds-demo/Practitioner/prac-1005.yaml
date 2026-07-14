@@ -1,15 +1,17 @@
 id: prac-1005
 resourceType: Practitioner
 active: true
+identifier:
+  - system: http://hl7.org/fhir/sid/us-npi
+    value: "1000137685"
 name:
   - use: official
-    family: Njoroge
+    family: Webb
     given:
-      - Peter
+      - Marcus
+    prefix:
+      - CPB
 telecom:
-  - system: phone
-    value: +254-20-1234-5683
-    use: work
   - system: email
-    value: peter.njoroge@example.org
+    value: marcus.webb@patapscohealth.example.org
     use: work

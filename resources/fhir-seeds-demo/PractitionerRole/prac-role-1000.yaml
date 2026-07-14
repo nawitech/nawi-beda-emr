@@ -3,6 +3,8 @@ resourceType: PractitionerRole
 active: true
 practitioner:
   reference: Practitioner/prac-1000
+organization:
+  reference: Organization/org-1001
 code:
   - coding:
       - system: http://terminology.hl7.org/CodeSystem/practitioner-role
@@ -11,5 +13,5 @@ code:
 specialty:
   - coding:
       - system: http://snomed.info/sct
-        code: "394814009"
-        display: General practice
+        code: "419192003"
+        display: Internal medicine
