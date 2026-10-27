@@ -1,0 +1,91 @@
+id: opd-consultation
+resourceType: Questionnaire
+name: opd-consultation
+title: OPD consultation
+status: active
+description: >-
+  Clinician's consultation record. Launched from the consultation queue, which supplies Patient
+  and Encounter context. Records diagnosis and notes, optionally orders labs and prescribes,
+  then hands the patient on to whichever station the orders imply.
+subjectType:
+  - Encounter
+launchContext:
+  - name:
+      code: Patient
+    type:
+      - Patient
+  - name:
+      code: Encounter
+    type:
+      - Encounter
+  - name:
+      code: Author
+    type:
+      - Practitioner
+      - Organization
+mapping:
+  - valueReference:
+      reference: Mapping/opd-consultation
+item:
+  - linkId: primary-diagnosis
+    type: choice
+    text: Primary diagnosis
+    required: true
+    answerValueSet: https://emr.nawi.ke/fhir/ValueSet/opd-diagnosis
+  - linkId: secondary-diagnosis
+    type: choice
+    text: Secondary diagnosis
+    answerValueSet: https://emr.nawi.ke/fhir/ValueSet/opd-diagnosis
+  - linkId: diagnosis-certainty
+    type: choice
+    text: Diagnosis certainty
+    required: true
+    initial:
+      - valueCoding:
+          system: http://terminology.hl7.org/CodeSystem/condition-ver-status
+          code: provisional
+          display: Provisional
+    answerOption:
+      - valueCoding:
+          system: http://terminology.hl7.org/CodeSystem/condition-ver-status
+          code: provisional
+          display: Provisional
+      - valueCoding:
+          system: http://terminology.hl7.org/CodeSystem/condition-ver-status
+          code: confirmed
+          display: Confirmed
+  - linkId: clinical-notes
+    type: text
+    text: Clinical notes
+    required: true
+  # Repeating groups: the clinician adds as many rows as the patient needs. The extraction
+  # engine iterates them with {% for %}, so there is no slot limit — see
+  # docs/opd-consultation-workflow.md.
+  - linkId: lab-order
+    type: group
+    text: Laboratory order
+    repeats: true
+    item:
+      - linkId: lab-test
+        type: choice
+        text: Test
+        answerValueSet: https://emr.nawi.ke/fhir/ValueSet/opd-lab-test
+  - linkId: prescription
+    type: group
+    text: Prescription
+    repeats: true
+    item:
+      - linkId: medication
+        type: choice
+        text: Medication
+        answerValueSet: https://emr.nawi.ke/fhir/ValueSet/opd-medication
+      - linkId: dosage
+        type: string
+        text: Dosage instructions
+      - linkId: duration
+        type: integer
+        text: Duration (days)
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+url: https://emr.nawi.ke/fhir/Questionnaire/opd-consultation

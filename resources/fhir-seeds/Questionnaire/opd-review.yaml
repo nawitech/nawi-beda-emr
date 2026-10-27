@@ -1,0 +1,97 @@
+id: opd-review
+resourceType: Questionnaire
+name: opd-review
+title: Review results
+status: active
+description: >-
+  Clinician's review once laboratory results are back — step 5 of the OPD journey. Confirms or
+  revises the working diagnosis and records what the results changed. Launched from the
+  clinician queue.
+subjectType:
+  - Encounter
+launchContext:
+  - name:
+      code: Patient
+    type:
+      - Patient
+  - name:
+      code: Encounter
+    type:
+      - Encounter
+  - name:
+      code: Author
+    type:
+      - Practitioner
+      - Organization
+mapping:
+  - valueReference:
+      reference: Mapping/opd-review
+item:
+  # Only the results for this visit, so the clinician is reviewing what the lab actually filed.
+  - linkId: reviewed-report
+    type: reference
+    text: Report reviewed
+    required: true
+    referenceResource:
+      - DiagnosticReport
+    answerExpression:
+      language: application/x-fhir-query
+      expression: "DiagnosticReport?encounter={{ %Encounter.id }}"
+    choiceColumn:
+      - forDisplay: true
+        path: "conclusion"
+  - linkId: outcome
+    type: choice
+    text: Outcome
+    required: true
+    answerOption:
+      - valueCoding:
+          system: https://emr.nawi.ke/fhir/CodeSystem/opd-review-outcome
+          code: confirmed
+          display: Results confirm the working diagnosis
+      - valueCoding:
+          system: https://emr.nawi.ke/fhir/CodeSystem/opd-review-outcome
+          code: revised
+          display: Diagnosis revised
+  # Answer only when the outcome is a revision. The revised diagnosis is written as a second
+  # confirmed Condition; the provisional one from consultation is left in place as history.
+  - linkId: revised-diagnosis
+    type: choice
+    text: Revised diagnosis
+    answerValueSet: https://emr.nawi.ke/fhir/ValueSet/opd-diagnosis
+    enableWhen:
+      - question: outcome
+        operator: "="
+        answerCoding:
+          system: https://emr.nawi.ke/fhir/CodeSystem/opd-review-outcome
+          code: revised
+  - linkId: review-notes
+    type: text
+    text: Review notes
+    required: true
+  # Definitive treatment. The commonest OPD shape is empiric treatment at consultation, labs
+  # to confirm, then the real prescription once the answer is known — so prescribing has to be
+  # available here as well as at consultation, not moved from it. Leaving it out meant a
+  # clinician who saw a positive result had to prescribe blind earlier or not at all.
+  #
+  # Prescribing here sends the patient back to pharmacy before the till: see the Mapping,
+  # which reopens the pharmacy work item and holds billing.
+  - linkId: prescription
+    type: group
+    text: Prescription
+    repeats: true
+    item:
+      - linkId: medication
+        type: choice
+        text: Medication
+        answerValueSet: https://emr.nawi.ke/fhir/ValueSet/opd-medication
+      - linkId: dosage
+        type: string
+        text: Dosage instructions
+      - linkId: duration
+        type: integer
+        text: Duration (days)
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+url: https://emr.nawi.ke/fhir/Questionnaire/opd-review

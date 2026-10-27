@@ -1,0 +1,204 @@
+id: opd-billing
+resourceType: Mapping
+type: FHIRPath
+body:
+  "{% assign %}":
+    - patientReference: "{{ 'Patient/' + %Patient.id }}"
+    - encounterReference: "{{ 'Encounter/' + %Encounter.id }}"
+    - authorReference: "{{ %Author.resourceType + '/' + %Author.id }}"
+    - recordedAt: "{{ %QuestionnaireResponse.authored }}"
+    - visitKey: "{{ %Encounter.identifier.where(system = 'https://emr.nawi.ke/fhir/sid/opd-visit').value.first() }}"
+    - paymentMethod: "{{ %QuestionnaireResponse.answers('payment-method') }}"
+    - amountPaid: "{{ %QuestionnaireResponse.answers('amount-paid') }}"
+    - paymentReference: "{{ %QuestionnaireResponse.answers('payment-reference') }}"
+    - discountReason: "{{ %QuestionnaireResponse.answers('discount-reason') }}"
+    # Every kind of invoice line, in one collection. The four groups share a child naming
+    # convention (`<prefix>-code`, `-quantity`, `-unit-price`, `-list-price`,
+    # `-price-definition`), so one loop prices them all and a new kind of line costs nothing
+    # here. Rows without a code — an "Other" row the cashier added and left blank — are skipped.
+    - lineRows: "{[ %QuestionnaireResponse.repeat(item).where(linkId='consultation-line' or linkId='lab-line' or linkId='medication-line' or linkId='other-line').where(item.where(linkId.endsWith('-code')).answer.exists()) ]}"
+    # Totals are recomputed from the rows. The form shows the same numbers live, but those
+    # fields are a display, not the source of truth.
+    - lineTotals: "{[ %lineRows.select((item.where(linkId.endsWith('-quantity')).answer.valueInteger.first() * item.where(linkId.endsWith('-unit-price')).answer.valueDecimal.first()).round(2)) ]}"
+    - subtotal: "{{ iif(%lineTotals.exists(), %lineTotals.sum().round(2), 0) }}"
+    - discount: "{{ iif(%QuestionnaireResponse.answers('discount').exists(), %QuestionnaireResponse.answers('discount'), 0) }}"
+    - totalDue: "{{ (%subtotal - %discount).round(2) }}"
+  resourceType: Bundle
+  type: transaction
+  entry:
+    # One ChargeItem per priced row. The same service can legitimately appear twice on one
+    # invoice (two medication lines, say), so these key on row position rather than on the
+    # code. `definitionCanonical` points at the price-list entry the amount came from, which is
+    # what makes the invoice auditable; `overrideReason` records any cashier adjustment.
+    - "{% for index, row in %lineRows %}":
+        "{% assign %}":
+          - code: "{{ %row.item.where(linkId.endsWith('-code')).answer.valueCoding.first() }}"
+          - quantity: "{{ %row.item.where(linkId.endsWith('-quantity')).answer.valueInteger.first() }}"
+          - unitPrice: "{{ %row.item.where(linkId.endsWith('-unit-price')).answer.valueDecimal.first() }}"
+          - listPrice: "{{ %row.item.where(linkId.endsWith('-list-price')).answer.valueDecimal.first() }}"
+          - definition: "{{ %row.item.where(linkId.endsWith('-price-definition')).answer.valueString.first() }}"
+          - lineTotal: "{{ (%quantity * %unitPrice).round(2) }}"
+        fullUrl: "{{ 'urn:uuid:opd-charge-' & %index.toString() }}"
+        request:
+          url: /ChargeItem
+          method: POST
+          ifNoneExist: "identifier=https://emr.nawi.ke/fhir/sid/opd-charge|{{ %visitKey }}-{{ %index.toString() }}"
+        resource:
+          resourceType: ChargeItem
+          identifier:
+            - system: https://emr.nawi.ke/fhir/sid/opd-charge
+              value: "{{ %visitKey }}-{{ %index.toString() }}"
+          status: billed
+          definitionCanonical:
+            - "{% if %definition.exists() %}": "{{ %definition }}"
+          code:
+            coding:
+              - "{{ %code }}"
+          subject:
+            reference: "{{ %patientReference }}"
+          context:
+            reference: "{{ %encounterReference }}"
+          occurrenceDateTime: "{{ %recordedAt }}"
+          enteredDate: "{{ %recordedAt }}"
+          enterer:
+            reference: "{{ %authorReference }}"
+          quantity:
+            value: "{{ %quantity }}"
+          priceOverride:
+            "{% if %lineTotal.exists() %}":
+              value: "{{ %lineTotal }}"
+              currency: KES
+          overrideReason:
+            "{% if %unitPrice.exists() and (%listPrice.empty() or %unitPrice != %listPrice) %}": "{{ iif(%listPrice.exists(), 'Unit price adjusted by cashier; list price ' + %listPrice.toString() + ' KES', 'No list price for this item; amount entered by cashier') }}"
+
+    - fullUrl: "urn:uuid:opd-invoice"
+      request:
+        url: /Invoice
+        method: POST
+        ifNoneExist: "identifier=https://emr.nawi.ke/fhir/sid/opd-invoice|{{ %visitKey }}"
+      resource:
+        resourceType: Invoice
+        identifier:
+          - system: https://emr.nawi.ke/fhir/sid/opd-invoice
+            value: "{{ %visitKey }}"
+        # `balanced` means settled in full; a part-payment leaves it `issued` with the balance
+        # visible as totalNet minus the PaymentReconciliation amount.
+        status: "{{ iif(%amountPaid >= %totalDue, 'balanced', 'issued') }}"
+        subject:
+          reference: "{{ %patientReference }}"
+        recipient:
+          reference: "{{ %patientReference }}"
+        date: "{{ %recordedAt }}"
+        participant:
+          - actor:
+              reference: "{{ %authorReference }}"
+        lineItem:
+          - "{% for index, row in %lineRows %}":
+              "{% assign %}":
+                - quantity: "{{ %row.item.where(linkId.endsWith('-quantity')).answer.valueInteger.first() }}"
+                - unitPrice: "{{ %row.item.where(linkId.endsWith('-unit-price')).answer.valueDecimal.first() }}"
+                - lineTotal: "{{ (%quantity * %unitPrice).round(2) }}"
+              sequence: "{{ %index + 1 }}"
+              chargeItemReference:
+                reference: "{{ 'urn:uuid:opd-charge-' & %index.toString() }}"
+              priceComponent:
+                - "{% if %lineTotal.exists() %}":
+                    type: base
+                    amount:
+                      value: "{{ %lineTotal }}"
+                      currency: KES
+        totalPriceComponent:
+          - type: base
+            code:
+              text: Subtotal
+            amount:
+              value: "{{ %subtotal }}"
+              currency: KES
+          - "{% if %discount > 0 %}":
+              type: discount
+              code:
+                text: "{{ iif(%discountReason.exists(), %discountReason, 'Discount') }}"
+              amount:
+                value: "{{ %discount }}"
+                currency: KES
+        # Gross is the list of charges; net is what the patient owes after any discount.
+        totalGross:
+          value: "{{ %subtotal }}"
+          currency: KES
+        totalNet:
+          value: "{{ %totalDue }}"
+          currency: KES
+
+    # Recording the payment, not reconciling it. Nothing here talks to M-Pesa or an insurer;
+    # the cashier asserts what was received. See docs/opd-billing-workflow.md.
+    - request:
+        url: /PaymentReconciliation
+        method: POST
+        ifNoneExist: "identifier=https://emr.nawi.ke/fhir/sid/opd-payment|{{ %visitKey }}"
+      resource:
+        resourceType: PaymentReconciliation
+        identifier:
+          - system: https://emr.nawi.ke/fhir/sid/opd-payment
+            value: "{{ %visitKey }}"
+        status: active
+        created: "{{ %recordedAt }}"
+        paymentDate: "{{ %recordedAt }}"
+        paymentAmount:
+          value: "{{ %amountPaid }}"
+          currency: KES
+        paymentIdentifier:
+          system: https://emr.nawi.ke/fhir/sid/opd-payment-reference
+          value: "{{ %paymentReference }}"
+        detail:
+          - type:
+              coding:
+                - "{{ %paymentMethod }}"
+            request:
+              reference: "urn:uuid:opd-invoice"
+            date: "{{ %recordedAt }}"
+            amount:
+              value: "{{ %amountPaid }}"
+              currency: KES
+
+    # Billing is the only station that closes the visit.
+    - request:
+        method: PATCH
+        url: "{{ %encounterReference }}"
+      resource:
+        resourceType: Parameters
+        parameter:
+          - name: operation
+            part:
+              - name: type
+                valueCode: replace
+              - name: path
+                valueString: Encounter.status
+              - name: value
+                valueCode: finished
+
+    - request:
+        method: PATCH
+        url: "Task?identifier=https://emr.nawi.ke/fhir/sid/opd-task|{{ %visitKey }}-billing"
+      resource:
+        resourceType: Parameters
+        parameter:
+          - name: operation
+            part:
+              - name: type
+                valueCode: replace
+              - name: path
+                valueString: Task.status
+              - name: value
+                valueCode: completed
+          - name: operation
+            part:
+              - name: type
+                valueCode: replace
+              - name: path
+                valueString: Task.businessStatus
+              - name: value
+                valueCodeableConcept:
+                  coding:
+                    - system: https://emr.nawi.ke/fhir/CodeSystem/opd-workflow-status
+                      code: completed
+                      display: Completed

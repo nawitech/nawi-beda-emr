@@ -128,7 +128,16 @@ export async function smileUserInfoSharedState(): Promise<RemoteDataResult<User>
         roleName = Role.Administrator;
     } else {
         const keycloakRoles = decoded.realm_access?.roles ?? [];
-        roleName = STAFF_ROLES.find((r) => keycloakRoles.includes(r)) ?? Role.Clinician;
+        const matched = STAFF_ROLES.find((r) => keycloakRoles.includes(r));
+        if (!matched) {
+            // Fail closed. This used to default to `clinician`, which handed a full
+            // consultation surface to any staff account whose realm roles were misconfigured.
+            return failure({
+                error: 'no_recognised_role',
+                error_description: `Your account has no OPD role assigned. Expected one of: ${STAFF_ROLES.join(', ')}.`,
+            });
+        }
+        roleName = matched;
     }
 
     const roleLinks =

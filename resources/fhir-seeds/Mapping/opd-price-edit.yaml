@@ -1,0 +1,37 @@
+id: opd-price-edit
+resourceType: Mapping
+type: FHIRPath
+body:
+  "{% assign %}":
+    - definitionId: "{{ %QuestionnaireResponse.answers('definition-id') }}"
+    - price: "{{ %QuestionnaireResponse.answers('price') }}"
+    - status: "{{ %QuestionnaireResponse.answers('status').code }}"
+    - changedAt: "{{ %QuestionnaireResponse.authored }}"
+  resourceType: Bundle
+  type: transaction
+  entry:
+    # A full PUT rebuilt from the launched definition rather than a PATCH: HAPI's FHIRPath
+    # PATCH needs an indexed path into propertyGroup/priceComponent, and rebuilding the handful
+    # of fields the seed carries is simpler to read and to verify.
+    - request:
+        method: PUT
+        url: "/ChargeItemDefinition/{{ %definitionId }}"
+      resource:
+        resourceType: ChargeItemDefinition
+        id: "{{ %definitionId }}"
+        url: "{{ %ChargeItemDefinition.url }}"
+        title: "{{ %ChargeItemDefinition.title }}"
+        description: "{{ %ChargeItemDefinition.description }}"
+        publisher: "{{ %ChargeItemDefinition.publisher }}"
+        status: "{{ %status }}"
+        experimental: false
+        date: "{{ %changedAt }}"
+        code: "{{ %ChargeItemDefinition.code }}"
+        propertyGroup:
+          - priceComponent:
+              - type: base
+                code:
+                  text: Unit price
+                amount:
+                  value: "{{ %price }}"
+                  currency: KES

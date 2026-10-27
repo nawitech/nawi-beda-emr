@@ -1,0 +1,24 @@
+id: opd-price-drug-ferrous-sulphate
+resourceType: ChargeItemDefinition
+url: https://emr.nawi.ke/fhir/ChargeItemDefinition/opd-price-drug-ferrous-sulphate
+title: Ferrous sulphate
+status: active
+experimental: false
+publisher: Nawi EMR
+description: >-
+  Unit price (per unit dispensed) for Ferrous sulphate. Placeholder tariff — NOT REVIEWED against the
+  clinic's actual price list. Edit from the administrator's Price list page or in this seed;
+  see docs/opd-billing-workflow.md.
+code:
+  coding:
+    - system: https://emr.nawi.ke/fhir/CodeSystem/opd-medication
+      code: ferrous-sulphate
+      display: Ferrous sulphate
+propertyGroup:
+  - priceComponent:
+      - type: base
+        code:
+          text: Unit price
+        amount:
+          value: 5
+          currency: KES

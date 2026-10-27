@@ -1,0 +1,57 @@
+id: opd-dispense
+resourceType: Questionnaire
+name: opd-dispense
+title: Dispense medication
+status: active
+description: >-
+  Pharmacist's dispensing record. Launched from the pharmacy queue, which supplies Patient and
+  Encounter context. Closes the prescriptions written at consultation and the pharmacy work
+  item.
+subjectType:
+  - Encounter
+launchContext:
+  - name:
+      code: Patient
+    type:
+      - Patient
+  - name:
+      code: Encounter
+    type:
+      - Encounter
+  - name:
+      code: Author
+    type:
+      - Practitioner
+      - Organization
+mapping:
+  - valueReference:
+      reference: Mapping/opd-dispense
+item:
+  # One row per item dispensed. Options are the prescriptions written for THIS encounter,
+  # so the pharmacist cannot dispense something nobody prescribed.
+  - linkId: dispense
+    type: group
+    text: Dispensed item
+    repeats: true
+    item:
+      - linkId: dispense-prescription
+        type: reference
+        text: Prescription
+        referenceResource:
+          - MedicationRequest
+        answerExpression:
+          language: application/x-fhir-query
+          expression: "MedicationRequest?encounter={{ %Encounter.id }}&status=active"
+        choiceColumn:
+          - forDisplay: true
+            path: "medicationCodeableConcept.coding.first().display"
+      - linkId: dispense-quantity
+        type: integer
+        text: Quantity
+  - linkId: counselling-given
+    type: boolean
+    text: Patient counselled on use
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+url: https://emr.nawi.ke/fhir/Questionnaire/opd-dispense

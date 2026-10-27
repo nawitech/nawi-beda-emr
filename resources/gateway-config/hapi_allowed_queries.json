@@ -3,7 +3,9 @@
     {
       "_comment": "HAPI pagination — used by all paginated FHIR queries",
       "path": "",
-      "queryParams": { "_getpages": "ANY_VALUE" },
+      "queryParams": {
+        "_getpages": "ANY_VALUE"
+      },
       "allowExtraParams": true,
       "allParamsRequired": true
     },
@@ -17,7 +19,9 @@
     {
       "_comment": "Practitioner — search by _id",
       "path": "Practitioner",
-      "queryParams": { "_id": "ANY_VALUE" },
+      "queryParams": {
+        "_id": "ANY_VALUE"
+      },
       "allowExtraParams": true,
       "allParamsRequired": true
     },
@@ -31,7 +35,9 @@
     {
       "_comment": "PractitionerRole — search by practitioner (fetchUserRoleDetails)",
       "path": "PractitionerRole",
-      "queryParams": { "practitioner": "ANY_VALUE" },
+      "queryParams": {
+        "practitioner": "ANY_VALUE"
+      },
       "allowExtraParams": true,
       "allParamsRequired": true
     },
@@ -87,7 +93,9 @@
     {
       "_comment": "Patient — listing",
       "path": "Patient",
-      "queryParams": { "_sort": "ANY_VALUE" },
+      "queryParams": {
+        "_sort": "ANY_VALUE"
+      },
       "allowExtraParams": true,
       "allParamsRequired": true
     },
@@ -232,6 +240,209 @@
       "allParamsRequired": false
     },
     {
+      "_comment": "ValueSet — $expand at type level (answerValueSet dropdowns)",
+      "path": "ValueSet/$expand",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "ValueSet — GET by ID, and $expand/$validate-code on an instance",
+      "path": "ValueSet/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "ValueSet — instance-level $expand",
+      "path": "ValueSet/ANY_VALUE/$expand",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "ValueSet — instance-level $validate-code",
+      "path": "ValueSet/ANY_VALUE/$validate-code",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "ValueSet — search",
+      "path": "ValueSet",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "CodeSystem — $lookup (display resolution for a picked Coding)",
+      "path": "CodeSystem/$lookup",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "CodeSystem — $validate-code",
+      "path": "CodeSystem/$validate-code",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "CodeSystem — GET by ID",
+      "path": "CodeSystem/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "CodeSystem — search",
+      "path": "CodeSystem",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Task — GET by ID",
+      "path": "Task/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Task — search (workflow queues and transition verification)",
+      "path": "Task",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Encounter — GET by ID",
+      "path": "Encounter/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Encounter — search (OPD visits: EncounterResourceList, queue _include, station transitions)",
+      "path": "Encounter",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "ServiceRequest — GET by ID",
+      "path": "ServiceRequest/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "ServiceRequest — search (laboratory orders written at consultation, closed by the lab)",
+      "path": "ServiceRequest",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "DiagnosticReport — GET by ID",
+      "path": "DiagnosticReport/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "DiagnosticReport — search (laboratory report produced by opd-lab-results)",
+      "path": "DiagnosticReport",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Specimen — GET by ID",
+      "path": "Specimen/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Specimen — search (specimen recorded by opd-lab-results)",
+      "path": "Specimen",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "MedicationDispense — GET by ID",
+      "path": "MedicationDispense/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "MedicationDispense — search (dispensing recorded by opd-dispense)",
+      "path": "MedicationDispense",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Invoice — GET by ID",
+      "path": "Invoice/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Invoice — search (InvoiceResourceList and opd-billing)",
+      "path": "Invoice",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "ChargeItem — GET by ID",
+      "path": "ChargeItem/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "ChargeItem — search (billable items behind the OPD invoice)",
+      "path": "ChargeItem",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "ChargeItemDefinition — GET by ID",
+      "path": "ChargeItemDefinition/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "ChargeItemDefinition — search (price list page; opd-billing prefetches it in the browser too)",
+      "path": "ChargeItemDefinition",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "PaymentReconciliation — GET by ID",
+      "path": "PaymentReconciliation/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "PaymentReconciliation — search (payment recorded by opd-billing)",
+      "path": "PaymentReconciliation",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
       "_comment": "Procedure — GET by ID",
       "path": "Procedure/ANY_VALUE",
       "queryParams": {},
@@ -255,6 +466,104 @@
     {
       "_comment": "RelatedPerson — search",
       "path": "RelatedPerson",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Medication — GET by ID (drug catalogue)",
+      "path": "Medication/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Medication — search (drug catalogue)",
+      "path": "Medication",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "CarePlan — GET by ID (treatment plans)",
+      "path": "CarePlan/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "CarePlan — search (treatment plans)",
+      "path": "CarePlan",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Coverage — GET by ID (patient insurance)",
+      "path": "Coverage/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Coverage — search (patient insurance)",
+      "path": "Coverage",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Claim — GET by ID (insurance claim submission)",
+      "path": "Claim/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Claim — search (insurance claim submission)",
+      "path": "Claim",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Flag — GET by ID (patient-level alerts)",
+      "path": "Flag/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "Flag — search (patient-level alerts)",
+      "path": "Flag",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "DocumentReference — GET by ID (clinical notes and attachments)",
+      "path": "DocumentReference/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "DocumentReference — search (clinical notes and attachments)",
+      "path": "DocumentReference",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "ClinicalImpression — GET by ID (clinician review of results)",
+      "path": "ClinicalImpression/ANY_VALUE",
+      "queryParams": {},
+      "allowExtraParams": true,
+      "allParamsRequired": false
+    },
+    {
+      "_comment": "ClinicalImpression — search (clinician review of results)",
+      "path": "ClinicalImpression",
       "queryParams": {},
       "allowExtraParams": true,
       "allParamsRequired": false

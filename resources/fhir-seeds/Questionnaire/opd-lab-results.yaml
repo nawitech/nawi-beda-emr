@@ -1,0 +1,91 @@
+id: opd-lab-results
+resourceType: Questionnaire
+name: opd-lab-results
+title: Laboratory results
+status: active
+description: >-
+  Lab technician's record of sample collection and results for a visit. Launched from the lab
+  queue, which supplies Patient and Encounter context. Completes the ordered ServiceRequests
+  and the lab work item.
+subjectType:
+  - Encounter
+launchContext:
+  - name:
+      code: Patient
+    type:
+      - Patient
+  - name:
+      code: Encounter
+    type:
+      - Encounter
+  - name:
+      code: Author
+    type:
+      - Practitioner
+      - Organization
+mapping:
+  - valueReference:
+      reference: Mapping/opd-lab-results
+item:
+  - linkId: specimen-type
+    type: choice
+    text: Specimen collected
+    required: true
+    answerOption:
+      - valueCoding:
+          system: http://terminology.hl7.org/CodeSystem/v2-0487
+          code: BLD
+          display: Blood
+      - valueCoding:
+          system: http://terminology.hl7.org/CodeSystem/v2-0487
+          code: UR
+          display: Urine
+      - valueCoding:
+          system: http://terminology.hl7.org/CodeSystem/v2-0487
+          code: STL
+          display: Stool
+      - valueCoding:
+          system: http://terminology.hl7.org/CodeSystem/v2-0487
+          code: SWA
+          display: Swab
+  # One row per result. Options are the orders actually placed for THIS encounter, so a
+  # technician cannot file a result against a test nobody requested, and picking the order
+  # means the mapping closes exactly that request.
+  - linkId: result
+    type: group
+    text: Result
+    repeats: true
+    item:
+      - linkId: result-test
+        type: reference
+        text: Test
+        referenceResource:
+          - ServiceRequest
+        answerExpression:
+          language: application/x-fhir-query
+          expression: "ServiceRequest?encounter={{ %Encounter.id }}&status=active"
+        choiceColumn:
+          - forDisplay: true
+            path: "code.coding.first().display"
+      - linkId: result-value
+        type: string
+        text: Result
+      - linkId: result-interpretation
+        type: choice
+        text: Interpretation
+        answerOption:
+          - valueCoding:
+              system: http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation
+              code: N
+              display: Normal
+          - valueCoding:
+              system: http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation
+              code: A
+              display: Abnormal
+  - linkId: conclusion
+    type: text
+    text: Conclusion
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+url: https://emr.nawi.ke/fhir/Questionnaire/opd-lab-results

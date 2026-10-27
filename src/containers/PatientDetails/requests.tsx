@@ -37,7 +37,7 @@ export function PatientServiceRequest({ patient }: { patient: Patient }) {
                 {
                     title: 'Identifier',
                     key: 'identifier',
-                    render: (_text: any, { resource }) => (
+                    render: (_text: unknown, { resource }) => (
                         <ul>{resource.identifier?.map((identitifier) => (
                             <li key={identitifier.value}>{renderIdentifier(identitifier)}</li>))}
                         </ul>
@@ -46,17 +46,17 @@ export function PatientServiceRequest({ patient }: { patient: Patient }) {
                 {
                     title: 'Category',
                     key: 'category',
-                    render: (_text: any, { resource }) => getCategory(resource) ?? 'N/A',
+                    render: (_text: unknown, { resource }) => getCategory(resource) ?? 'N/A',
                 },
                 {
                     title: 'Service',
                     key: 'service',
-                    render: (_text: any, { resource }) => resource.code?.text ?? 'N/A',
+                    render: (_text: unknown, { resource }) => resource.code?.text ?? 'N/A',
                 },
                 {
                     title: 'Status',
                     key: 'status',
-                    render: (_text: any, { resource, bundle }) => {
+                    render: (_text: unknown, { resource, bundle }) => {
                         const context = { ServiceRequest: resource, Bundle: bundle };
                         const status = getStatus(resource, context)?.toString() ?? 'N/A';
                         const businessStatus = getBusinessStatus(resource, context)?.toString() ?? 'N/A';

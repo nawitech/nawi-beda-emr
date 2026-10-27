@@ -5,3 +5,4 @@ android
 src/services/initialize.ts
 htmlcov
 contrib/
+src/locale/*/messages.ts

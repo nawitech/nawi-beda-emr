@@ -1,5 +1,6 @@
-import { compileAsFirst } from "@beda.software/emr/dist/utils/fhirpath";
 import { Identifier } from "fhir/r4b";
+
+import { compileAsFirst } from "@beda.software/emr/dist/utils/fhirpath";
 
 const getAbsentReason = compileAsFirst<Identifier | undefined, string>(
     "extension('http://hl7.org/fhir/StructureDefinition/data-absent-reason').value")

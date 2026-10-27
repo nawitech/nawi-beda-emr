@@ -9,6 +9,9 @@ hapi:
     validation:
       enabled: true
       requests_enabled: false
+    # ValueSet/$expand runs on the Hibernate Search index; without this block every
+    # answerValueSet dropdown is empty and HAPI logs HSEARCH800001. See docs/opd-terminology.md.
+    fulltext_search_enabled: true
 
 spring:
   datasource:
@@ -20,3 +23,10 @@ spring:
     properties:
       hibernate:
         dialect: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgresDialect
+      # Lucene index inside the container; it is rebuilt on start, which is fine at this size.
+      hibernate.search.enabled: true
+      hibernate.search.backend.type: lucene
+      hibernate.search.backend.analysis.configurer: ca.uhn.fhir.jpa.search.HapiHSearchAnalysisConfigurers$HapiLuceneAnalysisConfigurer
+      hibernate.search.backend.lucene_version: lucene_current
+      hibernate.search.backend.directory.type: local-filesystem
+      hibernate.search.backend.directory.root: /tmp/lucenefiles

@@ -2,6 +2,8 @@
 
 A customized clinical EMR built on [Beda EMR](https://github.com/beda-software/fhir-emr), using HAPI FHIR + Keycloak + fhir-gateway as the backend stack.
 
+**Start with [docs/OVERVIEW.md](docs/OVERVIEW.md)** — how the system works and how its concepts relate: the questionnaire-driven workflow pattern, the seed files, the seven OPD stations, terminology, authorization, and the caveats worth knowing before you change anything.
+
 ## Architecture
 
 | Service         | Port | Description               |
@@ -13,6 +15,8 @@ A customized clinical EMR built on [Beda EMR](https://github.com/beda-software/f
 | Frontend (dev)  | 3000 | Vite dev server           |
 | Frontend (prod) | 5000 | Built frontend            |
 | pgweb _(dev)_   | 8085 | PostgreSQL web UI         |
+
+These are the development ports. In production nothing but Caddy (80/443) is published; it routes `/fhir`, `/kc` and `/sdc` to the gateway, Keycloak and fhir-sdc behind one public URL. See **[docs/deployment.md](docs/deployment.md)** for deploying to a VPS.
 
 ## Local dev bootstrap
 
@@ -33,7 +37,7 @@ git submodule update --init
 ### 2. Configure environment
 
 ```sh
-cp .env.tpl .env
+cp .env.template .env
 ```
 
 Edit `.env` and set:
@@ -41,7 +45,10 @@ Edit `.env` and set:
 ```
 POSTGRES_KEYCLOAK_PASSWORD=<choose a password>
 KC_BOOTSTRAP_ADMIN_PASSWORD=<choose a password>
+POSTGRES_HAPI_PASSWORD=<choose a password>
 ```
+
+The `EMR_*` variables in the template are for production and can stay commented out locally.
 
 ### 3. Start backend services
 
@@ -68,6 +75,10 @@ Other Makefile targets:
 | `make up-dev`      | Same as `up`, plus dev-only services                |
 | `make stop-dev`    | Stop the dev stack                                  |
 | `make restart-dev` | Stop, pull, build, and restart the dev stack        |
+| `make up-prod`     | Production overlay: build frontend, start behind Caddy (`docs/deployment.md`) |
+| `make backup`      | Dump both Postgres databases to `backups/`          |
+
+The `beda-frontend` container sits behind a Compose profile and is not started by either dev target; local development uses Vite. `docker compose --profile frontend up -d beda-frontend` builds and runs it if you need the production bundle locally.
 
 ### 4. Install frontend dependencies
 
@@ -98,7 +109,9 @@ Open http://localhost:3000 and select **OHS FHIR Gateway (HAPI + Keycloak) - Loc
 | Cashier        | `cashier`        | cashier@nawi-emr.com        | `password` | `Practitioner/prac-1005` |
 | Patient        | `patient`        | patient@nawi-emr.com        | `password` | `Patient/pat-1001`       |
 
-> **Reseeding after seed changes:** Keycloak persists realm data in a Docker volume. To force a clean reimport of the realm and all seed users, run:
+Passwords are `password` locally; the realm seed takes them from `EMR_SEED_PASSWORD`, which production must set.
+
+> **Reseeding after seed changes:** FHIR seeds are re-uploaded on every `docker compose up`, except create-only types (the price list, and the demo identities and patient `List`), which are seeded once and then left to the application; see `docs/developer-guide.md` §7.0. Keycloak persists realm data in a Docker volume. To force a clean reimport of the realm and all seed users, run:
 >
 > ```sh
 > docker compose down -v
@@ -107,7 +120,7 @@ Open http://localhost:3000 and select **OHS FHIR Gateway (HAPI + Keycloak) - Loc
 
 ## Role-based navigation
 
-Each Keycloak user is assigned exactly one role. After login, `matchCurrentUserRole` (in `src/utils/role.ts`) reads the first entry of `user.role[]` and dispatches to the matching branch.
+Each Keycloak user is assigned exactly one role. After login, `matchCurrentUserRole` (in `src/utils/role.ts`) reads the first entry of `user.role[]` and dispatches to the matching branch. Resolution **fails closed**: an unrecognised role throws `UnknownRoleError`, so no application route is mounted at all rather than falling through to a page the user may not be entitled to.
 
 Two files together control what a user can see and visit:
 
@@ -120,37 +133,56 @@ The default redirect after login is the first path in the role's `menuLayout` ar
 
 ### Menu and route matrix
 
+Every staff role lands on its own station queue — it is the first menu entry, so it is also
+the post-login redirect. The patient list comes second, because every station occasionally
+needs to look a patient up, but only reception can open a visit from it.
+
 ```
 Receptionist
 ├── Patients          /patients
-└── Scheduling        /scheduling
+└── Visits            /encounters
 
 Triage Nurse
+├── Triage            /queue/triage
 └── Patients          /patients
 
 Clinician
-└── Patients          /patients
+├── Consultations     /queue/consultations     (consultation + post-lab review)
+├── Patients          /patients
+└── Visits            /encounters
 
 Lab Technician
+├── Laboratory        /queue/laboratory
 └── Patients          /patients
 
 Pharmacist
+├── Pharmacy          /queue/pharmacy
 └── Patients          /patients
 
 Cashier
-└── Patients          /patients
+├── Billing           /queue/billing
+├── Patients          /patients
+├── Invoices          /invoices
+└── Price list        /price-list              (read-only)
 
 Administrator
 ├── Patients          /patients
-├── Scheduling        /scheduling
-├── Organizations     /organizations
-└── Locations         /locations
+├── Visits            /encounters
+├── Invoices          /invoices
+├── Price list        /price-list              (edit prices)
+├── Services          /healthcare-services
+└── Organizations     /organizations
 
 Patient
-└── Patient (own record)  /patients/:id/*
+└── Patient (own record)  /patients/:id
 ```
 
 All roles with `/patients` also get sub-route `/patients/:id/*`.
+
+Each queue is a thin wrapper around the shared `OpdQueue` component, parameterised by the
+`Task.code` it lists and the questionnaire its action launches. The clinician's queue lists
+two station codes — `consultation` and `review` — in one worklist, and picks the form per
+row from that row's own Task code.
 
 ### Changing menu items for a role
 
@@ -166,7 +198,9 @@ Edit `src/containers/App/layout.tsx`. Add, remove, or reorder entries in the arr
 
 Edit the matching `Authenticated<Role>Routes` component in `src/containers/App/routes.tsx`. Add or remove `<Route>` elements to match what you set in the menu layout.
 
-Keep the menu items and routes in sync: a menu entry without a matching route silently redirects to the default page; a route without a menu entry is unreachable via the sidebar but still accessible by direct URL.
+Keep the menu items and routes in sync: a menu entry without a matching route silently redirects to the default page, which looks like a broken link.
+
+Routes are gated separately from the menu on purpose — hiding a menu entry is not gating. A triage nurse who types `/queue/billing` must not land on the billing form either, so routes a role has no business on are simply never mounted and `*` redirects to that role's first menu entry. This is a usability and data-quality measure, **not a security control**: every check runs in the browser and the user's token is unchanged by it.
 
 ### Adding a new role
 

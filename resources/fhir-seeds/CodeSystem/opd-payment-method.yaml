@@ -1,0 +1,24 @@
+id: opd-payment-method
+resourceType: CodeSystem
+url: https://emr.nawi.ke/fhir/CodeSystem/opd-payment-method
+name: NawiOpdPaymentMethod
+title: Nawi OPD payment methods
+status: active
+experimental: false
+content: complete
+caseSensitive: true
+description: >-
+  How a patient settled the bill. Recording the method is all V1 does — none of these are
+  integrated. M-Pesa in particular is recorded as a claim by the cashier, not reconciled
+  against Safaricom. See docs/opd-billing-workflow.md for the extension point.
+concept:
+  - code: cash
+    display: Cash
+  - code: mpesa
+    display: M-Pesa
+  - code: card
+    display: Card
+  - code: shif
+    display: SHIF
+  - code: insurance
+    display: Private insurance

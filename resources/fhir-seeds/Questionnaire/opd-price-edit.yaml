@@ -1,0 +1,72 @@
+id: opd-price-edit
+resourceType: Questionnaire
+name: opd-price-edit
+title: Edit price
+status: active
+description: >-
+  Administrator's action on the price list. Changes the unit price or status of one
+  ChargeItemDefinition. Launched from the Price list page, which supplies the definition.
+subjectType:
+  - ChargeItemDefinition
+launchContext:
+  - name:
+      code: ChargeItemDefinition
+    type:
+      - ChargeItemDefinition
+mapping:
+  - valueReference:
+      reference: Mapping/opd-price-edit
+item:
+  - linkId: definition-id
+    type: string
+    text: Definition id
+    hidden: true
+    readOnly: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%ChargeItemDefinition.id"
+  - linkId: item
+    type: string
+    text: Item
+    readOnly: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%ChargeItemDefinition.title"
+  - linkId: code
+    type: string
+    text: Code
+    readOnly: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%ChargeItemDefinition.code.coding.first().code"
+  - linkId: price
+    type: decimal
+    text: Unit price
+    required: true
+    unit:
+      display: KES
+    initialExpression:
+      language: text/fhirpath
+      expression: "%ChargeItemDefinition.propertyGroup.priceComponent.where(type='base').amount.value.first()"
+  # `retired` takes the item off the billing form's price list without deleting its history:
+  # existing ChargeItems keep pointing at it through definitionCanonical.
+  - linkId: status
+    type: choice
+    text: Status
+    required: true
+    answerOption:
+      - valueCoding:
+          system: http://hl7.org/fhir/publication-status
+          code: active
+          display: Active
+      - valueCoding:
+          system: http://hl7.org/fhir/publication-status
+          code: retired
+          display: Retired
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Questionnaire.repeat(item).where(linkId='status').answerOption.valueCoding.where(code=%ChargeItemDefinition.status)"
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+url: https://emr.nawi.ke/fhir/Questionnaire/opd-price-edit

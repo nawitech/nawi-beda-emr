@@ -1,0 +1,36 @@
+id: opd-billable-service
+resourceType: CodeSystem
+url: https://emr.nawi.ke/fhir/CodeSystem/opd-billable-service
+name: NawiOpdBillableService
+title: Nawi OPD billable services
+status: active
+experimental: false
+content: complete
+caseSensitive: true
+description: >-
+  Services a cashier can put on an invoice line that are not a lab test or a medication —
+  those are billed from their own catalogues (opd-lab-test, opd-medication). Each priced
+  concept here has a matching ChargeItemDefinition seed under
+  resources/fhir-seeds/ChargeItemDefinition/ (opd-price-service-<code>), which is where the
+  amount lives. `laboratory`, `medication` and `other` are deliberately unpriced categories:
+  the cashier types the amount for those. See docs/opd-billing-workflow.md.
+  NOT REVIEWED against the clinic's actual tariff.
+concept:
+  - code: consultation
+    display: Consultation fee
+  - code: follow-up
+    display: Follow-up consultation fee
+  - code: registration
+    display: Registration fee
+  - code: laboratory
+    display: Laboratory test
+  - code: medication
+    display: Medication
+  - code: procedure
+    display: Procedure
+  - code: injection
+    display: Injection administration
+  - code: dressing
+    display: Wound dressing
+  - code: other
+    display: Other

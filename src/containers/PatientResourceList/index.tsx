@@ -7,8 +7,13 @@ import { ResourceListPage, navigationAction, questionnaireAction } from '@beda.s
 import { renderHumanName, formatHumanDate } from '@beda.software/emr/utils';
 
 import { renderIdentifier } from 'src/utils';
+import { hasRole, Role } from 'src/utils/role';
 
 export function PatientResourceList() {
+    // Reception owns the patient register and opens visits; an administrator keeps the same
+    // powers for back-office correction. Clinical stations look patients up, nothing more.
+    const canRegister = hasRole(Role.Receptionist, Role.Administrator);
+
     return (
         <ResourceListPage<Patient>
             headerTitle={t`Patients`}
@@ -101,14 +106,31 @@ export function PatientResourceList() {
             ]}
             getRecordActions={(record) => [
                 navigationAction('Open', `/patients/${record.resource.id}`),
-                questionnaireAction('Edit', 'patient-edit'),
+                // Opening a visit is reception's job, and it is the only OPD form launched
+                // from the patient list: every later station works from its own queue, where
+                // the row carries the Encounter its questionnaire needs. Triage in
+                // particular must not be launched here — it has no visit to attach to.
+                ...(canRegister
+                    ? [
+                          questionnaireAction(<Trans>Start visit</Trans>, 'opd-start-visit'),
+                          questionnaireAction(<Trans>Edit</Trans>, 'patient-edit'),
+                      ]
+                    : []),
             ]}
-            getHeaderActions={() => [
-                questionnaireAction(<Trans>Add patient</Trans>, 'patient-create', {
-                    icon: <PlusOutlined />,
-                }),
-            ]}
-            getBatchActions={() => [questionnaireAction(<Trans>Delete patients</Trans>, 'patients-batch-delete')]}
+            getHeaderActions={() =>
+                canRegister
+                    ? [
+                          questionnaireAction(<Trans>Add patient</Trans>, 'patient-create', {
+                              icon: <PlusOutlined />,
+                          }),
+                      ]
+                    : []
+            }
+            getBatchActions={() =>
+                hasRole(Role.Administrator)
+                    ? [questionnaireAction(<Trans>Delete patients</Trans>, 'patients-batch-delete')]
+                    : []
+            }
             getReportColumns={(bundle) => [
                 {
                     title: t`Number of Patients`,

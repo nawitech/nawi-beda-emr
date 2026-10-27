@@ -30,6 +30,8 @@ import {
 import { v4 as uuid4 } from 'uuid';
 
 import type { OverviewCard } from '@beda.software/emr/dist/containers/PatientDetails/PatientOverviewDynamic/components/StandardCard/types';
+import {generateUploadUrl, uploadFileWithXHR} from '@beda.software/emr/dist/services/file-upload'
+import { createFHIRResource } from '@beda.software/emr/services';
 import { formatHumanDateTime } from '@beda.software/emr/utils';
 import { extractBundleResources } from '@beda.software/fhir-react';
 import { isSuccess } from '@beda.software/remote-data';
@@ -59,8 +61,6 @@ import {
 } from './resourceDataGetters';
 import { AvailableResourceTypesStr, DashboardRT, MapResourceConfigType, UberListRT } from './types';
 
-import {generateUploadUrl, uploadFileWithXHR} from '@beda.software/emr/dist/services/file-upload'
-import { createFHIRResource } from '@beda.software/emr/services';
 
 export function getResourceConfigData<T extends Resource, RCM extends 'uberList' | 'dashboard'>(
     key: AvailableResourceTypesStr,
@@ -225,6 +225,8 @@ export function getResourceConfigData<T extends Resource, RCM extends 'uberList'
         },
     };
 
+    // Each key maps to its own config shape; the lookup cannot be narrowed generically.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return mapResourceConfigs[key] as any;
 }
 
@@ -430,7 +432,7 @@ async function saveBundle(composition: Composition, bundle: Bundle){
         uploadFileWithXHR(
             {
                 file: new Blob([JSON.stringify(bundle)], { type: 'application/json' }),
-                onProgress: () => {},
+                onProgress: () => undefined,
                 onSuccess: () => resolve(),
                 onError: (error) => reject(error),
             },
@@ -458,6 +460,8 @@ async function saveBundle(composition: Composition, bundle: Bundle){
     console.log(drResp);
 }
 
+// Walks arbitrary parsed FHIR JSON, so the shape genuinely is not known at this boundary.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function assign_urn_uuid_to_references(uuidStorage: Map<string, string>, obj: any): any {
     if (obj === null || obj === undefined) {
         return obj;

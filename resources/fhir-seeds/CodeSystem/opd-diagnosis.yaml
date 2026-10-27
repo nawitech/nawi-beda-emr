@@ -1,0 +1,80 @@
+id: opd-diagnosis
+resourceType: CodeSystem
+url: https://emr.nawi.ke/fhir/CodeSystem/opd-diagnosis
+name: NawiOpdDiagnosis
+title: Nawi OPD diagnosis
+status: active
+experimental: false
+content: complete
+caseSensitive: true
+description: >-
+  Locally authored diagnosis codes for outpatient consultations. ICD-10 is not licensed for
+  this deployment, so this stands in until a licensed or facility-supplied code system is
+  available. The concepts below are a starting set for a Kenyan private outpatient clinic and
+  HAVE NOT BEEN CLINICALLY REVIEWED — treat the list as a placeholder to be signed off by a
+  clinician before any live use.
+
+  Questionnaires must bind to ValueSet/opd-diagnosis by canonical URL and must never inline
+  these codes as answerOption, so that swapping in ICD-10 is a seed change and nothing else.
+  See docs/opd-implementation-plan.md section 10.
+concept:
+  - code: malaria-confirmed
+    display: Malaria, parasitologically confirmed
+  - code: malaria-clinical
+    display: Malaria, clinical diagnosis
+  - code: uri
+    display: Upper respiratory tract infection
+  - code: lrti
+    display: Lower respiratory tract infection
+  - code: pneumonia
+    display: Pneumonia
+  - code: tonsillitis
+    display: Tonsillitis
+  - code: otitis-media
+    display: Otitis media
+  - code: conjunctivitis
+    display: Conjunctivitis
+  - code: acute-gastroenteritis
+    display: Acute gastroenteritis
+  - code: amoebiasis
+    display: Amoebiasis
+  - code: intestinal-worms
+    display: Intestinal worm infestation
+  - code: typhoid
+    display: Typhoid fever
+  - code: peptic-ulcer
+    display: Peptic ulcer disease
+  - code: uti
+    display: Urinary tract infection
+  - code: pid
+    display: Pelvic inflammatory disease
+  - code: sti
+    display: Sexually transmitted infection
+  - code: hypertension
+    display: Hypertension
+  - code: diabetes-type-2
+    display: Type 2 diabetes mellitus
+  - code: asthma
+    display: Asthma
+  - code: allergic-rhinitis
+    display: Allergic rhinitis
+  - code: dermatitis
+    display: Dermatitis
+  - code: fungal-skin-infection
+    display: Fungal skin infection
+  - code: anaemia
+    display: Anaemia
+  - code: migraine
+    display: Migraine
+  - code: low-back-pain
+    display: Low back pain
+  - code: musculoskeletal-pain
+    display: Musculoskeletal pain
+  - code: tb-suspected
+    display: Tuberculosis, suspected
+  - code: hiv-care
+    display: HIV care and follow-up
+  - code: antenatal-visit
+    display: Antenatal care visit
+  - code: minor-injury
+    display: Minor injury or wound

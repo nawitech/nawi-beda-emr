@@ -33,10 +33,22 @@ item:
           code: female
           system: http://hl7.org/fhir/administrative-gender
           display: Female
+  # Shown only for adults. Kenyan national ID is issued at 18, so asking a child's guardian
+  # for one is a dead end.
+  #
+  # `required` is deliberately false rather than true. Beda builds its validation schema from
+  # the whole questionnaire, not from the enabled items, so a hidden `required: true` field
+  # still blocks submission — a child could never be registered. See docs/developer-guide.md,
+  # "Conditional logic". Hard-requiring it for adults needs a custom yup test.
   - linkId: national-id
     type: string
     text: National ID
-    required: true
+    required: false
+    enableWhenExpression:
+      language: text/fhirpath
+      expression: >-
+        %resource.repeat(item).where(linkId='birth-date').answer.valueDate.exists() and
+        %resource.repeat(item).where(linkId='birth-date').answer.valueDate <= today() - 18 years
   - linkId: mobile
     type: string
     text: Phone number
@@ -59,6 +71,32 @@ item:
   - linkId: country
     type: string
     text: Country
+  - linkId: insurance-group
+    type: group
+    text: Insurance
+    item:
+      - linkId: insurance-scheme
+        type: choice
+        text: Scheme
+        answerOption:
+          - valueCoding:
+              system: https://emr.nawi.ke/fhir/CodeSystem/opd-coverage-type
+              code: shif
+              display: SHIF (Social Health Insurance Fund)
+          - valueCoding:
+              system: https://emr.nawi.ke/fhir/CodeSystem/opd-coverage-type
+              code: private
+              display: Private insurer
+          - valueCoding:
+              system: https://emr.nawi.ke/fhir/CodeSystem/opd-coverage-type
+              code: employer
+              display: Employer scheme
+      - linkId: insurance-payer
+        type: string
+        text: Insurer / scheme name
+      - linkId: insurance-member-number
+        type: string
+        text: Member number
   - linkId: next-of-kin-group
     type: group
     text: Next of kin

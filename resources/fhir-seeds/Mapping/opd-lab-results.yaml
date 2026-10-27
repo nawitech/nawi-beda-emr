@@ -1,0 +1,194 @@
+id: opd-lab-results
+resourceType: Mapping
+type: FHIRPath
+body:
+  "{% assign %}":
+    - patientReference: "{{ 'Patient/' + %Patient.id }}"
+    - encounterReference: "{{ 'Encounter/' + %Encounter.id }}"
+    - authorReference: "{{ %Author.resourceType + '/' + %Author.id }}"
+    - recordedAt: "{{ %QuestionnaireResponse.authored }}"
+    - visitKey: "{{ %Encounter.identifier.where(system = 'https://emr.nawi.ke/fhir/sid/opd-visit').value.first() }}"
+    - specimenType: "{{ %QuestionnaireResponse.answers('specimen-type') }}"
+    - conclusion: "{{ %QuestionnaireResponse.answers('conclusion') }}"
+    - resultRows: "{[ %QuestionnaireResponse.repeat(item).where(linkId='result') ]}"
+  resourceType: Bundle
+  type: transaction
+  entry:
+    - fullUrl: "urn:uuid:opd-specimen"
+      request:
+        url: /Specimen
+        method: POST
+        ifNoneExist: "identifier=https://emr.nawi.ke/fhir/sid/opd-specimen|{{ %visitKey }}"
+      resource:
+        resourceType: Specimen
+        identifier:
+          - system: https://emr.nawi.ke/fhir/sid/opd-specimen
+            value: "{{ %visitKey }}"
+        status: available
+        type:
+          coding:
+            - "{{ %specimenType }}"
+        subject:
+          reference: "{{ %patientReference }}"
+        receivedTime: "{{ %recordedAt }}"
+        collection:
+          collectedDateTime: "{{ %recordedAt }}"
+          collector:
+            reference: "{{ %authorReference }}"
+    # One Observation per row. The identifier keys on the ORDER being answered, taken from
+    # the reference, so it is stable no matter what order the technician works in.
+    - "{% for index, row in %resultRows %}":
+        "{% assign %}":
+          - resultOrder: "{{ %row.item.where(linkId='result-test').answer.valueReference.first() }}"
+          - resultValue: "{{ %row.item.where(linkId='result-value').answer.valueString.first() }}"
+          - resultInterp: "{{ %row.item.where(linkId='result-interpretation').answer.valueCoding.first() }}"
+          - orderId: "{{ %resultOrder.reference.split('/').last() }}"
+        "{% if %resultOrder.exists() %}":
+          fullUrl: "{{ 'urn:uuid:opd-lab-result-' & %index.toString() }}"
+          request:
+            url: /Observation
+            method: POST
+            ifNoneExist: "identifier=https://emr.nawi.ke/fhir/sid/opd-lab-result|{{ %visitKey }}-{{ %orderId }}"
+          resource:
+            resourceType: Observation
+            identifier:
+              - system: https://emr.nawi.ke/fhir/sid/opd-lab-result
+                value: "{{ %visitKey }}-{{ %orderId }}"
+            status: final
+            category:
+              - coding:
+                  - system: http://terminology.hl7.org/CodeSystem/observation-category
+                    code: laboratory
+                    display: Laboratory
+            code:
+              text: "{{ %resultOrder.display }}"
+            basedOn:
+              - "{{ %resultOrder }}"
+            subject:
+              reference: "{{ %patientReference }}"
+            encounter:
+              reference: "{{ %encounterReference }}"
+            performer:
+              - reference: "{{ %authorReference }}"
+            effectiveDateTime: "{{ %recordedAt }}"
+            valueString: "{{ %resultValue }}"
+            interpretation:
+              - coding:
+                  - "{{ %resultInterp }}"
+            specimen:
+              reference: "urn:uuid:opd-specimen"
+
+    - request:
+        url: /DiagnosticReport
+        method: POST
+        ifNoneExist: "identifier=https://emr.nawi.ke/fhir/sid/opd-lab-report|{{ %visitKey }}"
+      resource:
+        resourceType: DiagnosticReport
+        identifier:
+          - system: https://emr.nawi.ke/fhir/sid/opd-lab-report
+            value: "{{ %visitKey }}"
+        status: final
+        category:
+          - coding:
+              - system: http://terminology.hl7.org/CodeSystem/v2-0074
+                code: LAB
+                display: Laboratory
+        code:
+          coding:
+            - system: http://loinc.org
+              code: 11502-2
+              display: Laboratory report
+        subject:
+          reference: "{{ %patientReference }}"
+        encounter:
+          reference: "{{ %encounterReference }}"
+        effectiveDateTime: "{{ %recordedAt }}"
+        issued: "{{ %recordedAt }}"
+        performer:
+          - reference: "{{ %authorReference }}"
+        specimen:
+          - reference: "urn:uuid:opd-specimen"
+        conclusion: "{{ %conclusion }}"
+        result:
+          - "{% for index, row in %resultRows %}":
+              "{% if %row.item.where(linkId='result-test').answer.exists() %}":
+                reference: "{{ 'urn:uuid:opd-lab-result-' & %index.toString() }}"
+
+    - "{% for index, row in %resultRows %}":
+        "{% assign %}":
+          - resultOrder: "{{ %row.item.where(linkId='result-test').answer.valueReference.first() }}"
+        "{% if %resultOrder.exists() %}":
+          request:
+            method: PATCH
+            url: "{{ %resultOrder.reference }}"
+          resource:
+            resourceType: Parameters
+            parameter:
+              - name: operation
+                part:
+                  - name: type
+                    valueCode: replace
+                  - name: path
+                    valueString: ServiceRequest.status
+                  - name: value
+                    valueCode: completed
+
+    - request:
+        method: PATCH
+        url: "Task?identifier=https://emr.nawi.ke/fhir/sid/opd-task|{{ %visitKey }}-lab"
+      resource:
+        resourceType: Parameters
+        parameter:
+          - name: operation
+            part:
+              - name: type
+                valueCode: replace
+              - name: path
+                valueString: Task.status
+              - name: value
+                valueCode: completed
+          - name: operation
+            part:
+              - name: type
+                valueCode: replace
+              - name: path
+                valueString: Task.businessStatus
+              - name: value
+                valueCodeableConcept:
+                  coding:
+                    - system: https://emr.nawi.ke/fhir/CodeSystem/opd-workflow-status
+                      code: completed
+                      display: Completed
+
+    # Results are back; the clinician has to look at them. Journey step 5.
+    - request:
+        url: /Task
+        method: POST
+        ifNoneExist: "identifier=https://emr.nawi.ke/fhir/sid/opd-task|{{ %visitKey }}-review"
+      resource:
+        resourceType: Task
+        status: ready
+        intent: order
+        identifier:
+          - system: https://emr.nawi.ke/fhir/sid/opd-task
+            value: "{{ %visitKey }}-review"
+        code:
+          coding:
+            - system: https://emr.nawi.ke/fhir/CodeSystem/opd-task
+              code: review
+              display: Results review
+          text: Results review
+        businessStatus:
+          coding:
+            - system: https://emr.nawi.ke/fhir/CodeSystem/opd-workflow-status
+              code: ready-for-review
+              display: Ready for review
+        priority: routine
+        description: Review laboratory results and confirm or revise the diagnosis.
+        focus:
+          reference: "{{ %encounterReference }}"
+        "for":
+          reference: "{{ %patientReference }}"
+        authoredOn: "{{ %recordedAt }}"
+        requester:
+          reference: "{{ %authorReference }}"

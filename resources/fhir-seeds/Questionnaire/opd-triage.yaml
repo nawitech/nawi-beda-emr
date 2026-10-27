@@ -1,0 +1,97 @@
+id: opd-triage
+resourceType: Questionnaire
+name: opd-triage
+title: OPD triage
+status: active
+description: >-
+  Records a patient's presenting complaint, vital signs and queue priority against an open
+  outpatient Encounter. Launched from the triage queue, which supplies Patient and Encounter
+  context; it completes the triage Task and enqueues the consultation.
+subjectType:
+  - Encounter
+launchContext:
+  - name:
+      code: Patient
+    type:
+      - Patient
+  - name:
+      code: Encounter
+    type:
+      - Encounter
+  - name:
+      code: Author
+    type:
+      - Practitioner
+      - Organization
+mapping:
+  - valueReference:
+      reference: Mapping/opd-triage
+item:
+  - linkId: presenting-complaint
+    type: text
+    text: Presenting complaint
+    required: true
+  # Required vitals follow the OPD workflow guide section 4.2: blood pressure, pulse,
+  # temperature and weight. Respiratory rate, oxygen saturation and height are optional
+  # there, so the mapping only emits an Observation for the ones actually answered.
+  - linkId: temperature
+    type: decimal
+    text: Temperature (°C)
+    required: true
+  - linkId: heart-rate
+    type: integer
+    text: Heart rate (beats/minute)
+    required: true
+  - linkId: systolic-blood-pressure
+    type: integer
+    text: Systolic blood pressure (mmHg)
+    required: true
+  - linkId: diastolic-blood-pressure
+    type: integer
+    text: Diastolic blood pressure (mmHg)
+    required: true
+  - linkId: weight
+    type: decimal
+    text: Weight (kg)
+    required: true
+  - linkId: respiratory-rate
+    type: integer
+    text: Respiratory rate (breaths/minute)
+    required: false
+  - linkId: oxygen-saturation
+    type: decimal
+    text: Oxygen saturation (%)
+    required: false
+  - linkId: height
+    type: decimal
+    text: Height (cm)
+    required: false
+  # Urgency drives the clinician queue. The codes are FHIR request-priority values so the
+  # answer can be written straight to Task.priority without translation; the displays carry
+  # the routine / urgent / emergency wording used in the workflow guide.
+  - linkId: priority
+    type: choice
+    text: Queue priority
+    required: true
+    initial:
+      - valueCoding:
+          system: http://hl7.org/fhir/request-priority
+          code: routine
+          display: Routine
+    answerOption:
+      - valueCoding:
+          system: http://hl7.org/fhir/request-priority
+          code: routine
+          display: Routine
+      - valueCoding:
+          system: http://hl7.org/fhir/request-priority
+          code: urgent
+          display: Urgent
+      - valueCoding:
+          system: http://hl7.org/fhir/request-priority
+          code: stat
+          display: Emergency
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+url: https://emr.nawi.ke/fhir/Questionnaire/opd-triage
