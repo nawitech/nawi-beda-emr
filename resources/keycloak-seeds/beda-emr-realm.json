@@ -1,7 +1,7 @@
 {
     "realm": "beda-emr",
     "enabled": true,
-    "sslRequired": "none",
+    "sslRequired": "${EMR_SSL_REQUIRED}",
     "resetPasswordAllowed": false,
     "bruteForceProtected": false,
     "accessTokenLifespan": 900,
@@ -30,7 +30,7 @@
             "credentials": [
                 {
                     "type": "password",
-                    "value": "password",
+                    "value": "${EMR_SEED_PASSWORD}",
                     "temporary": false
                 }
             ],
@@ -50,7 +50,7 @@
             "credentials": [
                 {
                     "type": "password",
-                    "value": "password",
+                    "value": "${EMR_SEED_PASSWORD}",
                     "temporary": false
                 }
             ],
@@ -70,7 +70,7 @@
             "credentials": [
                 {
                     "type": "password",
-                    "value": "password",
+                    "value": "${EMR_SEED_PASSWORD}",
                     "temporary": false
                 }
             ],
@@ -90,7 +90,7 @@
             "credentials": [
                 {
                     "type": "password",
-                    "value": "password",
+                    "value": "${EMR_SEED_PASSWORD}",
                     "temporary": false
                 }
             ],
@@ -110,7 +110,7 @@
             "credentials": [
                 {
                     "type": "password",
-                    "value": "password",
+                    "value": "${EMR_SEED_PASSWORD}",
                     "temporary": false
                 }
             ],
@@ -130,13 +130,14 @@
             "credentials": [
                 {
                     "type": "password",
-                    "value": "password",
+                    "value": "${EMR_SEED_PASSWORD}",
                     "temporary": false
                 }
             ],
             "realmRoles": ["cashier"],
             "attributes": {
-                "fhirUser": ["Practitioner/prac-1005"]
+                "fhirUser": ["Practitioner/prac-1005"],
+                "patient_list": ["list-patient-1"]
             }
         },
         {
@@ -149,13 +150,14 @@
             "credentials": [
                 {
                     "type": "password",
-                    "value": "password",
+                    "value": "${EMR_SEED_PASSWORD}",
                     "temporary": false
                 }
             ],
             "realmRoles": ["administrator"],
             "attributes": {
-                "fhirUser": ["Organization/org-1001"]
+                "fhirUser": ["Organization/org-1001"],
+                "patient_list": ["list-patient-1"]
             }
         },
         {
@@ -168,13 +170,14 @@
             "credentials": [
                 {
                     "type": "password",
-                    "value": "password",
+                    "value": "${EMR_SEED_PASSWORD}",
                     "temporary": false
                 }
             ],
             "realmRoles": ["patient"],
             "attributes": {
-                "fhirUser": ["Patient/pat-1001"]
+                "fhirUser": ["Patient/pat-1001"],
+                "patient_list": ["list-patient-1"]
             }
         }
     ],
@@ -186,7 +189,7 @@
             "standardFlowEnabled": true,
             "frontchannelLogout": true,
             "fullScopeAllowed": true,
-            "redirectUris": ["http://localhost:5000/*", "http://localhost:3000/*"],
+            "redirectUris": ["${EMR_PUBLIC_URL}/*", "http://localhost:3000/*"],
             "webOrigins": ["+"],
             "attributes": {
                 "backchannel.logout.session.required": "true",

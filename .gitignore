@@ -38,3 +38,5 @@ storybook-static
 
 resources/fhir-bundles
 resources/fhir-bundles-demo
+backups/
+__pycache__/

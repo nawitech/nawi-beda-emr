@@ -1,0 +1,55 @@
+# Edge proxy for the production stack (docker-compose.prod.yml).
+#
+# One public URL fronts everything; the path decides the upstream. Nothing else publishes
+# a host port, so this file is the complete list of what the internet can reach.
+#
+#   /          beda-frontend   static bundle (SPA fallback handled by `serve -s`)
+#   /fhir/*    fhir-gateway    checks the Keycloak token, then proxies to HAPI
+#   /kc/*      keycloak        KC_HTTP_RELATIVE_PATH=/kc, so no prefix stripping
+#   /sdc/*     fhir-sdc        $populate / $extract / $assemble — see below
+#
+# EMR_PUBLIC_URL is the site address. With an https:// URL Caddy obtains and renews a
+# Let's Encrypt certificate on its own; ports 80 and 443 must be reachable and the DNS
+# name must already point at this host. An http:// address (an IP, or a lab box) serves
+# plain HTTP and is only acceptable on a trusted network.
+
+{$EMR_PUBLIC_URL} {
+	encode zstd gzip
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		-Server
+	}
+
+	handle /fhir/* {
+		reverse_proxy fhir-gateway:8080
+	}
+
+	handle /kc/* {
+		reverse_proxy keycloak:8080
+	}
+
+	# fhir-sdc has no authentication of its own and writes straight to HAPI, so it must
+	# never be reachable without a valid access token. forward_auth replays the request's
+	# headers (including Authorization) against Keycloak's userinfo endpoint and only lets
+	# the request through on a 2xx. The browser sends the same bearer token it uses for
+	# /fhir, so this is transparent to the application.
+	handle_path /sdc/* {
+		forward_auth keycloak:8080 {
+			uri /kc/realms/beda-emr/protocol/openid-connect/userinfo
+		}
+		reverse_proxy fhir-sdc:8081
+	}
+
+	# Uncomment to restrict the Keycloak admin console to known addresses.
+	# @admin {
+	# 	path /kc/admin/*
+	# 	not remote_ip 203.0.113.0/24
+	# }
+	# respond @admin 403
+
+	handle {
+		reverse_proxy beda-frontend:5000
+	}
+}

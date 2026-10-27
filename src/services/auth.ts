@@ -36,42 +36,49 @@ export interface AuthClientConfigParams {
 
 type TierConfig = { [key in Tier]: TierBaseConfig };
 
+// Production serves the whole stack from one origin behind a reverse proxy
+// (docker-compose.prod.yml + resources/caddy/Caddyfile): Keycloak under /kc, the FHIR
+// gateway under /fhir. Deriving both from the page origin means the built bundle has no
+// deployment-specific host in it. See docs/deployment.md.
+const publicOrigin = window.location.origin;
+const productionTier: TierBaseConfig = {
+    baseUrl: `${publicOrigin}/kc`,
+    fhirBaseUrl: `${publicOrigin}/fhir`,
+};
+
 export const tierConfigMap: { [key in AuthProvider]: TierConfig } = {
     // OHS FHIR Gateway (HAPI FHIR + Keycloak)
     // baseUrl  → Keycloak host: used by getAuthorizeUrl() to build the browser auth redirect URL.
     // fhirBaseUrl → OHS Gateway: used for all FHIR API calls (Bearer token enforced by gateway).
     [AuthProvider.OHSKeycloak]: {
         develop: {
-            baseUrl: 'http://35.202.40.190:8080',
-            fhirBaseUrl: 'http://35.202.40.190:8084/fhir',
+            baseUrl: 'http://host.docker.internal:8080',
+            fhirBaseUrl: 'http://localhost:8084/fhir',
         },
-        production: {
-            baseUrl: 'http://35.202.40.190:8080',
-            fhirBaseUrl: 'http://35.202.40.190:8084/fhir',
-        },
+        production: productionTier,
     },
     [AuthProvider.OHSKeycloakLocal]: {
         develop: {
             baseUrl: 'http://host.docker.internal:8080',
             fhirBaseUrl: 'http://localhost:8084/fhir',
         },
-        production: {
-            baseUrl: 'http://35.202.40.190:8080',
-            fhirBaseUrl: 'http://35.202.40.190:8084/fhir',
-        },
+        production: productionTier,
     },
 };
 
 export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParams } = {
     // OHS FHIR Gateway — Keycloak OIDC (authorization_code flow).
-    // Auth endpoint strategy (Option A — baseUrl split):
-    //   baseUrl is the Keycloak host, so getAuthorizeUrl() builds:
-    //     http://35.202.40.190:8080/realms/beda-emr/protocol/openid-connect/auth?...
-    //   All FHIR API calls use fhirBaseUrl (the gateway at :8084), not baseUrl.
+    // Auth endpoint strategy (baseUrl split):
+    //   baseUrl is the Keycloak host, so getAuthorizeUrl() builds
+    //     <baseUrl>/realms/beda-emr/protocol/openid-connect/auth?...
+    //   All FHIR API calls use fhirBaseUrl (the gateway), not baseUrl.
     //
-    // Keycloak client 'fhir-emr' must have http://35.202.40.190:5000/* as a valid redirect URI.
-    // Each Keycloak user needs a `patient_list` claim → FHIR List resource ID in HAPI
-    // (required by ACCESS_CHECKER=list in docker-compose.yml).
+    // The Keycloak client `beda-frontend` must list <origin>/* as a valid redirect URI; the
+    // realm seed takes it from EMR_PUBLIC_URL. Each Keycloak user needs a `patient_list`
+    // attribute naming a FHIR List in HAPI (ACCESS_CHECKER=list in docker-compose.yml).
+    //
+    // No shared credentials here on purpose: this is the provider a public deployment
+    // shows on its sign-in page.
     [AuthProvider.OHSKeycloak]: {
         clientId: 'beda-frontend',
         authPath: 'realms/beda-emr/protocol/openid-connect/auth',
@@ -82,15 +89,6 @@ export const authClientConfigMap: { [key in AuthProvider]: AuthClientConfigParam
         scope: ['openid', 'profile'],
         tabTitle: 'OHS FHIR Gateway (HAPI + Keycloak)',
         message: 'Sign in with your institutional Keycloak account',
-        sharedCredentials: {
-            accountDetails: [
-                {
-                    login: 'practitioner@nawi-emr.com',
-                    accountDescription: 'Test practitioner account',
-                },
-            ],
-            commonPassword: 'password1',
-        },
     },
     [AuthProvider.OHSKeycloakLocal]: {
         clientId: 'beda-frontend',

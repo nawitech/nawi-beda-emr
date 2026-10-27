@@ -24,6 +24,12 @@ services:
       KC_HOSTNAME_STRICT: "false"
       KC_HTTP_PORT: 8080
       KC_HEALTH_ENABLED: "true"
+      # Substituted into resources/keycloak-seeds/beda-emr-realm.json on first import
+      # (Keycloak resolves ${VAR} placeholders from its environment). Only applied when the
+      # realm does not exist yet; changing them later needs `docker compose down -v`.
+      EMR_PUBLIC_URL: ${EMR_PUBLIC_URL:-http://localhost:5000}
+      EMR_SSL_REQUIRED: ${EMR_SSL_REQUIRED:-none}
+      EMR_SEED_PASSWORD: ${EMR_SEED_PASSWORD:-password}
     ports:
       - "8080:8080"
     depends_on:
@@ -106,7 +112,12 @@ services:
       keycloak-ready:
         condition: service_completed_successfully
 
+  # Not started by default: local development uses the Vite dev server on :3000.
+  # `docker compose --profile frontend up` builds and runs it; docker-compose.prod.yml
+  # turns the profile off so it is always part of the production stack.
   beda-frontend:
+    profiles: ["frontend"]
+    image: ${FRONTEND_IMAGE:-nawi-emr-frontend:local}
     build:
       context: .
       dockerfile: Dockerfile
@@ -150,21 +161,28 @@ services:
       - ./resources/fhir-bundles:/app/fhir-bundles
 
   upload-fhir-bundle:
-    image: curlimages/curl
+    image: python:3.12-alpine
     depends_on:
       hapi-fhir-ready:
         condition: service_completed_successfully
       build-fhir-bundle:
         condition: service_completed_successfully
-    working_dir: /app/resources/fhir-bundles
+    # Runs on every `up`. Questionnaires, mappings and terminology are re-applied (PUT by id)
+    # so a changed seed lands. Types under --create-only are reference data the application
+    # edits at runtime (the price list): seeded when absent, never overwritten afterwards.
+    # See scripts/upload-fhir-bundle.py.
     command:
-      - "sh"
-      - "-c"
-      - "curl -X POST 'http://hapi-fhir:8080/fhir' -H 'Content-Type: application/json' -d @fhirBundle.json"
-      - --external-questionnaire-fce-fhir-converter-url
-      - http://questionnaire-fce-fhir-converter:3000/to-fhir
+      - python3
+      - /app/upload-fhir-bundle.py
+      - --bundle
+      - /app/fhir-bundles/fhirBundle.json
+      - --fhir-base
+      - http://hapi-fhir:8080/fhir
+      - --create-only
+      - "ChargeItemDefinition"
     volumes:
-      - ./resources/fhir-bundles/:/app/resources/fhir-bundles
+      - ./scripts/upload-fhir-bundle.py:/app/upload-fhir-bundle.py:ro
+      - ./resources/fhir-bundles:/app/fhir-bundles:ro
 
   questionnaire-fce-fhir-converter:
     image: bedasoftware/questionnaire-fce-fhir-converter:latest

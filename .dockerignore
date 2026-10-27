@@ -1,0 +1,59 @@
+# Build context exclusions.
+#
+# Without this file the context is ~1.6 GB, almost all of it node_modules, and it includes
+# .env — which holds the Postgres and Keycloak passwords. The Dockerfile is a multi-stage
+# build that does `COPY . .` into a builder layer, so excluding .env here is what keeps those
+# secrets out of the build cache. See docs/frontend-image.md.
+#
+# `build/` is ignored: the image compiles the frontend itself, so a stale host build must
+# never leak into the context.
+
+# --- secrets -----------------------------------------------------------------
+.env
+.env.*
+!.env.template
+!.env.tpl
+
+# --- dependencies: reinstalled inside the image, never copied ---------------
+node_modules
+**/node_modules
+
+# --- version control ---------------------------------------------------------
+.git
+.gitignore
+.gitattributes
+.gitmodules
+.github
+
+# --- local tooling and editor state ------------------------------------------
+.claude
+.husky
+.storybook
+.vscode
+.idea
+.eslintrc.cjs
+.eslintignore
+.prettierrc.json
+.prettierignore
+.lintstagedrc
+.DS_Store
+**/.DS_Store
+
+# --- docs and planning -------------------------------------------------------
+docs
+*.md
+
+# --- backend-only assets: bind-mounted at runtime, never built into the image -
+resources
+docker-compose.yml
+docker-compose.dev.yml
+Makefile
+
+# --- host build output: the image produces its own -----------------------------
+build
+storybook-static
+
+# --- test and coverage output ------------------------------------------------
+htmlcov
+coverage
+*.log

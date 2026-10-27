@@ -1,4 +1,4 @@
-name: Build image and restart services
+name: Build image and push to GHCR
 on:
   push:
     branches:
@@ -20,29 +20,37 @@ jobs:
           submodules: recursive
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
+      # Host-side gates: fail fast on type errors before paying for the image build.
+      # The image compiles the bundle itself (multi-stage Dockerfile), so no `yarn build` here.
       - name: Prepare config
         run: cp contrib/emr-config/config.production.js contrib/emr-config/config.js
       - name: Install deps
-        run: yarn install --network-concurrency 1
+        run: yarn install --frozen-lockfile
       - run: yarn extract
       - run: yarn compile
-      - run: yarn build
-      - name: Setup QEMU
-        uses: docker/setup-qemu-action@v3
+      - name: Upstream role safety
+        run: python3 .claude/skills/beda-workflow/scripts/check-upstream-role-safety.py
+      - run: yarn typecheck
+      - run: yarn lint
       - name: Setup Docker builder
         uses: docker/setup-buildx-action@v3
-      - run: docker run --rm --privileged tonistiigi/binfmt --install all
       - name: Login to Docker registry
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      # linux/amd64 only: that is what a VPS runs, and emulating the Node build for arm64
+      # under QEMU takes far longer than it is worth. Add the platform back if needed.
       - name: Build and push the Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
