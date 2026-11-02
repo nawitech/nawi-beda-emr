@@ -1,0 +1,67 @@
+id: opd-medication
+resourceType: CodeSystem
+url: https://emr.nawi.ke/fhir/CodeSystem/opd-medication
+name: NawiOpdMedication
+title: Nawi OPD formulary
+status: active
+experimental: false
+content: complete
+caseSensitive: true
+description: >-
+  Locally authored outpatient formulary, by generic name. The clinic has no existing formulary
+  to seed from. NOT CLINICALLY REVIEWED — a pharmacist must confirm the list, and it carries no
+  strengths, forms, interactions or contraindications. Prescribing safety checks are out of
+  scope for V1; see docs/opd-implementation-plan.md.
+
+  Swap procedure is identical to the diagnosis catalogue — see docs/opd-terminology.md.
+concept:
+  - code: paracetamol
+    display: Paracetamol
+  - code: ibuprofen
+    display: Ibuprofen
+  - code: diclofenac
+    display: Diclofenac
+  - code: amoxicillin
+    display: Amoxicillin
+  - code: amoxicillin-clavulanate
+    display: Amoxicillin/clavulanic acid
+  - code: azithromycin
+    display: Azithromycin
+  - code: ciprofloxacin
+    display: Ciprofloxacin
+  - code: metronidazole
+    display: Metronidazole
+  - code: cotrimoxazole
+    display: Cotrimoxazole
+  - code: doxycycline
+    display: Doxycycline
+  - code: artemether-lumefantrine
+    display: Artemether/lumefantrine
+  - code: albendazole
+    display: Albendazole
+  - code: omeprazole
+    display: Omeprazole
+  - code: ranitidine-alt
+    display: Famotidine
+  - code: loratadine
+    display: Loratadine
+  - code: chlorphenamine
+    display: Chlorphenamine
+  - code: salbutamol
+    display: Salbutamol
+  - code: prednisolone
+    display: Prednisolone
+  - code: ors
+    display: Oral rehydration salts
+  - code: ferrous-sulphate
+    display: Ferrous sulphate
+  - code: folic-acid
+    display: Folic acid
+  - code: metformin
+    display: Metformin
+  - code: amlodipine
+    display: Amlodipine
+  - code: hydrochlorothiazide
+    display: Hydrochlorothiazide
+  - code: hyoscine
+    display: Hyoscine butylbromide

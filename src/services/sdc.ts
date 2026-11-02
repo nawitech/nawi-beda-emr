@@ -1,4 +1,4 @@
-import { Parameters, Questionnaire, QuestionnaireResponse } from 'fhir/r4b';
+import { OperationOutcome, Parameters, Questionnaire, QuestionnaireResponse } from 'fhir/r4b';
 
 import { service } from '@beda.software/emr/services';
 import config from '@beda.software/emr-config';
@@ -26,7 +26,7 @@ export const sdcServiceProvider = {
     },
 
     constraintCheck: async (params: Parameters) => {
-        return service<any>({
+        return service<OperationOutcome>({
             baseURL: config.sdcBackendUrl || undefined,
             method: 'POST',
             url: '/QuestionnaireResponse/$constraint-check',

@@ -1,0 +1,47 @@
+id: opd-lab-test
+resourceType: CodeSystem
+url: https://emr.nawi.ke/fhir/CodeSystem/opd-lab-test
+name: NawiOpdLabTest
+title: Nawi OPD lab test menu
+status: active
+experimental: false
+content: complete
+caseSensitive: true
+description: >-
+  Locally authored lab test menu. The clinic has no existing catalogue to seed from, so this
+  starts from the common Kenyan outpatient tests listed in the OPD workflow guide section 4.4.
+  NOT CLINICALLY REVIEWED — a laboratory lead must confirm the menu, and LOINC codes should be
+  attached to each entry before results are exchanged with anyone outside this deployment.
+
+  Swap procedure is identical to the diagnosis catalogue — see docs/opd-terminology.md.
+concept:
+  - code: fbc
+    display: Full blood count (FBC)
+  - code: malaria-rdt
+    display: Malaria rapid diagnostic test
+  - code: malaria-smear
+    display: Malaria blood smear
+  - code: urinalysis
+    display: Urinalysis
+  - code: blood-glucose-fasting
+    display: Blood glucose, fasting
+  - code: blood-glucose-random
+    display: Blood glucose, random
+  - code: urea
+    display: Urea
+  - code: creatinine
+    display: Creatinine
+  - code: lft
+    display: Liver function tests
+  - code: hiv
+    display: HIV test
+  - code: hcg
+    display: Pregnancy test (HCG)
+  - code: stool-microscopy
+    display: Stool microscopy
+  - code: widal
+    display: Widal test (typhoid)
+  - code: esr
+    display: Erythrocyte sedimentation rate
+  - code: hb
+    display: Haemoglobin

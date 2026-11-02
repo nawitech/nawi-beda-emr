@@ -17,6 +17,9 @@ body:
     - nextOfKinLastName: "{{ %QuestionnaireResponse.answers('next-of-kin-last-name') }}"
     - nextOfKinFirstName: "{{ %QuestionnaireResponse.answers('next-of-kin-first-name') }}"
     - nextOfKinPhone: "{{ %QuestionnaireResponse.answers('next-of-kin-phone') }}"
+    - insuranceScheme: "{{ %QuestionnaireResponse.answers('insurance-scheme') }}"
+    - insurancePayer: "{{ %QuestionnaireResponse.answers('insurance-payer') }}"
+    - insuranceMemberNumber: "{{ %QuestionnaireResponse.answers('insurance-member-number') }}"
 
   resourceType: Bundle
   type: transaction
@@ -72,6 +75,26 @@ body:
               - value: "{{ %nextOfKinPhone }}"
                 system: phone
                 use: mobile
+    - "{% if %insuranceMemberNumber.exists() %}":
+        request:
+          url: /Coverage
+          method: POST
+        resource:
+          resourceType: Coverage
+          status: active
+          type:
+            coding:
+              - "{{ %insuranceScheme }}"
+          subscriberId: "{{ %insuranceMemberNumber }}"
+          beneficiary:
+            reference: "urn:uuid:new-patient"
+          relationship:
+            coding:
+              - system: http://terminology.hl7.org/CodeSystem/subscriber-relationship
+                code: self
+                display: Self
+          payor:
+            - display: "{{ %insurancePayer }}"
     - request:
         url: /List/list-patient-1
         method: PATCH

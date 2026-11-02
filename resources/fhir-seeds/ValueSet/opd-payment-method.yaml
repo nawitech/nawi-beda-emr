@@ -1,0 +1,11 @@
+id: opd-payment-method
+resourceType: ValueSet
+url: https://emr.nawi.ke/fhir/ValueSet/opd-payment-method
+name: NawiOpdPaymentMethodVS
+title: Nawi OPD payment methods
+status: active
+experimental: false
+description: Payment methods accepted at the till.
+compose:
+  include:
+    - system: https://emr.nawi.ke/fhir/CodeSystem/opd-payment-method

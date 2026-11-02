@@ -1,0 +1,46 @@
+id: opd-start-visit
+resourceType: Questionnaire
+name: opd-start-visit
+title: Start OPD visit
+status: active
+description: >-
+  Reception action. Opens an outpatient Encounter for a patient who has arrived and places
+  them in the triage queue.
+subjectType:
+  - Patient
+launchContext:
+  - name:
+      code: Patient
+    type:
+      - Patient
+  - name:
+      code: Author
+    type:
+      - Practitioner
+      - Organization
+mapping:
+  - valueReference:
+      reference: Mapping/opd-start-visit
+item:
+  - linkId: visit-type
+    type: choice
+    text: Visit type
+    required: true
+    initial:
+      - valueCoding:
+          system: http://fhir.org/guides/argonaut-scheduling/CodeSystem/visit-type
+          code: consultation
+          display: New consultation
+    answerOption:
+      - valueCoding:
+          system: http://fhir.org/guides/argonaut-scheduling/CodeSystem/visit-type
+          code: consultation
+          display: New consultation
+      - valueCoding:
+          system: http://fhir.org/guides/argonaut-scheduling/CodeSystem/visit-type
+          code: follow-up
+          display: Follow-up visit
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+url: https://emr.nawi.ke/fhir/Questionnaire/opd-start-visit

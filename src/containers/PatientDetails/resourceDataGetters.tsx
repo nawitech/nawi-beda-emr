@@ -30,7 +30,7 @@ export function makeRenderer<T extends Resource, RCM extends 'uberList' | 'dashb
     fn: (r: T) => React.ReactNode,
     renderColumnMode: RCM,
 ): typeof renderColumnMode extends 'uberList' ? ColumnType<RecordType<T>>['render'] : (resource: T) => React.ReactNode {
-    return (renderColumnMode === 'uberList' ? (_text: any, { resource }: { resource: T }) => fn(resource) : (resource: T) => fn(resource)) as any; // @ts-ignore
+    return (renderColumnMode === 'uberList' ? (_text: unknown, { resource }: { resource: T }) => fn(resource) : (resource: T) => fn(resource)) as never; // the conditional return type cannot be narrowed here
 }
 
 function getComponentValue(c: ObservationComponent) {

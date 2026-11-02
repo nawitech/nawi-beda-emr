@@ -1,0 +1,478 @@
+id: opd-billing
+resourceType: Questionnaire
+name: opd-billing
+title: Invoice and payment
+status: active
+description: >-
+  Cashier's record. Proposes the invoice from what actually happened in the visit — the
+  consultation, every laboratory order and every dispensed medication — priced from the
+  clinic's price list (ChargeItemDefinition), shows the running total, records how it was paid,
+  and closes the encounter. Launched from the billing queue.
+subjectType:
+  - Encounter
+launchContext:
+  - name:
+      code: Patient
+    type:
+      - Patient
+  - name:
+      code: Encounter
+    type:
+      - Encounter
+  - name:
+      code: Author
+    type:
+      - Practitioner
+      - Organization
+mapping:
+  - valueReference:
+      reference: Mapping/opd-billing
+item:
+  # ---------------------------------------------------------------------------------------
+  # How this form is priced — read before changing linkIds.
+  #
+  # Two engines evaluate expressions here, and they see different things:
+  #
+  #   * $populate (fhir-sdc, server) runs `variable`, `itemPopulationContext` and
+  #     `initialExpression`. It talks to HAPI directly, so it can fetch the price list and the
+  #     visit's orders. It fills the rows and a HIDDEN copy of the price list.
+  #   * The browser (sdc-qrf) runs `variable`, `calculatedExpression` and `enableWhen`. It
+  #     never sees `initialExpression`. It prices each row by looking its code up in that
+  #     hidden copy, so prices update live as the cashier edits rows.
+  #
+  # Every `%variable` an expression names must therefore be defined in BOTH engines, which is
+  # why the queries live on this wrapper group rather than on the questionnaire root: the
+  # browser only resolves item-level variables, and fhirpath throws on an undefined one.
+  #
+  # The mapping finds rows by linkId SUFFIX (`-code`, `-quantity`, `-unit-price`, ...), so a new
+  # kind of line only has to follow the naming convention. See docs/opd-billing-workflow.md.
+  # ---------------------------------------------------------------------------------------
+  - linkId: invoice
+    type: group
+    text: Charges for this visit
+    # Every query ends in `&_format=json` on purpose. The pinned fhir-sdc image (2.1.0a3) hands
+    # the whole query string to fhirpy as a path, and fhirpy appends `?` for its (empty)
+    # params, so the LAST parameter reaches HAPI with a trailing `?` — `_count=200?` is
+    # rejected (HAPI-0375), `_format=json?` is not. Newer fhir-sdc tags split the query
+    # properly; the suffix is harmless once the image is bumped.
+    variable:
+      - name: priceList
+        language: application/x-fhir-query
+        expression: "ChargeItemDefinition?status=active&_count=200&_format=json"
+      - name: labOrders
+        language: application/x-fhir-query
+        expression: "ServiceRequest?encounter={{ %Encounter.id }}&status=active,completed&_count=100&_format=json"
+      # `_include` pulls each prescription in alongside its dispense: the dispense record only
+      # carries the drug's name, and the price list is keyed on the drug's CODE.
+      - name: dispenses
+        language: application/x-fhir-query
+        expression: "MedicationDispense?context={{ %Encounter.id }}&status=completed&_include=MedicationDispense:prescription&_count=100&_format=json"
+      # Which consultation fee applies to this visit. Follow-ups are cheaper.
+      - name: visitFeeCode
+        language: text/fhirpath
+        expression: "iif(%Encounter.type.coding.where(code='follow-up').exists(), 'follow-up', 'consultation')"
+    item:
+      # The price list, copied into the response so the browser can price rows without a
+      # round trip. One hidden row per active ChargeItemDefinition, keyed `system|code`.
+      - linkId: price-catalogue
+        type: group
+        text: Price list
+        repeats: true
+        hidden: true
+        itemPopulationContext:
+          language: text/fhirpath
+          expression: "%priceList.entry.resource.where(resourceType='ChargeItemDefinition')"
+        item:
+          - linkId: catalogue-key
+            type: string
+            text: Key
+            hidden: true
+            initialExpression:
+              language: text/fhirpath
+              expression: "code.coding.first().system + '|' + code.coding.first().code"
+          - linkId: catalogue-amount
+            type: decimal
+            text: Unit price
+            hidden: true
+            initialExpression:
+              language: text/fhirpath
+              expression: "propertyGroup.priceComponent.where(type='base').amount.value.first()"
+          - linkId: catalogue-url
+            type: string
+            text: Definition
+            hidden: true
+            initialExpression:
+              language: text/fhirpath
+              expression: "url"
+
+      # --- Consultation ------------------------------------------------------------------
+      # Every visit has one. The fee is picked from the price list by the visit type.
+      - linkId: consultation-line
+        type: group
+        text: Consultation
+        variable:
+          - name: consultationKey
+            language: text/fhirpath
+            expression: "item.where(linkId='consultation-code').answer.valueCoding.select(system + '|' + code)"
+          - name: consultationPriceRow
+            language: text/fhirpath
+            expression: "%resource.repeat(item).where(linkId='price-catalogue').where(item.where(linkId='catalogue-key').answer.valueString in %consultationKey)"
+          - name: consultationListPrice
+            language: text/fhirpath
+            expression: "%consultationPriceRow.item.where(linkId='catalogue-amount').answer.valueDecimal.first()"
+          - name: consultationDefinition
+            language: text/fhirpath
+            expression: "%consultationPriceRow.item.where(linkId='catalogue-url').answer.valueString.first()"
+          - name: consultationLineTotal
+            language: text/fhirpath
+            expression: "(item.where(linkId='consultation-quantity').answer.valueInteger.first() * item.where(linkId='consultation-unit-price').answer.valueDecimal.first()).round(2)"
+        item:
+          - linkId: consultation-item
+            type: string
+            text: Service
+            readOnly: true
+            initialExpression:
+              language: text/fhirpath
+              expression: "%priceList.entry.resource.where(code.coding.system='https://emr.nawi.ke/fhir/CodeSystem/opd-billable-service' and code.coding.code=%visitFeeCode).title.first()"
+          - linkId: consultation-code
+            type: choice
+            text: Service code
+            hidden: true
+            initialExpression:
+              language: text/fhirpath
+              expression: "%priceList.entry.resource.where(code.coding.system='https://emr.nawi.ke/fhir/CodeSystem/opd-billable-service' and code.coding.code=%visitFeeCode).code.coding.first()"
+          - linkId: consultation-quantity
+            type: integer
+            text: Quantity
+            initial:
+              - valueInteger: 1
+          # Defaults to the list price and stays editable: the cashier may adjust it, and the
+          # mapping records that it was adjusted. Clearing the field restores the list price.
+          - linkId: consultation-unit-price
+            type: decimal
+            text: Unit price
+            unit:
+              display: KES
+            calculatedExpression:
+              language: text/fhirpath
+              expression: "iif(answer.valueDecimal.exists(), answer.valueDecimal.first(), %consultationListPrice)"
+          - linkId: consultation-line-total
+            type: decimal
+            text: Line total
+            readOnly: true
+            unit:
+              display: KES
+            calculatedExpression:
+              language: text/fhirpath
+              expression: "%consultationLineTotal"
+          - linkId: consultation-list-price
+            type: decimal
+            text: List price
+            hidden: true
+            calculatedExpression:
+              language: text/fhirpath
+              expression: "%consultationListPrice"
+          - linkId: consultation-price-definition
+            type: string
+            text: Price definition
+            hidden: true
+            calculatedExpression:
+              language: text/fhirpath
+              expression: "%consultationDefinition"
+
+      # --- Laboratory --------------------------------------------------------------------
+      # One row per order written for this visit. Orders still `active` are included so a
+      # test the lab forgot to close is not silently free; the cashier can delete the row.
+      - linkId: lab-line
+        type: group
+        text: Laboratory
+        repeats: true
+        itemPopulationContext:
+          language: text/fhirpath
+          expression: "%labOrders.entry.resource.where(resourceType='ServiceRequest')"
+        variable:
+          - name: labKey
+            language: text/fhirpath
+            expression: "item.where(linkId='lab-code').answer.valueCoding.select(system + '|' + code)"
+          - name: labPriceRow
+            language: text/fhirpath
+            expression: "%resource.repeat(item).where(linkId='price-catalogue').where(item.where(linkId='catalogue-key').answer.valueString in %labKey)"
+          - name: labListPrice
+            language: text/fhirpath
+            expression: "%labPriceRow.item.where(linkId='catalogue-amount').answer.valueDecimal.first()"
+          - name: labDefinition
+            language: text/fhirpath
+            expression: "%labPriceRow.item.where(linkId='catalogue-url').answer.valueString.first()"
+          - name: labLineTotal
+            language: text/fhirpath
+            expression: "(item.where(linkId='lab-quantity').answer.valueInteger.first() * item.where(linkId='lab-unit-price').answer.valueDecimal.first()).round(2)"
+        item:
+          - linkId: lab-item
+            type: string
+            text: Test
+            readOnly: true
+            initialExpression:
+              language: text/fhirpath
+              expression: "code.coding.first().display"
+          - linkId: lab-code
+            type: choice
+            text: Test code
+            hidden: true
+            initialExpression:
+              language: text/fhirpath
+              expression: "code.coding.first()"
+          - linkId: lab-quantity
+            type: integer
+            text: Quantity
+            initial:
+              - valueInteger: 1
+          - linkId: lab-unit-price
+            type: decimal
+            text: Unit price
+            unit:
+              display: KES
+            calculatedExpression:
+              language: text/fhirpath
+              expression: "iif(answer.valueDecimal.exists(), answer.valueDecimal.first(), %labListPrice)"
+          - linkId: lab-line-total
+            type: decimal
+            text: Line total
+            readOnly: true
+            unit:
+              display: KES
+            calculatedExpression:
+              language: text/fhirpath
+              expression: "%labLineTotal"
+          - linkId: lab-list-price
+            type: decimal
+            text: List price
+            hidden: true
+            calculatedExpression:
+              language: text/fhirpath
+              expression: "%labListPrice"
+          - linkId: lab-price-definition
+            type: string
+            text: Price definition
+            hidden: true
+            calculatedExpression:
+              language: text/fhirpath
+              expression: "%labDefinition"
+
+      # --- Medication --------------------------------------------------------------------
+      # One row per dispense, priced per unit dispensed. The context is NAMED so the row's
+      # expressions can reach back into the bundle for the prescription that carries the code.
+      - linkId: medication-line
+        type: group
+        text: Medication
+        repeats: true
+        itemPopulationContext:
+          name: dispense
+          language: text/fhirpath
+          expression: "%dispenses.entry.resource.where(resourceType='MedicationDispense')"
+        variable:
+          - name: medicationKey
+            language: text/fhirpath
+            expression: "item.where(linkId='medication-code').answer.valueCoding.select(system + '|' + code)"
+          - name: medicationPriceRow
+            language: text/fhirpath
+            expression: "%resource.repeat(item).where(linkId='price-catalogue').where(item.where(linkId='catalogue-key').answer.valueString in %medicationKey)"
+          - name: medicationListPrice
+            language: text/fhirpath
+            expression: "%medicationPriceRow.item.where(linkId='catalogue-amount').answer.valueDecimal.first()"
+          - name: medicationDefinition
+            language: text/fhirpath
+            expression: "%medicationPriceRow.item.where(linkId='catalogue-url').answer.valueString.first()"
+          - name: medicationLineTotal
+            language: text/fhirpath
+            expression: "(item.where(linkId='medication-quantity').answer.valueInteger.first() * item.where(linkId='medication-unit-price').answer.valueDecimal.first()).round(2)"
+        item:
+          - linkId: medication-item
+            type: string
+            text: Medication
+            readOnly: true
+            initialExpression:
+              language: text/fhirpath
+              expression: "medicationCodeableConcept.text"
+          # `endsWith` rather than `=`: HAPI may hand the reference back relative or absolute.
+          - linkId: medication-code
+            type: choice
+            text: Medication code
+            hidden: true
+            initialExpression:
+              language: text/fhirpath
+              expression: "%dispenses.entry.resource.where(resourceType='MedicationRequest').where(%dispense.authorizingPrescription.first().reference.endsWith('MedicationRequest/' + id)).medicationCodeableConcept.coding.first()"
+          - linkId: medication-quantity
+            type: integer
+            text: Quantity dispensed
+            initialExpression:
+              language: text/fhirpath
+              expression: "quantity.value"
+          - linkId: medication-unit-price
+            type: decimal
+            text: Unit price
+            unit:
+              display: KES
+            calculatedExpression:
+              language: text/fhirpath
+              expression: "iif(answer.valueDecimal.exists(), answer.valueDecimal.first(), %medicationListPrice)"
+          - linkId: medication-line-total
+            type: decimal
+            text: Line total
+            readOnly: true
+            unit:
+              display: KES
+            calculatedExpression:
+              language: text/fhirpath
+              expression: "%medicationLineTotal"
+          - linkId: medication-list-price
+            type: decimal
+            text: List price
+            hidden: true
+            calculatedExpression:
+              language: text/fhirpath
+              expression: "%medicationListPrice"
+          - linkId: medication-price-definition
+            type: string
+            text: Price definition
+            hidden: true
+            calculatedExpression:
+              language: text/fhirpath
+              expression: "%medicationDefinition"
+
+      # --- Anything else -----------------------------------------------------------------
+      # Procedures, injections, dressings, registration: things no earlier station records.
+      # Picking a priced service fills the unit price; `laboratory`, `medication` and `other`
+      # are unpriced categories and the cashier types the amount.
+      - linkId: other-line
+        type: group
+        text: Other services
+        repeats: true
+        variable:
+          - name: otherKey
+            language: text/fhirpath
+            expression: "item.where(linkId='other-code').answer.valueCoding.select(system + '|' + code)"
+          - name: otherPriceRow
+            language: text/fhirpath
+            expression: "%resource.repeat(item).where(linkId='price-catalogue').where(item.where(linkId='catalogue-key').answer.valueString in %otherKey)"
+          - name: otherListPrice
+            language: text/fhirpath
+            expression: "%otherPriceRow.item.where(linkId='catalogue-amount').answer.valueDecimal.first()"
+          - name: otherDefinition
+            language: text/fhirpath
+            expression: "%otherPriceRow.item.where(linkId='catalogue-url').answer.valueString.first()"
+          - name: otherLineTotal
+            language: text/fhirpath
+            expression: "(item.where(linkId='other-quantity').answer.valueInteger.first() * item.where(linkId='other-unit-price').answer.valueDecimal.first()).round(2)"
+        item:
+          - linkId: other-code
+            type: choice
+            text: Service
+            answerValueSet: https://emr.nawi.ke/fhir/ValueSet/opd-billable-service
+          - linkId: other-quantity
+            type: integer
+            text: Quantity
+            initial:
+              - valueInteger: 1
+          - linkId: other-unit-price
+            type: decimal
+            text: Unit price
+            unit:
+              display: KES
+            helpText: Filled from the price list when the service has one. Clear it to reload the list price after changing the service.
+            calculatedExpression:
+              language: text/fhirpath
+              expression: "iif(answer.valueDecimal.exists(), answer.valueDecimal.first(), %otherListPrice)"
+          - linkId: other-line-total
+            type: decimal
+            text: Line total
+            readOnly: true
+            unit:
+              display: KES
+            calculatedExpression:
+              language: text/fhirpath
+              expression: "%otherLineTotal"
+          - linkId: other-list-price
+            type: decimal
+            text: List price
+            hidden: true
+            calculatedExpression:
+              language: text/fhirpath
+              expression: "%otherListPrice"
+          - linkId: other-price-definition
+            type: string
+            text: Price definition
+            hidden: true
+            calculatedExpression:
+              language: text/fhirpath
+              expression: "%otherDefinition"
+
+  # ---------------------------------------------------------------------------------------
+  # Totals. Live in the browser; the mapping recomputes them from the rows rather than
+  # trusting these fields, so a stale display can never change what is invoiced.
+  # ---------------------------------------------------------------------------------------
+  - linkId: totals
+    type: group
+    text: Total
+    item:
+      - linkId: subtotal
+        type: decimal
+        text: Subtotal
+        readOnly: true
+        unit:
+          display: KES
+        calculatedExpression:
+          language: text/fhirpath
+          expression: "iif(%resource.repeat(item).where(linkId.endsWith('-line-total')).answer.valueDecimal.exists(), %resource.repeat(item).where(linkId.endsWith('-line-total')).answer.valueDecimal.sum().round(2), 0)"
+      - linkId: discount
+        type: decimal
+        text: Discount or waiver
+        unit:
+          display: KES
+      - linkId: discount-reason
+        type: string
+        text: Reason for discount
+        enableWhen:
+          - question: discount
+            operator: exists
+            answerBoolean: true
+      - linkId: total-due
+        type: decimal
+        text: Total due
+        readOnly: true
+        unit:
+          display: KES
+        calculatedExpression:
+          language: text/fhirpath
+          expression: "(%resource.repeat(item).where(linkId='subtotal').answer.valueDecimal.first() - iif(%resource.repeat(item).where(linkId='discount').answer.valueDecimal.exists(), %resource.repeat(item).where(linkId='discount').answer.valueDecimal.first(), 0)).round(2)"
+
+  - linkId: payment
+    type: group
+    text: Payment
+    item:
+      - linkId: payment-method
+        type: choice
+        text: Payment method
+        required: true
+        answerValueSet: https://emr.nawi.ke/fhir/ValueSet/opd-payment-method
+      - linkId: amount-paid
+        type: decimal
+        text: Amount paid
+        required: true
+        unit:
+          display: KES
+      - linkId: balance
+        type: decimal
+        text: Balance outstanding
+        readOnly: true
+        unit:
+          display: KES
+        calculatedExpression:
+          language: text/fhirpath
+          expression: "(%resource.repeat(item).where(linkId='total-due').answer.valueDecimal.first() - %resource.repeat(item).where(linkId='amount-paid').answer.valueDecimal.first()).round(2)"
+      - linkId: payment-reference
+        type: string
+        text: Payment reference
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+url: https://emr.nawi.ke/fhir/Questionnaire/opd-billing

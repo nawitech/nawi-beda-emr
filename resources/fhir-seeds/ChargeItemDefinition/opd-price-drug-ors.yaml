@@ -1,0 +1,24 @@
+id: opd-price-drug-ors
+resourceType: ChargeItemDefinition
+url: https://emr.nawi.ke/fhir/ChargeItemDefinition/opd-price-drug-ors
+title: Oral rehydration salts
+status: active
+experimental: false
+publisher: Nawi EMR
+description: >-
+  Unit price (per unit dispensed) for Oral rehydration salts. Placeholder tariff — NOT REVIEWED against the
+  clinic's actual price list. Edit from the administrator's Price list page or in this seed;
+  see docs/opd-billing-workflow.md.
+code:
+  coding:
+    - system: https://emr.nawi.ke/fhir/CodeSystem/opd-medication
+      code: ors
+      display: Oral rehydration salts
+propertyGroup:
+  - priceComponent:
+      - type: base
+        code:
+          text: Unit price
+        amount:
+          value: 30
+          currency: KES

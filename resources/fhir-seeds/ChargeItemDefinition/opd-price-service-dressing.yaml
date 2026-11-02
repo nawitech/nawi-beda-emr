@@ -1,0 +1,24 @@
+id: opd-price-service-dressing
+resourceType: ChargeItemDefinition
+url: https://emr.nawi.ke/fhir/ChargeItemDefinition/opd-price-service-dressing
+title: Wound dressing
+status: active
+experimental: false
+publisher: Nawi EMR
+description: >-
+  Unit price (per service) for Wound dressing. Placeholder tariff — NOT REVIEWED against the
+  clinic's actual price list. Edit from the administrator's Price list page or in this seed;
+  see docs/opd-billing-workflow.md.
+code:
+  coding:
+    - system: https://emr.nawi.ke/fhir/CodeSystem/opd-billable-service
+      code: dressing
+      display: Wound dressing
+propertyGroup:
+  - priceComponent:
+      - type: base
+        code:
+          text: Unit price
+        amount:
+          value: 500
+          currency: KES

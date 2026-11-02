@@ -1,0 +1,14 @@
+id: opd-lab-test
+resourceType: ValueSet
+url: https://emr.nawi.ke/fhir/ValueSet/opd-lab-test
+name: NawiOpdLabTestVS
+title: Nawi OPD lab test menu
+status: active
+experimental: false
+description: >-
+  Tests a clinician can order during an outpatient consultation. Repoint
+  compose.include.system to move to a licensed or facility-supplied catalogue; no questionnaire
+  or mapping changes are needed. See docs/opd-terminology.md.
+compose:
+  include:
+    - system: https://emr.nawi.ke/fhir/CodeSystem/opd-lab-test

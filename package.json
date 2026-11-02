@@ -20,12 +20,15 @@
     "workspaces": [
         "contrib/*"
     ],
+    "resolutions": {
+        "@beda.software/fhir-questionnaire": "0.1.0-alpha.13"
+    },
     "dependencies": {
         "@beda.software/emr": "*"
     },
     "devDependencies": {
         "@beda.software/emr-config": "*",
-        "@beda.software/fhir-questionnaire": "^0.1.0-alpha.8",
+        "@beda.software/fhir-questionnaire": "^0.1.0-alpha.13",
         "@beda.software/fhir-react": "^1.11.0",
         "@beda.software/remote-data": "^1.1.4",
         "@beda.software/web-item-controls": "^0.1.19",

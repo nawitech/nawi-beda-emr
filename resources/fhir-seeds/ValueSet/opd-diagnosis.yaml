@@ -1,0 +1,14 @@
+id: opd-diagnosis
+resourceType: ValueSet
+url: https://emr.nawi.ke/fhir/ValueSet/opd-diagnosis
+name: NawiOpdDiagnosisVS
+title: Nawi OPD diagnosis
+status: active
+experimental: false
+description: >-
+  Diagnoses selectable during an outpatient consultation. This is the seam for terminology
+  substitution: to move to licensed ICD-10, seed the ICD-10 CodeSystem and repoint
+  compose.include.system below. No questionnaire or mapping changes are required.
+compose:
+  include:
+    - system: https://emr.nawi.ke/fhir/CodeSystem/opd-diagnosis

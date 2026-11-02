@@ -17,7 +17,11 @@ export interface SignInProps {
 }
 
 export function useSignIn(props: SignInProps) {
-    const [activeAuthProvider, setAuthProvider] = useState<AuthProvider>(AuthProvider.OHSKeycloak);
+    // Default to the local stack in development so a plain "Log in" click cannot
+    // silently mix the remote FHIR gateway with the local SDC backend.
+    const [activeAuthProvider, setAuthProvider] = useState<AuthProvider>(
+        (config.tier as Tier) === 'develop' ? AuthProvider.OHSKeycloakLocal : AuthProvider.OHSKeycloak,
+    );
     const tierConfig = useMemo(() => tierConfigMap[activeAuthProvider], [activeAuthProvider]);
     const authClientConfig = useMemo(() => authClientConfigMap[activeAuthProvider], [activeAuthProvider]);
     const tier = config.tier as Tier;

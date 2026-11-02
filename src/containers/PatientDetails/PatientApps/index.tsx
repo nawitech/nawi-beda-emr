@@ -23,6 +23,8 @@ interface SmartAppProps {
     encounter?: Encounter;
 }
 
+// Colocated with SmartApp, the only consumer; splitting it out would not earn its own module.
+// eslint-disable-next-line react-refresh/only-export-components
 export function useLaunchApp({ app, patient, encounter }: SmartAppProps) {
     const currentUser = selectCurrentUserRoleResource();
     const launchApp = async () => {

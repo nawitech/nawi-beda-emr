@@ -1,0 +1,13 @@
+id: opd-medication
+resourceType: ValueSet
+url: https://emr.nawi.ke/fhir/ValueSet/opd-medication
+name: NawiOpdMedicationVS
+title: Nawi OPD formulary
+status: active
+experimental: false
+description: >-
+  Medications a clinician can prescribe during an outpatient consultation. Repoint
+  compose.include.system to move to a licensed drug dictionary. See docs/opd-terminology.md.
+compose:
+  include:
+    - system: https://emr.nawi.ke/fhir/CodeSystem/opd-medication

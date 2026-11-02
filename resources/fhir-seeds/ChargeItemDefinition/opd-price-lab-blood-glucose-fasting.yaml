@@ -1,0 +1,24 @@
+id: opd-price-lab-blood-glucose-fasting
+resourceType: ChargeItemDefinition
+url: https://emr.nawi.ke/fhir/ChargeItemDefinition/opd-price-lab-blood-glucose-fasting
+title: Blood glucose, fasting
+status: active
+experimental: false
+publisher: Nawi EMR
+description: >-
+  Unit price (per test) for Blood glucose, fasting. Placeholder tariff — NOT REVIEWED against the
+  clinic's actual price list. Edit from the administrator's Price list page or in this seed;
+  see docs/opd-billing-workflow.md.
+code:
+  coding:
+    - system: https://emr.nawi.ke/fhir/CodeSystem/opd-lab-test
+      code: blood-glucose-fasting
+      display: Blood glucose, fasting
+propertyGroup:
+  - priceComponent:
+      - type: base
+        code:
+          text: Unit price
+        amount:
+          value: 250
+          currency: KES

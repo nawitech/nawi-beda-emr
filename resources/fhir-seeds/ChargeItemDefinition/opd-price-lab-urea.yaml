@@ -1,0 +1,24 @@
+id: opd-price-lab-urea
+resourceType: ChargeItemDefinition
+url: https://emr.nawi.ke/fhir/ChargeItemDefinition/opd-price-lab-urea
+title: Urea
+status: active
+experimental: false
+publisher: Nawi EMR
+description: >-
+  Unit price (per test) for Urea. Placeholder tariff — NOT REVIEWED against the
+  clinic's actual price list. Edit from the administrator's Price list page or in this seed;
+  see docs/opd-billing-workflow.md.
+code:
+  coding:
+    - system: https://emr.nawi.ke/fhir/CodeSystem/opd-lab-test
+      code: urea
+      display: Urea
+propertyGroup:
+  - priceComponent:
+      - type: base
+        code:
+          text: Unit price
+        amount:
+          value: 500
+          currency: KES

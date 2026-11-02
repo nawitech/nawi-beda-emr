@@ -1,0 +1,15 @@
+id: opd-review-outcome
+resourceType: CodeSystem
+url: https://emr.nawi.ke/fhir/CodeSystem/opd-review-outcome
+name: NawiOpdReviewOutcome
+title: Nawi OPD review outcome
+status: active
+experimental: false
+content: complete
+caseSensitive: true
+description: What the clinician concluded when reviewing laboratory results.
+concept:
+  - code: confirmed
+    display: Results confirm the working diagnosis
+  - code: revised
+    display: Diagnosis revised

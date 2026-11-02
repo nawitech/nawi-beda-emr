@@ -1,0 +1,24 @@
+id: opd-price-drug-loratadine
+resourceType: ChargeItemDefinition
+url: https://emr.nawi.ke/fhir/ChargeItemDefinition/opd-price-drug-loratadine
+title: Loratadine
+status: active
+experimental: false
+publisher: Nawi EMR
+description: >-
+  Unit price (per unit dispensed) for Loratadine. Placeholder tariff — NOT REVIEWED against the
+  clinic's actual price list. Edit from the administrator's Price list page or in this seed;
+  see docs/opd-billing-workflow.md.
+code:
+  coding:
+    - system: https://emr.nawi.ke/fhir/CodeSystem/opd-medication
+      code: loratadine
+      display: Loratadine
+propertyGroup:
+  - priceComponent:
+      - type: base
+        code:
+          text: Unit price
+        amount:
+          value: 10
+          currency: KES

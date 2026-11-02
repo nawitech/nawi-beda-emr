@@ -1,0 +1,11 @@
+id: opd-billable-service
+resourceType: ValueSet
+url: https://emr.nawi.ke/fhir/ValueSet/opd-billable-service
+name: NawiOpdBillableServiceVS
+title: Nawi OPD billable services
+status: active
+experimental: false
+description: Invoice line categories. See docs/opd-terminology.md for the swap procedure.
+compose:
+  include:
+    - system: https://emr.nawi.ke/fhir/CodeSystem/opd-billable-service

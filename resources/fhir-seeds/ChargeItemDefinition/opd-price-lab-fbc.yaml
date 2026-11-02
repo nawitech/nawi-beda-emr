@@ -1,0 +1,24 @@
+id: opd-price-lab-fbc
+resourceType: ChargeItemDefinition
+url: https://emr.nawi.ke/fhir/ChargeItemDefinition/opd-price-lab-fbc
+title: Full blood count (FBC)
+status: active
+experimental: false
+publisher: Nawi EMR
+description: >-
+  Unit price (per test) for Full blood count (FBC). Placeholder tariff — NOT REVIEWED against the
+  clinic's actual price list. Edit from the administrator's Price list page or in this seed;
+  see docs/opd-billing-workflow.md.
+code:
+  coding:
+    - system: https://emr.nawi.ke/fhir/CodeSystem/opd-lab-test
+      code: fbc
+      display: Full blood count (FBC)
+propertyGroup:
+  - priceComponent:
+      - type: base
+        code:
+          text: Unit price
+        amount:
+          value: 800
+          currency: KES

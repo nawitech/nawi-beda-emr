@@ -1,0 +1,24 @@
+id: opd-price-drug-doxycycline
+resourceType: ChargeItemDefinition
+url: https://emr.nawi.ke/fhir/ChargeItemDefinition/opd-price-drug-doxycycline
+title: Doxycycline
+status: active
+experimental: false
+publisher: Nawi EMR
+description: >-
+  Unit price (per unit dispensed) for Doxycycline. Placeholder tariff — NOT REVIEWED against the
+  clinic's actual price list. Edit from the administrator's Price list page or in this seed;
+  see docs/opd-billing-workflow.md.
+code:
+  coding:
+    - system: https://emr.nawi.ke/fhir/CodeSystem/opd-medication
+      code: doxycycline
+      display: Doxycycline
+propertyGroup:
+  - priceComponent:
+      - type: base
+        code:
+          text: Unit price
+        amount:
+          value: 10
+          currency: KES

@@ -21,8 +21,33 @@ export enum Role {
 }
 
 export function selectUserRole<T>(user: User, options: { [role in Role]: T }): T {
-    const userRole = user.role![0]!.name as Role;
-    return options[userRole];
+    const userRole = user.role?.[0]?.name as Role | undefined;
+    const option = userRole ? options[userRole] : undefined;
+    if (option === undefined) {
+        // Fail closed. An unrecognised role used to fall through as `undefined` and was then
+        // invoked by the caller, producing a bare `d(...) is not a function` far from here.
+        throw new UnknownRoleError(userRole);
+    }
+    return option;
+}
+
+export class UnknownRoleError extends Error {
+    constructor(role: string | undefined) {
+        super(`User has no role this application recognises: ${role ?? '(none)'}`);
+        this.name = 'UnknownRoleError';
+    }
+}
+
+/** The signed-in user's role, or `undefined` when they have none this app knows. */
+export function currentUserRole(): Role | undefined {
+    const name = sharedAuthorizedUser.getSharedState()?.role?.[0]?.name;
+    return (Object.values(Role) as string[]).includes(name ?? '') ? (name as Role) : undefined;
+}
+
+/** Whether the signed-in user holds any of `roles`. Use to gate actions, never to hide data. */
+export function hasRole(...roles: Role[]): boolean {
+    const role = currentUserRole();
+    return role !== undefined && roles.includes(role);
 }
 
 export function matchCurrentUserRole<T>(options: {

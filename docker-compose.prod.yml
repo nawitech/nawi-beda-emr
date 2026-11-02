@@ -1,0 +1,130 @@
+# Production overlay for a single VPS. Always used together with the base file:
+#
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+#   make up-prod
+#
+# What it changes relative to the base file:
+#   - no backend service publishes a host port; Caddy on :80/:443 is the only entry point
+#   - Keycloak runs in production mode under <EMR_PUBLIC_URL>/kc behind the proxy
+#   - fhir-gateway accepts only tokens issued by that Keycloak (RUN_MODE=PROD)
+#   - the frontend image is always started (profile switched off) and built from source
+#   - the identity bootstrap bundle (organisation, practitioners, access list) is uploaded,
+#     because the Keycloak accounts point at those FHIR resources
+#   - long-running services restart with the host
+#
+# Required .env variables: see .env.template. Full guide: docs/deployment.md.
+
+services:
+  postgres-keycloak:
+    restart: unless-stopped
+
+  postgres-hapi:
+    restart: unless-stopped
+
+  keycloak:
+    command: start --import-realm
+    restart: unless-stopped
+    ports: !reset []
+    environment:
+      # Fixed public URL with a path prefix; the issuer in every token becomes
+      # ${EMR_PUBLIC_URL}/kc/realms/beda-emr, which is what fhir-gateway checks below.
+      KC_HOSTNAME: ${EMR_PUBLIC_URL}/kc
+      KC_HOSTNAME_STRICT: "true"
+      KC_HTTP_RELATIVE_PATH: /kc
+      # Keep the management port (health checks in keycloak-ready) at the root path.
+      KC_HTTP_MANAGEMENT_RELATIVE_PATH: /
+      # TLS terminates at Caddy, which sets X-Forwarded-*.
+      KC_HTTP_ENABLED: "true"
+      KC_PROXY_HEADERS: xforwarded
+      EMR_SSL_REQUIRED: ${EMR_SSL_REQUIRED:-external}
+
+  hapi-fhir:
+    image: hapiproject/hapi:${HAPI_IMAGE_TAG:-v8.10.0-3}
+    restart: unless-stopped
+    ports: !reset []
+
+  fhir-gateway:
+    restart: unless-stopped
+    ports: !reset []
+    environment:
+      - TOKEN_ISSUER=${EMR_PUBLIC_URL}/kc/realms/beda-emr
+      # PROD: a token whose `iss` differs from TOKEN_ISSUER is rejected.
+      - RUN_MODE=PROD
+
+  fhirpath_mapping:
+    restart: unless-stopped
+    ports: !reset []
+
+  fhir-sdc:
+    restart: unless-stopped
+    ports: !reset []
+
+  beda-frontend:
+    profiles: !reset []
+    restart: unless-stopped
+    ports: !reset []
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      EMR_PUBLIC_URL: ${EMR_PUBLIC_URL}
+    volumes:
+      - ./resources/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - beda-frontend
+      - fhir-gateway
+      - keycloak
+      - fhir-sdc
+
+  # The Keycloak seed accounts carry fhirUser = Practitioner/prac-100x and
+  # patient_list = list-patient-1. Those resources live in resources/fhir-seeds-demo, so a
+  # production stack needs them too or nobody can sign in. Replace them with the clinic's
+  # real staff records (and matching Keycloak users) before go-live — docs/deployment.md.
+  build-fhir-bundle-bootstrap:
+    image: bedasoftware/fhirsnake:latest
+    command:
+      - export
+      - --output
+      - /app/fhir-bundles/fhirBundle.json
+      - --external-questionnaire-fce-fhir-converter-url
+      - http://questionnaire-fce-fhir-converter:3000/to-fhir
+      - --embed-mapping
+    depends_on:
+      questionnaire-fce-fhir-converter:
+        condition: service_healthy
+    volumes:
+      - ./resources/fhir-seeds-demo:/app/resources
+      - ./resources/fhir-bundles-demo:/app/fhir-bundles
+
+  upload-fhir-bundle-bootstrap:
+    image: python:3.12-alpine
+    depends_on:
+      hapi-fhir-ready:
+        condition: service_completed_successfully
+      build-fhir-bundle-bootstrap:
+        condition: service_completed_successfully
+    # Create-only: the List this bundle carries is the gateway's patient access list and
+    # grows at runtime; re-applying the seed would drop every registered patient from it.
+    command:
+      - python3
+      - /app/upload-fhir-bundle.py
+      - --bundle
+      - /app/fhir-bundles/fhirBundle.json
+      - --fhir-base
+      - http://hapi-fhir:8080/fhir
+      - --create-only
+      - "*"
+    volumes:
+      - ./scripts/upload-fhir-bundle.py:/app/upload-fhir-bundle.py:ro
+      - ./resources/fhir-bundles-demo:/app/fhir-bundles:ro
+
+volumes:
+  caddy_data:
+  caddy_config:

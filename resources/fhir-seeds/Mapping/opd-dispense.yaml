@@ -1,0 +1,129 @@
+id: opd-dispense
+resourceType: Mapping
+type: FHIRPath
+body:
+  "{% assign %}":
+    - patientReference: "{{ 'Patient/' + %Patient.id }}"
+    - encounterReference: "{{ 'Encounter/' + %Encounter.id }}"
+    - authorReference: "{{ %Author.resourceType + '/' + %Author.id }}"
+    - recordedAt: "{{ %QuestionnaireResponse.authored }}"
+    - visitKey: "{{ %Encounter.identifier.where(system = 'https://emr.nawi.ke/fhir/sid/opd-visit').value.first() }}"
+    - dispenseRows: "{[ %QuestionnaireResponse.repeat(item).where(linkId='dispense') ]}"
+  resourceType: Bundle
+  type: transaction
+  entry:
+    # The dispense record, keyed on the prescription it satisfies.
+    - "{% for index, row in %dispenseRows %}":
+        "{% assign %}":
+          - prescription: "{{ %row.item.where(linkId='dispense-prescription').answer.valueReference.first() }}"
+          - quantity: "{{ %row.item.where(linkId='dispense-quantity').answer.valueInteger.first() }}"
+          - prescriptionId: "{{ %prescription.reference.split('/').last() }}"
+        "{% if %prescription.exists() %}":
+          request:
+            url: /MedicationDispense
+            method: POST
+            ifNoneExist: "identifier=https://emr.nawi.ke/fhir/sid/opd-dispense|{{ %visitKey }}-{{ %prescriptionId }}"
+          resource:
+            resourceType: MedicationDispense
+            identifier:
+              - system: https://emr.nawi.ke/fhir/sid/opd-dispense
+                value: "{{ %visitKey }}-{{ %prescriptionId }}"
+            status: completed
+            medicationCodeableConcept:
+              text: "{{ %prescription.display }}"
+            subject:
+              reference: "{{ %patientReference }}"
+            context:
+              reference: "{{ %encounterReference }}"
+            performer:
+              - actor:
+                  reference: "{{ %authorReference }}"
+            authorizingPrescription:
+              - "{{ %prescription }}"
+            quantity:
+              value: "{{ %quantity }}"
+            whenHandedOver: "{{ %recordedAt }}"
+
+    - "{% for index, row in %dispenseRows %}":
+        "{% assign %}":
+          - prescription: "{{ %row.item.where(linkId='dispense-prescription').answer.valueReference.first() }}"
+        "{% if %prescription.exists() %}":
+          request:
+            method: PATCH
+            url: "{{ %prescription.reference }}"
+          resource:
+            resourceType: Parameters
+            parameter:
+              - name: operation
+                part:
+                  - name: type
+                    valueCode: replace
+                  - name: path
+                    valueString: MedicationRequest.status
+                  - name: value
+                    valueCode: completed
+
+    - request:
+        method: PATCH
+        url: "Task?identifier=https://emr.nawi.ke/fhir/sid/opd-task|{{ %visitKey }}-pharmacy"
+      resource:
+        resourceType: Parameters
+        parameter:
+          - name: operation
+            part:
+              - name: type
+                valueCode: replace
+              - name: path
+                valueString: Task.status
+              - name: value
+                valueCode: completed
+          - name: operation
+            part:
+              - name: type
+                valueCode: replace
+              - name: path
+                valueString: Task.businessStatus
+              - name: value
+                valueCodeableConcept:
+                  coding:
+                    - system: https://emr.nawi.ke/fhir/CodeSystem/opd-workflow-status
+                      code: completed
+                      display: Completed
+
+    # Terminal for the pharmacy branch.
+    #
+    # A conditional PUT, not a POST with ifNoneExist. Review parks billing at `on-hold` when
+    # it prescribes, so that the cashier cannot take payment while drugs are still owed; an
+    # `ifNoneExist` here would match that held item and leave it held forever. The PUT creates
+    # billing or releases it to `ready`, which is correct either way: dispensing is the last
+    # thing the pharmacy branch does.
+    - request:
+        method: PUT
+        url: "Task?identifier=https://emr.nawi.ke/fhir/sid/opd-task|{{ %visitKey }}-billing"
+      resource:
+        resourceType: Task
+        status: ready
+        intent: order
+        identifier:
+          - system: https://emr.nawi.ke/fhir/sid/opd-task
+            value: "{{ %visitKey }}-billing"
+        code:
+          coding:
+            - system: https://emr.nawi.ke/fhir/CodeSystem/opd-task
+              code: billing
+              display: Billing
+          text: Billing
+        businessStatus:
+          coding:
+            - system: https://emr.nawi.ke/fhir/CodeSystem/opd-workflow-status
+              code: ready-for-billing
+              display: Ready for billing
+        priority: routine
+        description: Invoice the visit and take payment.
+        focus:
+          reference: "{{ %encounterReference }}"
+        "for":
+          reference: "{{ %patientReference }}"
+        authoredOn: "{{ %recordedAt }}"
+        requester:
+          reference: "{{ %authorReference }}"
