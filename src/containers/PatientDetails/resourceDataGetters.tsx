@@ -82,6 +82,8 @@ export const observationValue = (r: Observation): string | React.ReactElement =>
         return r.valueCodeableConcept.text ?? r.valueCodeableConcept.coding?.[0]?.display ??
                r.valueCodeableConcept.coding?.[0]?.code ??
                'Unknown';
+    } else if (r.valueString) {
+        return r.valueString;
     } else if (r.component) {
         return (
             <>

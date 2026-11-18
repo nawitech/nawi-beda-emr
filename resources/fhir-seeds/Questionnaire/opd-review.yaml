@@ -28,6 +28,22 @@ mapping:
       reference: Mapping/opd-review
 item:
   # Only the results for this visit, so the clinician is reviewing what the lab actually filed.
+  - linkId: lab-summary
+    type: group
+    text: Laboratory Summary
+    # Looks up this visit's lab results. Kept inside a group, as the billing form does.
+    variable:
+      - name: labResults
+        language: application/x-fhir-query
+        expression: "Observation?encounter={{ %Encounter.id }}&category=laboratory&_count=100&_format=json"
+    item:
+      - linkId: lab-lines
+        type: text
+        text: Tests
+        readOnly: true
+        initialExpression:
+          language: text/fhirpath
+          expression: "%labResults.entry.resource.where(resourceType='Observation').select(code.text + ': ' + interpretation.first().coding.first().display).join('\\n')"
   - linkId: reviewed-report
     type: reference
     text: Report reviewed

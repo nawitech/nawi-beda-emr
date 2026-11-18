@@ -8,42 +8,46 @@ body:
     - authorReference: "{{ %Author.resourceType + '/' + %Author.id }}"
     - recordedAt: "{{ %QuestionnaireResponse.authored }}"
     - visitKey: "{{ %Encounter.identifier.where(system = 'https://emr.nawi.ke/fhir/sid/opd-visit').value.first() }}"
-    - specimenType: "{{ %QuestionnaireResponse.answers('specimen-type') }}"
     - conclusion: "{{ %QuestionnaireResponse.answers('conclusion') }}"
     - resultRows: "{[ %QuestionnaireResponse.repeat(item).where(linkId='result') ]}"
   resourceType: Bundle
   type: transaction
   entry:
-    - fullUrl: "urn:uuid:opd-specimen"
-      request:
-        url: /Specimen
-        method: POST
-        ifNoneExist: "identifier=https://emr.nawi.ke/fhir/sid/opd-specimen|{{ %visitKey }}"
-      resource:
-        resourceType: Specimen
-        identifier:
-          - system: https://emr.nawi.ke/fhir/sid/opd-specimen
-            value: "{{ %visitKey }}"
-        status: available
-        type:
-          coding:
-            - "{{ %specimenType }}"
-        subject:
-          reference: "{{ %patientReference }}"
-        receivedTime: "{{ %recordedAt }}"
-        collection:
-          collectedDateTime: "{{ %recordedAt }}"
-          collector:
-            reference: "{{ %authorReference }}"
-    # One Observation per row. The identifier keys on the ORDER being answered, taken from
-    # the reference, so it is stable no matter what order the technician works in.
+    # One specimen per test, keyed on the visit and the test request.
     - "{% for index, row in %resultRows %}":
         "{% assign %}":
-          - resultOrder: "{{ %row.item.where(linkId='result-test').answer.valueReference.first() }}"
+          - specOrderId: "{{ %row.item.where(linkId='order-id').answer.valueString.first() }}"
+          - specType: "{{ %row.item.where(linkId='specimen-type').answer.valueCoding.first() }}"
+        "{% if %specOrderId.exists() %}":
+          fullUrl: "{{ 'urn:uuid:opd-specimen-' & %index.toString() }}"
+          request:
+            url: /Specimen
+            method: POST
+            ifNoneExist: "identifier=https://emr.nawi.ke/fhir/sid/opd-specimen|{{ %visitKey }}-{{ %specOrderId }}"
+          resource:
+            resourceType: Specimen
+            identifier:
+              - system: https://emr.nawi.ke/fhir/sid/opd-specimen
+                value: "{{ %visitKey }}-{{ %specOrderId }}"
+            status: available
+            type:
+              coding:
+                - "{{ %specType }}"
+            subject:
+              reference: "{{ %patientReference }}"
+            receivedTime: "{{ %recordedAt }}"
+            collection:
+              collectedDateTime: "{{ %recordedAt }}"
+              collector:
+                reference: "{{ %authorReference }}"
+    # One result per test, linked to its own specimen.
+    - "{% for index, row in %resultRows %}":
+        "{% assign %}":
+          - orderId: "{{ %row.item.where(linkId='order-id').answer.valueString.first() }}"
+          - orderName: "{{ %row.item.where(linkId='order-name').answer.valueString.first() }}"
           - resultValue: "{{ %row.item.where(linkId='result-value').answer.valueString.first() }}"
           - resultInterp: "{{ %row.item.where(linkId='result-interpretation').answer.valueCoding.first() }}"
-          - orderId: "{{ %resultOrder.reference.split('/').last() }}"
-        "{% if %resultOrder.exists() %}":
+        "{% if %orderId.exists() %}":
           fullUrl: "{{ 'urn:uuid:opd-lab-result-' & %index.toString() }}"
           request:
             url: /Observation
@@ -61,9 +65,9 @@ body:
                     code: laboratory
                     display: Laboratory
             code:
-              text: "{{ %resultOrder.display }}"
+              text: "{{ %orderName }}"
             basedOn:
-              - "{{ %resultOrder }}"
+              - reference: "{{ 'ServiceRequest/' + %orderId }}"
             subject:
               reference: "{{ %patientReference }}"
             encounter:
@@ -76,7 +80,7 @@ body:
               - coding:
                   - "{{ %resultInterp }}"
             specimen:
-              reference: "urn:uuid:opd-specimen"
+              reference: "{{ 'urn:uuid:opd-specimen-' & %index.toString() }}"
 
     - request:
         url: /DiagnosticReport
@@ -107,20 +111,23 @@ body:
         performer:
           - reference: "{{ %authorReference }}"
         specimen:
-          - reference: "urn:uuid:opd-specimen"
+          - "{% for index, row in %resultRows %}":
+              "{% if %row.item.where(linkId='order-id').answer.exists() %}":
+                reference: "{{ 'urn:uuid:opd-specimen-' & %index.toString() }}"
         conclusion: "{{ %conclusion }}"
         result:
           - "{% for index, row in %resultRows %}":
-              "{% if %row.item.where(linkId='result-test').answer.exists() %}":
+              "{% if %row.item.where(linkId='order-id').answer.exists() %}":
                 reference: "{{ 'urn:uuid:opd-lab-result-' & %index.toString() }}"
 
+    # Close each test request that was answered.
     - "{% for index, row in %resultRows %}":
         "{% assign %}":
-          - resultOrder: "{{ %row.item.where(linkId='result-test').answer.valueReference.first() }}"
-        "{% if %resultOrder.exists() %}":
+          - orderId: "{{ %row.item.where(linkId='order-id').answer.valueString.first() }}"
+        "{% if %orderId.exists() %}":
           request:
             method: PATCH
-            url: "{{ %resultOrder.reference }}"
+            url: "{{ 'ServiceRequest/' + %orderId }}"
           resource:
             resourceType: Parameters
             parameter:

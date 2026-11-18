@@ -15,10 +15,10 @@ body:
     # The dispense record, keyed on the prescription it satisfies.
     - "{% for index, row in %dispenseRows %}":
         "{% assign %}":
-          - prescription: "{{ %row.item.where(linkId='dispense-prescription').answer.valueReference.first() }}"
+          - prescriptionId: "{{ %row.item.where(linkId='prescription-id').answer.valueString.first() }}"
+          - medicationName: "{{ %row.item.where(linkId='medication-name').answer.valueString.first() }}"
           - quantity: "{{ %row.item.where(linkId='dispense-quantity').answer.valueInteger.first() }}"
-          - prescriptionId: "{{ %prescription.reference.split('/').last() }}"
-        "{% if %prescription.exists() %}":
+        "{% if %prescriptionId.exists() %}":
           request:
             url: /MedicationDispense
             method: POST
@@ -30,7 +30,7 @@ body:
                 value: "{{ %visitKey }}-{{ %prescriptionId }}"
             status: completed
             medicationCodeableConcept:
-              text: "{{ %prescription.display }}"
+              text: "{{ %medicationName }}"
             subject:
               reference: "{{ %patientReference }}"
             context:
@@ -39,18 +39,18 @@ body:
               - actor:
                   reference: "{{ %authorReference }}"
             authorizingPrescription:
-              - "{{ %prescription }}"
+              - reference: "{{ 'MedicationRequest/' + %prescriptionId }}"
             quantity:
               value: "{{ %quantity }}"
             whenHandedOver: "{{ %recordedAt }}"
 
     - "{% for index, row in %dispenseRows %}":
         "{% assign %}":
-          - prescription: "{{ %row.item.where(linkId='dispense-prescription').answer.valueReference.first() }}"
-        "{% if %prescription.exists() %}":
+          - prescriptionId: "{{ %row.item.where(linkId='prescription-id').answer.valueString.first() }}"
+        "{% if %prescriptionId.exists() %}":
           request:
             method: PATCH
-            url: "{{ %prescription.reference }}"
+            url: "{{ 'MedicationRequest/' + %prescriptionId }}"
           resource:
             resourceType: Parameters
             parameter:

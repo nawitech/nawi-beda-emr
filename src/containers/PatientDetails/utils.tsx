@@ -271,6 +271,25 @@ export const prepareMedicationRequests = (
     bundle: Bundle<MedicationRequest>,
 ): OverviewCard<MedicationRequest> => prepareResource(r, bundle, 'MedicationRequest');
 
+export const prepareLabResults = (r: Observation[], bundle: Bundle<Observation>): OverviewCard<Observation> => ({
+    title: 'Laboratory results',
+    key: 'labResults',
+    icon: <ExperimentOutlined />,
+    data: r,
+    total: bundle.total ?? 0,
+    getKey: (res) => res.id!,
+    columns: [
+        { title: 'Test', key: 'test', render: (res) => observationName(res) },
+        { title: 'Result', key: 'result', render: (res) => observationValue(res) },
+        {
+            title: 'Interpretation',
+            key: 'interpretation',
+            render: (res) => res.interpretation?.[0]?.coding?.[0]?.display ?? '',
+        },
+        { title: 'Date', key: 'date', render: (res) => observationDate(res), width: 120 },
+    ],
+});
+
 function getUuid(map: Map<string, string>, key: string) {
     if (!map.has(key)) {
         map.set(key, crypto.randomUUID());

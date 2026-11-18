@@ -10,7 +10,7 @@ body:
     # visit — Encounter and both Tasks — is idempotent under a resubmitted form. Revisit when
     # a patient legitimately needs two visits in one day; that needs a real visit counter.
     - visitKey: "{{ %Patient.id + '-' + %QuestionnaireResponse.authored.toString().substring(0, 10) }}"
-    - visitType: "{{ %QuestionnaireResponse.answers('visit-type') }}"
+    - visitType: "{{ iif(%QuestionnaireResponse.answers('visit-type-return').exists(), %QuestionnaireResponse.answers('visit-type-return'), %QuestionnaireResponse.answers('visit-type')) }}"
 
   resourceType: Bundle
   type: transaction

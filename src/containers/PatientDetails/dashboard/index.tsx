@@ -7,12 +7,20 @@ import {
     prepareAllergies,
     prepareConditions,
     prepareImmunizations,
+    prepareLabResults,
     prepareMedicationRequests,
     prepareMedicationStatements,
     prepareObservations,
     prepareProcedures,
     prepareRelatedPersons,
 } from '../utils';
+import {
+    conditionRawDate,
+    GroupedByDateCardContainerFabric,
+    medicationRequestRawDate,
+    observationRawDate,
+    procedureRawDate,
+} from './containers/GroupedByDateCard';
 
 const patientDashboardConfig: DashboardInstance = {
     top: [
@@ -31,20 +39,35 @@ const patientDashboardConfig: DashboardInstance = {
                 resourceType: 'Condition',
                 search: (patient: Patient) => ({
                     patient: patient.id,
-                    _count: 7,
+                    _sort: '-recorded-date',
+                    _count: 50,
                 }),
             },
-            widget: StandardCardContainerFabric(prepareConditions),
+            widget: GroupedByDateCardContainerFabric(prepareConditions, conditionRawDate),
         },
         {
             query: {
                 resourceType: 'Observation',
                 search: (patient: Patient) => ({
                     subject: patient.id,
-                    _count: 7,
+                    'category:not': 'laboratory',
+                    _sort: '-date',
+                    _count: 50,
                 }),
             },
-            widget: StandardCardContainerFabric(prepareObservations),
+            widget: GroupedByDateCardContainerFabric(prepareObservations, observationRawDate),
+        },
+        {
+            query: {
+                resourceType: 'Observation',
+                search: (patient: Patient) => ({
+                    subject: patient.id,
+                    category: 'laboratory',
+                    _sort: '-date',
+                    _count: 50,
+                }),
+            },
+            widget: GroupedByDateCardContainerFabric(prepareLabResults, observationRawDate),
         },
         {
             query: {
@@ -71,20 +94,22 @@ const patientDashboardConfig: DashboardInstance = {
                 resourceType: 'MedicationRequest',
                 search: (patient: Patient) => ({
                     patient: patient.id,
-                    _count: 7,
+                    _sort: '-authoredon',
+                    _count: 50,
                 }),
             },
-            widget: StandardCardContainerFabric(prepareMedicationRequests),
+            widget: GroupedByDateCardContainerFabric(prepareMedicationRequests, medicationRequestRawDate),
         },
         {
             query: {
                 resourceType: 'Procedure',
                 search: (patient: Patient) => ({
                     subject: patient.id,
-                    _count: 7,
+                    _sort: '-date',
+                    _count: 50,
                 }),
             },
-            widget: StandardCardContainerFabric(prepareProcedures),
+            widget: GroupedByDateCardContainerFabric(prepareProcedures, procedureRawDate),
         },
         {
             query: {
